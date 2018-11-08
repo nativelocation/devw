@@ -20,7 +20,7 @@ export default class Breadcrumb extends Component {
 
 const styles = {
     container: {
-        backgroundColor: COLORS.LightBlack,
+        backgroundColor: COLORS.LightGray,
         height: 56
     },
     breadcrum: {

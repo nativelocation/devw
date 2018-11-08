@@ -17,7 +17,7 @@ class App extends Component {
         <BrowserRouter>
           <Fragment>
             <Switch>
-              <Route exact path="/" component={e => Auth.authorize(Home, e, store)} />
+              <Route exact path="/" component={e => Auth.authorize(Home, e, store, "Dashboard")} />
               <Route exact path="/login" component={e => Auth.validate(Login, e, store)} />
             </Switch>
           </Fragment>

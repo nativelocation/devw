@@ -19,11 +19,11 @@ class Authentication {
         }).catch(sendToLogin);
     }
 
-    authorize(Composed, props, store) {
+    authorize(Composed, props, store, name) {
         const { pathname } = props.history.location;
         const { account } = store.getState();
         if (!localStorage.tokenAuth) props.history.push('/login');
-        if (account._id) return <Layout><Composed {...props} /></Layout>;
+        if (account._id) return <Layout name={name}><Composed {...props} /></Layout>;
         else this.storeUser(props.history, store, pathname);
         return null;
     }

@@ -12,6 +12,7 @@ export const FONTS = {
 export const COLORS = {
     White: '#FFFFFF',
     Black: '#253238',
+    LightGray: '#777777',
     LightBlack: '#666666',
     MediumBlack: '#455A64',
     // Orange
