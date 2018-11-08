@@ -13,35 +13,36 @@ import configureStore from './redux';
 const store = configureStore();
 class App extends Component {
 
-  storeUser(history, redirect) {
+  storeUser(history, redirect = "/") {
     const { tokenAuth } = localStorage;
-    const { account } = store.getState();
     const sendToLogin = () => {
       localStorage.removeItem('tokenAuth');
       history.push('/login');
     }
 
-    if (!account._id) {
-      console.log('object :');
-      Api.GetUser(tokenAuth).then(res => {
-        //TODO: edit fetch to get only status 201, maybe others, but never 500
-        if (res.status === 201) {
-          store.dispatch(setAccount(res.data));
-          if (redirect) history.push(redirect);
-        } else sendToLogin();
-      }).catch(sendToLogin);
-    }
+    Api.GetUser(tokenAuth).then(res => {
+      if (res.status === 201) {
+        store.dispatch(setAccount(res.data));
+        history.push(redirect);
+      } else sendToLogin();
+    }).catch(sendToLogin);
   }
 
   authorize(Composed, props) {
+    const { pathname } = props.history.location;
+    const { account } = store.getState();
+
     if (!localStorage.tokenAuth) props.history.push('/login');
-    else this.storeUser(props.history);
-    return <Composed {...props} />;
+    if (account._id) return <Composed {...props} />;
+    else this.storeUser(props.history, pathname);
+    return null;
   }
 
   validate(Composed, props) {
-    if (localStorage.tokenAuth) this.storeUser(props.history, '/');
-    return <Composed {...props} />;
+    const { account } = store.getState();
+    if (!localStorage.tokenAuth) return <Composed {...props} />;
+    if (!account._id) this.storeUser(props.history);
+    return null;
   }
 
   render() {
