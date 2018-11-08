@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Provider } from 'react-redux';
+import configureStore from './redux';
 import Auth from './config/auth';
 
 import Home from './routes/Home';
 import Login from './routes/Login';
 
-import { Provider } from 'react-redux';
-import configureStore from './redux';
 
 const store = configureStore();
 class App extends Component {

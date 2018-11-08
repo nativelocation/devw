@@ -1,9 +1,9 @@
 import React from 'react';
 import { setAccount } from '../redux/actions/account';
 import Api from './api';
+import Layout from '../components/Layout';
 
 class Authentication {
-
     storeUser(history, store, redirect = "/") {
         const { tokenAuth } = localStorage;
         const sendToLogin = () => {
@@ -23,7 +23,7 @@ class Authentication {
         const { pathname } = props.history.location;
         const { account } = store.getState();
         if (!localStorage.tokenAuth) props.history.push('/login');
-        if (account._id) return <Composed {...props} />;
+        if (account._id) return <Layout><Composed {...props} /></Layout>;
         else this.storeUser(props.history, store, pathname);
         return null;
     }

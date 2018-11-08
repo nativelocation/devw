@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { COLORS, FONTS } from '../config/constants';
 import Api from '../config/api';
 import Input from '../components/Input';
@@ -38,8 +38,8 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>
-        <div style={styles.around} className='w-100 bar'></div>
+      <Fragment>
+        <div style={styles.around} className='w-100 gradient'></div>
         <div id="loginBox" className="d-flex flex-wrap justify-content-center align-items-center" style={styles.formBox}>
           <div className="col-md-6 col-lg-6 col-xl-3">
             <div className='col-md-11' >
@@ -61,7 +61,7 @@ export default class Login extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Fragment>
     );
   }
 }

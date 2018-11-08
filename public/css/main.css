@@ -16,13 +16,21 @@
     src: url("../assets/fonts/Roboto/Roboto-Regular.ttf");
 }
 
-#root {
-    background-color:  #666666;
+html,
+body {
+	height: 100%;
+    background-color: #666666;
 }
 
-#sidebar { height: 100vh;}
+#root {
+	height: 100%;
+    min-height: 100%;
+	display: flex;
+    flex-direction: column;
+    background-color: #666666;
+}
 
-.bar { 
+.gradient { 
     background: rgba(69,90,100,1);
     background: -moz-linear-gradient(top, rgba(69,90,100,1) 28%, rgba(64,84,94,1) 36%, rgba(43,57,64,1) 74%, rgba(37,50,56,1) 84%);
     background: -webkit-gradient(left top, left bottom, color-stop(28%, rgba(69,90,100,1)), color-stop(36%, rgba(64,84,94,1)), color-stop(74%, rgba(43,57,64,1)), color-stop(84%, rgba(37,50,56,1)));
