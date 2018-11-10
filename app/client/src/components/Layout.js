@@ -9,11 +9,11 @@ export default class Layout extends Component {
     render() {
         const { children, name, account } = this.props;
         return (
-            <div style={styles.container}>
+            <div className="d-flex flex-column" style={styles.flex}>
                 <Navbar account={account} />
-                <div style={styles.body}>
+                <div className="d-flex flex-row" style={styles.flex}>
                     <SideBar />
-                    <div className='col-md-10 col-lg-10 h-100 p-0'>
+                    <div className='col-md-10 col-lg-10 h-100 p-0 d-flex flex-column'>
                         {name ? <Breadcrumb name={name} /> : null}
                         {children}
                     </div>
@@ -24,14 +24,7 @@ export default class Layout extends Component {
 }
 
 const styles = {
-    container: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    body: {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'row',
+    flex: {
+        flex: 1
     }
 };

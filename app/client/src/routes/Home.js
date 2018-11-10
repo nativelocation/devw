@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Loading from '../components/Loading';
 
 
 
@@ -10,7 +11,7 @@ export default class Home extends Component {
   render() {
     return (
       <Fragment>
-        Hola
+        <Loading />
       </Fragment>
     );
   }
