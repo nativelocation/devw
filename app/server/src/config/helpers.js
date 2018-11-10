@@ -27,6 +27,7 @@ const methods = {
                     type: 1,
                     password: '12345678'
                 });
+                console.log('User Admin Created: admin@hypergolic.com:12345678');
             }
         } catch (e) {
             console.log('catch error initApp :', e);
