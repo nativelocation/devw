@@ -14,6 +14,24 @@ const methods = {
             message,
             data
         });
+    },
+    initApp: async () => {
+        try {
+            const user = require('../models/user');
+            const total = await user.getAll();
+            if (total.length === 0) {
+                user.create({
+                    phone: '6622XXXXXX',
+                    name: "Super Admin",
+                    email: "admin@hypergolic.com",
+                    type: 1,
+                    password: '12345678'
+                });
+            }
+        } catch (e) {
+            console.log('catch error initApp :', e);
+        }
+
     }
 }
 

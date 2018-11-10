@@ -4,6 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 const app = express();
+const helpers = require('./src/config/helpers');
 const userRouter = require('./src/routes/user');
 const documentRouter = require('./src/routes/document');
 const teamRouter = require('./src/routes/team');
@@ -36,5 +37,6 @@ app.use((err, req, res, next) => {
     data: req.app.get('env') === 'development' ? err : null
   });
 });
+helpers.initApp();
 
 app.listen(port, _ => console.log(`The server is listening on port ${port}`));
