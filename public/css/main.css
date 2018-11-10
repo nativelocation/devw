@@ -18,6 +18,11 @@
     src: url("../assets/fonts/Roboto/Roboto-Regular.ttf");
 }
 
+@font-face {
+    font-family: Roboto-Medium;
+    src: url("../assets/fonts/Roboto/Roboto-Medium.ttf");
+}
+
 html, body {
     height: 100%;
     background-color: #666666;
@@ -60,24 +65,27 @@ html, body {
 }
 
 #loginBox .form-group .form-control::-webkit-input-placeholder {
-    color: #666666;
-    font-family: Raleway-Medium;
+    color: #bebdbd;
+    font-family: Roboto-Regular;
     line-height: 5;
+    font-size: 12px;
 }
 
 /* Chrome/Opera/Safari */
 
 #loginBox .form-group .form-control::-moz-placeholder {
-    color: #666666;
-    font-family: Raleway-Medium;
+    color: #bebdbd;
+    /* color: #666666; */
+    font-family: Roboto-Regular;
     line-height: 5;
+    font-size: 12px;
 }
 
 /* Firefox 19+ */
 
 #loginBox .form-group .form-control:-ms-input-placeholder {
-    color: #666666;
-    font-family: Raleway-Medium;
+    color: #bebdbd;
+    font-family: Roboto-Regular;
     line-height: 5;
 }
 

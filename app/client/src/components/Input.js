@@ -22,7 +22,7 @@ export default class Input extends Component {
 
 const styles = {
     input: {
-        height: 50,
+        height: 45,
         fontWeight: 'bold',
         fontSize: 15,
         color: COLORS.LightBlack
@@ -32,6 +32,7 @@ const styles = {
         position: 'relative',
         right: 20,
         top: 38,
-        color: COLORS.BlueVariant
+        color: COLORS.BlueVariant,
+        opacity: '0.5'
     }
 }

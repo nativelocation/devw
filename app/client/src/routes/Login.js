@@ -46,13 +46,13 @@ export default class Login extends Component {
               <img src='assets/img/hypergolic-logoWhite.png' className='img-fluid' />
             </div>
             <div>
-              <h2 style={styles.titleBox} className="mb-3 mt-5">Admin</h2>
+              <h4 style={styles.titleBox} className="mb-3 mt-5">Admin</h4>
               <div>
                 <form onSubmit={this.onSubmit}>
-                  <div className="form-group">
+                  <div className="form-group" style={styles.mb}>
                     <Input name='email' onChange={this.onChange} showPassword disableAutoComplete />
                   </div>
-                  <div className="form-group position-relative">
+                  <div className="form-group">
                     <Input name='password' onChange={this.onChange} disableAutoComplete password />
                   </div>
                   <Button text="Login" />
@@ -70,6 +70,9 @@ const styles = {
   formBox: {
     paddingTop: 70
   },
+  mb: {
+    marginBottom: -10,
+  },
   around: {
     height: 70,
     position: 'fixed'
@@ -77,6 +80,6 @@ const styles = {
   titleBox: {
     color: COLORS.White,
     fontFamily: FONTS.RalewayMedium,
-    fontSize: 28
+    fontSize: 24
   }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { COLORS } from '../config/constants';
+import { COLORS, FONTS } from '../config/constants';
 
 export default class Button extends Component {
     constructor(props) {
@@ -21,7 +21,8 @@ const styles = {
         color: '#fff',
         width: 110,
         height: 50,
-        fontSize: 14,
+        fontSize: 13,
+        fontFamily: FONTS.RalewayMedium,
     },
 }
 
