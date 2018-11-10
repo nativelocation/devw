@@ -80,6 +80,6 @@ const styles = {
   titleBox: {
     color: COLORS.White,
     fontFamily: FONTS.RalewayMedium,
-    fontSize: 24
+    fontSize: 32
   }
 }
