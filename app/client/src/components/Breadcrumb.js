@@ -11,7 +11,7 @@ export default class Breadcrumb extends Component {
         return (
             <div style={styles.container}>
                 <div className='float-right'>
-                    <p className='ml-auto mt-3 mr-3' style={styles.breadcrum}>Home > {name}</p>
+                    <p className='ml-auto mt-3 mr-5' style={styles.breadcrum}>Home > {name}</p>
                 </div>
             </div>
         )

@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 
 export default class Navbar extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     onLogout() {
         localStorage.removeItem('tokenAuth');
         window.location.reload();
     }
 
     render() {
+        const { account } = this.props
         return (
             <nav className="navbar navbar-expand-lg navbar-dark gradient">
-                <a className="navbar-brand" href="#"><img src="assets/img/hypergolic-logoWhite.png" width="140" alt="" /></a>
+                <a className="navbar-brand" href="javascript:;"><img src="assets/img/hypergolic-logoWhite.png" width="140" /></a>
                 <div className="collapse navbar-collapse">
                     <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li className="nav-item mx-3">
+                        {/* <li className="nav-item mx-3">
                             <a className="nav-link text-white mt-1" href="#"><i className="fas fa-users"></i> People</a>
                         </li>
                         <li className="nav-item mx-3">
@@ -27,13 +24,13 @@ export default class Navbar extends Component {
                         </li>
                         <li className="nav-item mx-3">
                             <a className="nav-link text-white mt-1" href="#"><i className="fas fa-flag"></i> Tasks</a>
-                        </li>
+                        </li> */}
                         <div className="dropdown mx-3">
-                            <button className="btn btn-link" id="profileMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ textDecoration: 'none' }}>
+                            <button className="btn btn-link" data-toggle="dropdown" style={{ textDecoration: 'none' }}>
                                 <img src='assets/img/4.jpg' className="rounded-circle border border-light mr-3" style={{ width: 35 }} />
-                                <span style={{ color: '#FFF' }}>Lorem Ipsum</span>
+                                <span className='text-white'>{account.name}</span>
                             </button>
-                            <div className="dropdown-menu" style={{ width: 167 }} aria-labelledby="profileMenu">
+                            <div className="dropdown-menu">
                                 <a className="dropdown-item" href="#">Profile</a>
                                 <hr />
                                 <a className="dropdown-item" href="javascript:;" onClick={this.onLogout}>Loguot</a>
