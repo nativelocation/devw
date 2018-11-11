@@ -23,6 +23,15 @@
     src: url("../assets/fonts/Roboto/Roboto-Medium.ttf");
 }
 
+@font-face {
+    font-family: Roboto-Light;
+    src: url("../assets/fonts/Roboto/Roboto-Light.ttf");
+}
+@font-face {
+    font-family: Roboto-Thin;
+    src: url("../assets/fonts/Roboto/Roboto-Thin.ttf");
+}
+
 html, body {
     height: 100%;
     background-color: #666666;
@@ -35,6 +44,14 @@ html, body {
     flex-direction: column;
     background-color: #666666;
 }
+
+#scrollWrapper {
+    height: auto;
+    /* max-height: 500px; */
+    overflow-x: hidden;
+    /* overflow-y: scroll; */
+}
+
 
 .gradient {
     background: rgba(69, 90, 100, 1);

@@ -1,5 +1,6 @@
 export const FONTS = {
     RobotoLight: 'Roboto-Light',
+    RobotoThin: 'Roboto-Thin',
     RobotoRegular: 'Roboto-Regular',
     RobotoBold: 'Roboto-Bold',
     RobotoMedium: 'Roboto-Medium',
