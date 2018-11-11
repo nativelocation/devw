@@ -16,11 +16,6 @@ export default class Home extends Component {
         <h1 className="">hola</h1>
         <h1 className="">hola</h1>
         <h1 className="">hola</h1>
-        <h1 className="">hola</h1>
-        <h1 className="">hola</h1>
-        <h1 className="">hola</h1>
-        <h1 className="">hola</h1>
-        <h1 className="">hola</h1>
       </Wrapper>
     );
   }
