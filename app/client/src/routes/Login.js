@@ -50,12 +50,12 @@ export default class Login extends Component {
               <div>
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group" style={styles.mb}>
-                    <Input name='email' onChange={this.onChange} showPassword disableAutoComplete />
+                    <Input name='email' onChange={this.onChange} showPassword disableAutoComplete bigSize/>
                   </div>
                   <div className="form-group">
-                    <Input name='password' onChange={this.onChange} disableAutoComplete password />
+                    <Input name='password' onChange={this.onChange} disableAutoComplete password bigSize />
                   </div>
-                  <Button text="Login" />
+                  <Button text="Login" bigSize/>
                 </form>
               </div>
             </div>

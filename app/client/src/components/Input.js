@@ -5,7 +5,7 @@ export default class Input extends Component {
     state = {};
 
     render() {
-        const { name, disableAutoComplete, onChange, password, } = this.props;
+        const { name, disableAutoComplete, onChange, password, bigSize } = this.props;
         return (
             <Fragment>
                 {password ?
@@ -13,8 +13,7 @@ export default class Input extends Component {
                         <i className={!this.state.revealPass ? "far fa-eye" : "far fa-eye-slash"}></i>
                     </a>
                     : null}
-
-                <input type={password ? !this.state.revealPass ? "password" : "text" : 'text'} name={name} placeholder={name ? name.charAt(0).toUpperCase() + name.slice(1) : undefined} onChange={onChange} className="form-control" style={styles.input} autoComplete={disableAutoComplete ? 'on' : 'off'} />
+                <input type={password ? !this.state.revealPass ? "password" : "text" : 'text'} name={name} placeholder={name ? name.charAt(0).toUpperCase() + name.slice(1) : undefined} onChange={onChange} className={bigSize ? "form-control form-control-lg font-weight-bold" : "form-control font-weight-bold"} style={styles.input} autoComplete={disableAutoComplete ? 'on' : 'off'} />
             </Fragment>
         )
     }
@@ -22,8 +21,6 @@ export default class Input extends Component {
 
 const styles = {
     input: {
-        height: 45,
-        fontWeight: 'bold',
         fontSize: 15,
         color: COLORS.LightBlack
     },
