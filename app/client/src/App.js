@@ -6,6 +6,7 @@ import Auth from './config/auth';
 
 import Home from './routes/Home';
 import Edit from './routes/Edit';
+import Client from './routes/Client';
 import Login from './routes/Login';
 
 
@@ -19,6 +20,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={e => Auth.authorize(Home, e, store, "Dashboard")} />
               <Route exact path="/edit" component={e => Auth.authorize(Edit, e, store, "Dashboard")} />
+              <Route exact path="/client" component={e => Auth.authorize(Client, e, store, "Dashboard")} />
               <Route exact path="/login" component={e => Auth.validate(Login, e, store)} />
             </Switch>
           </Fragment>
