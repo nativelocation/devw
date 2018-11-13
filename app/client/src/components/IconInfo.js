@@ -2,18 +2,17 @@ import React, { Component } from "react";
 
 export default class IconInfo extends Component {
     render() {
-        const { label, b } = this.props;
+        const text = 'The Athlete has not yet confirmed his account <br/>This Athlete has unsigned Contracts';
         return (
-            <button tabindex="0"
-                class="btn btn-lg btn-danger"
+
+            <i className="fas fa-eye"
+                tabIndex="0"
                 role="button"
                 data-toggle="popover"
                 data-trigger="focus"
+                data-placement="bottom"
                 title="Title"
-                data-content="Content">
-                Dismissible popover
-            </button>
-
+                data-content={text}></i>
         )
     }
 }
