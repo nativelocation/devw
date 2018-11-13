@@ -4,8 +4,14 @@ export default class IconInfo extends Component {
     render() {
         const { label, b } = this.props;
         return (
-            <button type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamussagittis lacus vel augue laoreet rutrum faucibus.">
-                Popover on bottom
+            <button tabindex="0"
+                class="btn btn-lg btn-danger"
+                role="button"
+                data-toggle="popover"
+                data-trigger="focus"
+                title="Title"
+                data-content="Content">
+                Dismissible popover
             </button>
 
         )
