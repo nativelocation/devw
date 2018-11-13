@@ -1,2 +1,0 @@
-Install dependences
-npm i react-router-dom react-dom react express dotenv morgan --save
