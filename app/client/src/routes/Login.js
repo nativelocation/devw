@@ -46,7 +46,7 @@ export default class Login extends Component {
               <img src='assets/img/hypergolic-logoWhite.png' className='img-fluid' />
             </div>
             <div>
-              <h4 style={styles.titleBox} className="mb-3 mt-5">Admin</h4>
+              <h1 style={styles.titleBox} className="mb-3 mt-5 text-white">Admin</h1>
               <div>
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group" style={styles.mb}>
@@ -76,10 +76,5 @@ const styles = {
   around: {
     height: 70,
     position: 'fixed'
-  },
-  titleBox: {
-    color: COLORS.White,
-    fontFamily: FONTS.RalewayMedium,
-    fontSize: 32
   }
 }

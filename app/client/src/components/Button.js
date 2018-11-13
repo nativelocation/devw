@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { COLORS, FONTS } from '../config/constants';
 
 export default class Button extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { text, bigSize } = this.props;
         return (
@@ -18,16 +14,14 @@ const styles = {
     normalButton: {
         border: 'none',
         backgroundColor: COLORS.Orange,
-        fontSize: 13,
-        fontFamily: FONTS.RalewayMedium,
+        fontSize: 13
     },
     bigButton: {
         border: 'none',
         backgroundColor: COLORS.Orange,
         width: 110,
         height: 50,
-        fontSize: 13,
-        fontFamily: FONTS.RalewayMedium,
+        fontSize: 13
     },
 }
 

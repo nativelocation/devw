@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-import { COLORS, FONTS } from '../config/constants';
+import { COLORS } from '../config/constants';
 
 export default class Breadcrumb extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { name } = this.props;
         return (
@@ -25,7 +21,6 @@ const styles = {
     },
     breadcrum: {
         color: COLORS.White,
-        fontFamily: FONTS.RobotoRegular,
         fontSize: 14
     }
 };
