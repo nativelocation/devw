@@ -1,13 +1,6 @@
 export const FONTS = {
-    RobotoLight: 'Roboto-Light',
-    RobotoThin: 'Roboto-Thin',
-    RobotoRegular: 'Roboto-Regular',
-    RobotoBold: 'Roboto-Bold',
-    RobotoMedium: 'Roboto-Medium',
-
-    RalewayBold: 'Raleway-Bold',
-    RalewaySemiBold: 'Raleway-SemiBold',
-    RalewayMedium: 'Raleway-Medium'
+    Roboto: 'Roboto',
+    Raleway: 'Raleway'
 }
 
 export const COLORS = {

@@ -1,10 +1,6 @@
 import React, { Component, Fragment } from "react";
 
 export default class Label extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { label, b } = this.props;
         return (
@@ -14,11 +10,3 @@ export default class Label extends Component {
         )
     }
 }
-
-const styles = {
-    file: {
-
-    }
-}
-
-

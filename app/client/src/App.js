@@ -18,7 +18,7 @@ class App extends Component {
           <Fragment>
             <Switch>
               <Route exact path="/" component={e => Auth.authorize(Home, e, store, "Dashboard")} />
-              <Route exact path="/edit" component={e => Auth.authorize(Edit, e, store, "Dashboard")} />
+              <Route exact path="/edit" component={e => Auth.authorize(Edit, e, store, "Edit User")} />
               <Route exact path="/login" component={e => Auth.validate(Login, e, store)} />
             </Switch>
           </Fragment>

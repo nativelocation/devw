@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 
+const NavLink = ({ icon, name, active, orange }) =>
+    (<a className={`nav-link text-white py-3 ${active ? 'active' : orange ? 'orange-link' : ''}`} href="javascript:;">
+        <i className={`fas mr-2 ${icon}`}></i>{name}
+    </a>);
+    
 export default class SideBar extends Component {
     render() {
-        const NavLink = ({ icon, name, active, orange }) =>
-            (<a className={`nav-link text-white py-3 ${active ? 'active' : orange ? 'orange-link' : ''}`} href="javascript:;">
-                <i className={`fas mr-2 ${icon}`}></i>{name}
-            </a>);
 
         return (
             <div className='col-md-2 col-lg-2 px-0 gradient h-100'>

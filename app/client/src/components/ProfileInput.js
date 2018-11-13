@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import { COLORS, FONTS } from '../config/constants';
 
 export default class ProfileInput extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { src } = this.props;
         return (
@@ -15,11 +10,3 @@ export default class ProfileInput extends Component {
         )
     }
 }
-
-const styles = {
-    file: {
-
-    }
-}
-
-
