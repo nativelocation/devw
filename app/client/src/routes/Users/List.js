@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
-import Wrapper from '../components/Wrapper';
-import Input from '../components/Input';
-import Profile from '../components/ProfileInput.js';
-import File from '../components/FileInput.js';
-import Button from '../components/Button.js';
-import Label from '../components/Label.js';
+import Wrapper from '../../components/Wrapper';
+import Input from '../../components/Input';
+import Profile from '../../components/ProfileInput';
+import File from '../../components/FileInput';
+import Button from '../../components/Button';
+import Label from '../../components/Label';
 
-export default class Contracts extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default class Users extends Component {
 
   render() {
     return (
-      <Wrapper name={'Edit Athlete/Agent Profile'}>
+      <Wrapper name='Edit Athlete/Agent Profile'>
         <div className="d-flex flex-row">
           <div className="col-md-2">
             <Profile src="http://lorempixel.com/120/120/" />

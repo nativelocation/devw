@@ -14,7 +14,7 @@ export default class SideBar extends Component {
             <div className='col-md-2 col-lg-2 px-0 gradient h-100'>
                 <nav id='navlinks' className="nav flex-column justify-content-center alignt-items-center">
                     <Link to="/" name='Home' orange />
-                    <Link to="/edit" name='Users' />
+                    <Link to="/edit" name='Test' />
                     <Link to="/users" name='Users' />
                     <Link to="/teams" name='Teams' />
                     <Link to="/contracts" name='Contracts' active />
