@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Wrapper from '../components/Wrapper';
 import Profile from '../components/ProfileView.js';
+import IconInfo from '../components/IconInfo.js';
 
 
 
@@ -29,29 +30,26 @@ export default class Client extends Component {
         </div>
         <div className={this.state.wrapperType ? "d-flex flex-row mt-3" : "d-flex flex-column mt-3"}>
           <div className={this.state.wrapperType ? "col-md-6" : "col-md-12 d-flex flex-row"}>
-            <div className='col-md-2 bg-danger'>
+            <div className='col-md-2 hoverBox bg-danger'>
               <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
               <div className="d-flex flex-row justify-content-between bg-secondary">
                 <i className="fas fa-bars"></i>
-                <i className="fas fa-bars"></i>
-                <i className="fas fa-bars"></i>
-                <i className="fas fa-bars"></i>
-                <i className="fas fa-bars"></i>
+                <IconInfo />
               </div>
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-2 hoverBox'>
               <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-2 hoverBox'>
               <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-2 hoverBox'>
               <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-2 hoverBox'>
               <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
             </div>
-            <div className='col-md-2'>
+            <div className='col-md-2 hoverBox'>
               <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
             </div>
           </div>

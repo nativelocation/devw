@@ -10,7 +10,7 @@ export default class ProfileView extends Component {
         const { src, name } = this.props;
         return (
             <Fragment>
-                <div className="d-flex flex-column justify-content-center align-items-center">
+                <div className="d-flex flex-column justify-content-center align-items-center mt-2">
                     <div className="text-center">
                         <img src={src} className="border border-dark rounded-circle" />
                     </div>

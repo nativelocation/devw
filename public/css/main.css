@@ -55,6 +55,11 @@ h1 {
     font-size: 36px;
 }
 
+.hoverBox:hover{
+    border: 2px solid #42A5F5;
+    border-radius: 5px;
+}
+
 h2 {
     font-family: Raleway;
     font-weight: 500;
