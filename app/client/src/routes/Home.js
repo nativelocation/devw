@@ -34,7 +34,7 @@ export default class Home extends Component {
             <div className="form-group">
               <Radio text="Athlete" id="radio1" name="custom" inline/>
               <Radio text="Agent" id="radio2" name="custom" inline/>
-              <hr/>
+              <hr/> 
               <Radio text="Athlete" id="radio3" name="custom"/>
               <Radio text="Agent" id="radio4" name="custom"/>
             </div>
