@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./app/server/index.js",
-    "build": "webpack --mode production",
+    "build": "gulp && webpack --mode production",
     "client": "opn http://localhost:8000 && webpack --mode development --watch",
-    "server": "gulp && nodemon ./app/server/index.js",
-    "gulp": "gulp"
+    "server": "gulp && nodemon ./app/server/index.js"
   },
   "author": "Author of hypergolic-web",
   "license": "MIT",
