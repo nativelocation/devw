@@ -30,27 +30,15 @@ export default class Client extends Component {
         </div>
         <div className={this.state.wrapperType ? "d-flex flex-row mt-3" : "d-flex flex-column mt-3"}>
           <div className={this.state.wrapperType ? "col-md-6" : "col-md-12 d-flex flex-row"}>
-            <div className='col-md-2 hoverBox bg-danger'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
-              <div className="d-flex flex-row justify-content-between bg-secondary">
-                <i className="fas fa-bars"></i>
-                <IconInfo />
+            <div className='col-md-2 hoverBox'>
+              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" orientation={this.state.wrapperType ? 'horizontal' : 'vertical'}/>
+              <div className="d-flex flex-row justify-content-between">
+                <IconInfo icon="fas fa-eye"/>
+                <IconInfo icon="fas fa-pen"/>
+                <IconInfo icon="fas fa-shield-alt"/>
+                <IconInfo icon="fas fa-file-alt"/>
+                <IconInfo icon="fas fa-envelope"/>
               </div>
-            </div>
-            <div className='col-md-2 hoverBox'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
-            </div>
-            <div className='col-md-2 hoverBox'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
-            </div>
-            <div className='col-md-2 hoverBox'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
-            </div>
-            <div className='col-md-2 hoverBox'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
-            </div>
-            <div className='col-md-2 hoverBox'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" />
             </div>
           </div>
           <div className={this.state.wrapperType ? "col-md-6 bg-success" : "col-md-12 bg-success"}>adios</div>
