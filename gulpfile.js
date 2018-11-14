@@ -49,4 +49,4 @@ gulp.task('server', ['sass'], () => {
 });
 
 
-gulp.task('default', ['server', 'js', 'fonts-icons', 'icons' ])
+gulp.task('default', ['js', 'fonts-icons', 'icons', 'sass' ])
