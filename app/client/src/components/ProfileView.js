@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { FONTS } from '../config/constants.js'
+import { COLORS, FONTS } from '../config/constants.js'
 
 export default class ProfileView extends Component {
     constructor(props) {
@@ -7,15 +7,18 @@ export default class ProfileView extends Component {
     }
 
     render() {
-        const { src, name, orientation } = this.props;
+        const { src, title, subtitle, orientation, children } = this.props;
         return (
             <Fragment>
-                <div className={orientation ? "d-flex flex-row justify-content-center align-items-center mt-2" : "d-flex flex-column justify-content-center align-items-center mt-2"}>
+                <div className={orientation ? "d-flex flex-row mt-2 hoverBox" : "d-flex flex-column justify-content-center align-items-center mt-2 hoverBox"}>
                     <div className="text-center">
-                        <img src={src} className="border border-dark rounded-circle" />
+                        <img src={src} className="border border-dark rounded-circle m-1" style={{ width: 60 }} />
                     </div>
-                    <p className="font-weight-bold pt-2" style={styles.text}>{name}</p>
-                    <p className="" style={styles.littleText}>Agent</p>
+                    <div className={orientation ? "float-right pl-2 pt-3" : "text-center pl-2 pt-3"}>
+                        <p className="font-weight-bold m-0" style={styles.text}>{title}</p>
+                        <p className={orientation ? "" : "text-center"} style={styles.littleText}>{subtitle}</p>
+                    </div>
+                    {children}
                 </div>
             </Fragment>
         )
@@ -25,11 +28,11 @@ export default class ProfileView extends Component {
 const styles = {
     text: {
         fontSize: 13,
-        fontFamily: FONTS.RobotoRegular,
+        fontFamily: FONTS.RobotoLight,
+        color: COLORS.LightBlack,
     },
     littleText: {
-        position: 'relative',
-        bottom: 16,
+        color: COLORS.LightGray,
         fontSize: 11,
         fontFamily: FONTS.RobotoLight,
     }

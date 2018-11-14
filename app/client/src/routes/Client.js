@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Wrapper from '../components/Wrapper';
 import Profile from '../components/ProfileView.js';
 import IconInfo from '../components/IconInfo.js';
@@ -24,24 +24,24 @@ export default class Client extends Component {
       <Wrapper name={'Athlete/Agent'}>
         <div className="d-flex flex-row">
           <div className="btn-group" role="group">
-            <button type="button" className="btn btn-light" onClick={this.changeList}><i className="fas fa-grip-horizontal"></i> <i className="fas fa-grip-horizontal"></i></button>
-            <button type="button" className="btn btn-light" onClick={this.changeList}><i className="fas fa-bars"></i> <i className="fas fa-bars"></i></button>
+            <button type="button" className={this.state.wrapperType ? "btn btn-light active" : "btn btn-light"} onClick={this.changeList}><i className="fas fa-grip-horizontal"></i> <i className="fas fa-grip-horizontal"></i></button>
+            <button type="button" className={this.state.wrapperType ? "btn btn-light" : "btn btn-light active"} onClick={this.changeList}><i className="fas fa-bars"></i> <i className="fas fa-bars"></i></button>
           </div>
         </div>
-        <div className={this.state.wrapperType ? "d-flex flex-row mt-3" : "d-flex flex-column mt-3"}>
-          <div className={this.state.wrapperType ? "col-md-6" : "col-md-12 d-flex flex-row"}>
-            <div className='col-md-2 hoverBox'>
-              <Profile src="http://lorempixel.com/80/80/" name="Maria Hamilton" orientation={this.state.wrapperType ? 'horizontal' : 'vertical'}/>
-              <div className="d-flex flex-row justify-content-between">
-                <IconInfo icon="fas fa-eye"/>
-                <IconInfo icon="fas fa-pen"/>
-                <IconInfo icon="fas fa-shield-alt"/>
-                <IconInfo icon="fas fa-file-alt"/>
-                <IconInfo icon="fas fa-envelope"/>
-              </div>
+        <div className={this.state.wrapperType ? "d-flex flex-column mt-3 col-md-6" : "d-flex flex-row mt-3 col-md-6"}>
+          <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation={this.state.wrapperType ? true : false} >
+            <div className={this.state.wrapperType ? "d-flex justify-content-end pl-2 pt-3 pr-1" : ""} style={{ flex: 1 }}>
+              <IconInfo icon="fas fa-eye pr-1" />
+              <IconInfo icon="fas fa-pen px-1" />
+              {!this.state.wrapperType ?
+                <Fragment>
+                  <IconInfo icon="fas fa-shield-alt px-1" />
+                  <IconInfo icon="fas fa-file-alt px-1" />
+                  <IconInfo icon="fas fa-envelope pl-1" />
+                </Fragment>
+                : null}
             </div>
-          </div>
-          <div className={this.state.wrapperType ? "col-md-6 bg-success" : "col-md-12 bg-success"}>adios</div>
+          </Profile>
         </div>
       </Wrapper>
     );

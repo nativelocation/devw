@@ -13,7 +13,13 @@ export default class IconInfo extends Component {
                 data-trigger="focus"
                 data-placement="bottom"
                 title="Title"
-                data-content={text}></i>
+                data-content={text} style={styles.size}></i>
         )
+    }
+}
+
+const styles = {
+    size: {
+        fontSize: 12,
     }
 }
