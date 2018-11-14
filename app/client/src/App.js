@@ -8,6 +8,7 @@ import Login from './routes/Login';
 import Home from './routes/Home';
 import Edit from './routes/Edit';
 import Client from './routes/Client';
+import UserProfile from './routes/UserProfile';
 
 import Users from './routes/Users/List';
 import NewUser from './routes/Users/New';
@@ -37,6 +38,8 @@ class App extends Component {
               <Route exact path="/" component={e => Auth.authorize(Home, e, store, "Dashboard")} />
               <Route exact path="/edit" component={e => Auth.authorize(Edit, e, store, "Edit User")} />
               <Route exact path="/client" component={e => Auth.authorize(Client, e, store, "Client Test")} />
+
+              <Route exact path="/profile" component={e => Auth.authorize(UserProfile, e, store, "Test")} />
               
               <Route exact path="/users" component={e => Auth.authorize(Users, e, store, "Users")} />
               <Route exact path="/user/:id" component={e => Auth.authorize(User, e, store, "User Info")} />
