@@ -1,4 +1,15 @@
 @font-face {
+    font-family: jam-icons;
+    src: url('../assets/fonts/font-icons/jam-icons.eot');
+    /* IE9 Compat Modes */
+    src: url('../assets/fonts/font-icons/jam-icons.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../assets/fonts/font-icons/jam-icons.woff') format('woff'), /* Pretty Modern Browsers */
+    url('../assets/fonts/font-icons/jam-icons.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../assets/fonts/font-icons/jam-icons.svg#svgFontName') format('svg');
+    /* Legacy iOS */
+}
+
+@font-face {
     font-family: Raleway;
     font-weight: 700;
     src: url("../assets/fonts/Raleway/Raleway-Bold.ttf");
@@ -40,10 +51,7 @@
     src: url("../assets/fonts/Roboto/Roboto-Thin.ttf");
 }
 
-@font-face {
-    font-family: jam-icons;
-    src: url("../assets/fonts/font-icons/jam-icons.ttf");
-}
+
 
 * {
     font-family: Roboto;
@@ -60,7 +68,7 @@ h1 {
     font-size: 36px;
 }
 
-.hoverBox:hover{
+.hoverBox:hover {
     border: 2px solid #42A5F5;
     border-radius: 5px;
 }
