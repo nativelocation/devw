@@ -161,7 +161,7 @@ h4 {
     height: 100vh;
 }
 
-.form-control {
+#loginBox .form-control {
     border: none;
 }
 
