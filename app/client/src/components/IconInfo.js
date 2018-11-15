@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDom from 'react-dom/server';
+import ReactDOMServer from 'react-dom/server';
 /**
  * The Icon popover Component.
  *
@@ -10,7 +10,7 @@ import ReactDom from 'react-dom/server';
 export default class IconInfo extends Component {
     render() {
         const { icon, children } = this.props;
-        const htmlChildren = ReactDom.renderToString(children)
+        const htmlChildren = ReactDOMServer.renderToString(children)
         return (
             <span className={icon}
             tabIndex="0"
