@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { COLORS } from '../config/constants';
-
+/**
+ * The Breadcrumb Component.
+ *
+ * @version 1.0.1
+ * @param  name - Add the current path
+ */
 export default class Breadcrumb extends Component {
     render() {
         const { name } = this.props;

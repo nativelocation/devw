@@ -1,6 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { COLORS, FONTS } from '../config/constants.js'
-
+/**
+ * The Profile input Component.
+ *
+ * @version 1.0.1
+ * @param  src - Add image path
+ * @param  title - Add main title 
+ * @param  subtitle - Add subtitle 
+ * @param  orientation - true = row | false = column
+ * @param  children - Add more components 
+ */
 export default class ProfileView extends Component {
     constructor(props) {
         super(props);

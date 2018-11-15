@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-
+/**
+ * The Icon popover Component.
+ *
+ * @version 1.0.1
+ * @param  icon - Add class bootstrap to icon
+ */
 export default class IconInfo extends Component {
     render() {
         const { icon } = this.props;

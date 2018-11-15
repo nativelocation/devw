@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { COLORS, FONTS } from '../config/constants';
-
+/**
+ * The Button Component.
+ *
+ * @version 1.0.1
+ * @param  text - Add the text
+ * @param  bigSize - Set the big size
+ */
 export default class Button extends Component {
     render() {
         const { text, bigSize } = this.props;

@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { COLORS, FONTS } from '../config/constants.js';
-
+/**
+ * The Button Large Component.
+ *
+ * @version 1.0.1
+ * @param  text - Add the text
+ */
 export default class ButtonLarge extends Component {
     render() {
         const { text } = this.props;

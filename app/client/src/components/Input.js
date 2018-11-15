@@ -1,6 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { COLORS } from '../config/constants';
-
+/**
+ * The Input Component.
+ *
+ * @version 1.0.1
+ * @param { string } name - Input name and placeholder
+ * @param { method } onChange - Method to onChange
+ * @param { } password - Change to password's type
+ * @param { } bigSize - Set the big size
+ * @param { } disableAutoComplete
+ */
 export default class Input extends Component {
     state = {};
 

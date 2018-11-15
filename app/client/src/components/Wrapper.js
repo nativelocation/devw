@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { COLORS, FONTS } from '../config/constants'
-
+/**
+ * The Wrapper Component.
+ *
+ * @version 1.0.1
+ * @param  name - Add title
+ * @param  children - Add more components 
+ */
 export default class Wrapper extends Component {
 
     render() {

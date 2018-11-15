@@ -1,5 +1,13 @@
 import React, { Component, Fragment } from "react";
-
+/**
+ * The Radio input Component.
+ *
+ * @version 1.0.1
+ * @param  id - Add id
+ * @param  text - Description 
+ * @param  name - Radio name 
+ * @param  inline - true = row | false = column
+ */
 export default class RadioButton extends Component {
 
     render() {
