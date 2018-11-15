@@ -16,7 +16,8 @@ const styles = {
         backgroundColor: COLORS.Orange,
         fontSize: 13,
         fontFamily: FONTS.Roboto,
-        fontWeight: 300
+        fontWeight: 300,
+        width: 150
     },
 }
 
