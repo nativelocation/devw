@@ -6,7 +6,6 @@ export default class Users extends Component {
   render() {
     return (
       <Wrapper name='Edit User'>
-      <p>holi</p>
       </Wrapper>
     );
   }
