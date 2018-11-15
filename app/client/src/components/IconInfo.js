@@ -1,25 +1,25 @@
 import React, { Component } from "react";
+import ReactDom from 'react-dom/server';
 /**
  * The Icon popover Component.
  *
  * @version 1.0.1
  * @param  icon - Add class bootstrap to icon
+ * @param  children - Add more components
  */
 export default class IconInfo extends Component {
     render() {
-        const { icon } = this.props;
-        const text = 'The Athlete has not yet confirmed his account <br/>This Athlete has unsigned Contracts';
+        const { icon, children } = this.props;
+        const htmlChildren = ReactDom.renderToString(children)
         return (
-
-            <a tabIndex="0" className="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
-            // <span className={icon}
-            // tabIndex="0"
-            // role="button"
-            // data-toggle="popover"
-            // data-trigger="focus"
-            // data-placement="bottom"
-            // title="Title"
-            // data-content={text} style={styles.size}></span>
+            <span className={icon}
+            tabIndex="0"
+            role="button"
+            data-toggle="popover"
+            data-trigger="focus"
+            data-placement="bottom"
+            title="Title"
+            data-content={htmlChildren} style={styles.size}></span>
         )
     }
 }

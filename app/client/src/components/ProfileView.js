@@ -19,7 +19,7 @@ export default class ProfileView extends Component {
         const { src, title, subtitle, orientation, children } = this.props;
         return (
             <Fragment>
-                <div className={orientation ? "d-flex flex-row mt-2 hoverBox" : "d-flex flex-column justify-content-center align-items-center mt-2 hoverBox"}>
+                <div className={orientation ? "d-flex flex-row mt-2 hoverBox" : "d-flex flex-column justify-content-center align-items-center mt-2 hoverBox p-2"}>
                     <div className="text-center">
                         <img src={src} className="border border-dark rounded-circle m-1" style={{ width: 60 }} />
                     </div>
