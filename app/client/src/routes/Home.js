@@ -10,8 +10,6 @@ export default class Home extends Component {
   render() {
     return (
       <Wrapper name={'Add An Athlete/Agent'}>
-        <span>Hola</span>
-        <span class="jam jam-backpack"></span>
         <div className="d-flex flex-row">
           <div className="col-md-6">
             <div className="form-group">
