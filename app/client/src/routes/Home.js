@@ -6,16 +6,12 @@ import Button from '../components/Button.js';
 import Radio from '../components/RadioButton.js';
 import Label from '../components/Label.js';
 
-
-
 export default class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Wrapper name={'Add An Athlete/Agent'}>
+        <span>Hola</span>
+        <span class="jam jam-backpack"></span>
         <div className="d-flex flex-row">
           <div className="col-md-6">
             <div className="form-group">
@@ -32,11 +28,11 @@ export default class Home extends Component {
             </div>
             <Label label="Please select" b />
             <div className="form-group">
-              <Radio text="Athlete" id="radio1" name="custom" inline/>
-              <Radio text="Agent" id="radio2" name="custom" inline/>
-              <hr/> 
-              <Radio text="Athlete" id="radio3" name="custom"/>
-              <Radio text="Agent" id="radio4" name="custom"/>
+              <Radio text="Athlete" id="radio1" name="custom" inline />
+              <Radio text="Agent" id="radio2" name="custom" inline />
+              <hr />
+              <Radio text="Athlete" id="radio3" name="custom" />
+              <Radio text="Agent" id="radio4" name="custom" />
             </div>
             <div className="form-group">
               <Label label="Picture" b />
