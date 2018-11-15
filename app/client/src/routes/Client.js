@@ -31,7 +31,7 @@ export default class Client extends Component {
         <div className={this.state.wrapperType ? "d-flex flex-column mt-3 col-md-6" : "d-flex flex-row mt-3 col-md-6"}>
           <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation={this.state.wrapperType ? true : false} >
             <div className={this.state.wrapperType ? "d-flex justify-content-end pl-2 pt-3 pr-1" : ""} style={{ flex: 1 }}>
-              <IconInfo icon="fas fa-eye pr-1" />
+              <IconInfo icon="jam jam-eye-f pr-1" />
               <IconInfo icon="fas fa-pen px-1" />
               {!this.state.wrapperType ?
                 <Fragment>

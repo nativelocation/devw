@@ -11,20 +11,21 @@ export default class IconInfo extends Component {
         const text = 'The Athlete has not yet confirmed his account <br/>This Athlete has unsigned Contracts';
         return (
 
-            <i className={icon}
-                tabIndex="0"
-                role="button"
-                data-toggle="popover"
-                data-trigger="focus"
-                data-placement="bottom"
-                title="Title"
-                data-content={text} style={styles.size}></i>
+            <a tabIndex="0" className="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">Dismissible popover</a>
+            // <span className={icon}
+            // tabIndex="0"
+            // role="button"
+            // data-toggle="popover"
+            // data-trigger="focus"
+            // data-placement="bottom"
+            // title="Title"
+            // data-content={text} style={styles.size}></span>
         )
     }
 }
 
 const styles = {
     size: {
-        fontSize: 12,
+        fontSize: 16,
     }
 }
