@@ -2,11 +2,10 @@ const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const sass =  require('gulp-sass');
 
-//task
 gulp.task('sass', () => {
     return gulp.src([
         'node_modules/bootstrap/scss/bootstrap.scss',
-        'public/src/scss/*.scss'
+        'public/scss/*.scss'
     ])
     .pipe(sass({outputStyle: 'compressed'}))
     .pipe(gulp.dest('public/css'))
@@ -38,11 +37,11 @@ gulp.task('fonts-icons', () => {
 
 gulp.task('server', ['sass'], () => {
     browserSync.init({
-        server: './public/src'
+        server: './public/'
     });
     gulp.watch([
         'node_module/bootstrap/scss/bootstrap.scss',
-        'public/src/scss/*.scss'
+        'public/scss/*.scss'
     ], ['sass']);
     
     gulp.watch('public/*.html').on('change', browserSync.reload);
