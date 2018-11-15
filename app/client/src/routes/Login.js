@@ -50,6 +50,11 @@ export default class Login extends Component {
               <div>
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group" style={styles.mb}>
+                  <a style={styles.icon} href="#" onClick={() => this.setState({ revealPass: !this.state.revealPass })}>
+                        {/* <i className={!this.state.revealPass ? "far fa-eye" : "far fa-eye-slash"}></i> */}
+                        {/* <span class={!this.state.revealPass ? "far eye-f" : "far eye-close-f"}></span> */}
+                        <span className="eye-f"></span>
+                    </a>
                     <Input name='email' onChange={this.onChange} showPassword disableAutoComplete bigSize/>
                   </div>
                   <div className="form-group">
