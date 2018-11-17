@@ -6,14 +6,14 @@ import Layout from '../components/Layout';
 class Authentication {
     storeUser(history, store, redirect = "/") {
         const { tokenAuth } = localStorage;
-        const sendToLogin = () => {
-            localStorage.removeItem('tokenAuth');
+        const sendToLogin = err => {
+            if (!err) localStorage.removeItem('tokenAuth');
             history.push('/login');
         }
 
         Api.GetUser(tokenAuth).then(res => {
             if (res.status === 201) {
-                store.dispatch(setAccount({ tokenAuth, ...res.data }));
+                store.dispatch(setAccount({ ...res.data, tokenAuth }));
                 history.push(redirect);
             } else sendToLogin();
         }).catch(sendToLogin);

@@ -5,6 +5,7 @@ const initialState = {
   email: "",
   name: "",
   phone: "",
+  tokenAuth:"",
   type: 0
 }
 

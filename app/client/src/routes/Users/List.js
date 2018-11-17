@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Api from '../../config/api';
 
 import Wrapper from '../../components/Wrapper';
 import Loading from '../../components/Loading';
-import Api from '../../config/api';
+import Button from '../../components/Button';
 
 class Users extends Component {
 
@@ -27,6 +28,9 @@ class Users extends Component {
     const { users } = this.state;
     return (
       <Wrapper name='Users'>
+        <Button text='Add new user' onClick={x => {
+          console.log('lelele :');
+        }} />
         {users.length > 0 ?
           <ul>
             {users.map(u => <li key={u._id}>{u.name}</li>)}
