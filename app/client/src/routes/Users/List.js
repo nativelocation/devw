@@ -24,13 +24,16 @@ class Users extends Component {
     });
   }
 
+  newUser() {
+    const { history } = this.props;
+    history.push('/user/new');
+  }
+
   render() {
     const { users } = this.state;
     return (
       <Wrapper name='Users'>
-        <Button text='Add new user' onClick={x => {
-          console.log('lelele :');
-        }} />
+        <Button text='Add new user' onClick={this.newUser.bind(this)} />
         {users.length > 0 ?
           <ul>
             {users.map(u => <li key={u._id}>{u.name}</li>)}

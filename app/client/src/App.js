@@ -42,19 +42,19 @@ class App extends Component {
               <Route exact path="/profile" component={e => Auth.authorize(UserProfile, e, store, "Test")} />
               
               <Route exact path="/users" component={e => Auth.authorize(Users, e, store, "Users")} />
-              <Route exact path="/user/:id" component={e => Auth.authorize(User, e, store, "User Info")} />
-              <Route exact path="/user/:id/new" component={e => Auth.authorize(NewUser, e, store, "New User")} />
-              <Route exact path="/user/:id/edit" component={e => Auth.authorize(EditUser, e, store, "Edit User")} />
+              <Route exact path="/user/:id(\d+)" component={e => Auth.authorize(User, e, store, "User Info")} />
+              <Route exact path="/user/new" component={e => Auth.authorize(NewUser, e, store, "New User")} />
+              <Route exact path="/user/edit/:id(\d+)" component={e => Auth.authorize(EditUser, e, store, "Edit User")} />
 
               <Route exact path="/teams" component={e => Auth.authorize(Teams, e, store, "Teams")} />
-              <Route exact path="/team/:id" component={e => Auth.authorize(Team, e, store, "Team Info")} />
-              <Route exact path="/team/:id/new" component={e => Auth.authorize(NewTeam, e, store, "New Team")} />
-              <Route exact path="/team/:id/edit" component={e => Auth.authorize(EditTeam, e, store, "Edit Team")} />
+              <Route exact path="/team/:id(\d+)" component={e => Auth.authorize(Team, e, store, "Team Info")} />
+              <Route exact path="/team/new" component={e => Auth.authorize(NewTeam, e, store, "New Team")} />
+              <Route exact path="/team/edit/:id(\d+)" component={e => Auth.authorize(EditTeam, e, store, "Edit Team")} />
 
               <Route exact path="/contracts" component={e => Auth.authorize(Contracts, e, store, "Contracts")} />
-              <Route exact path="/contract/:id" component={e => Auth.authorize(Contract, e, store, "Contract Info")} />
-              <Route exact path="/contract/:id/new" component={e => Auth.authorize(NewContract, e, store, "New Contract")} />
-              <Route exact path="/contract/:id/edit" component={e => Auth.authorize(EditContract, e, store, "Edit Contract")} />
+              <Route exact path="/contract/:id(\d+)" component={e => Auth.authorize(Contract, e, store, "Contract Info")} />
+              <Route exact path="/contract/new" component={e => Auth.authorize(NewContract, e, store, "New Contract")} />
+              <Route exact path="/contract/edit/:id(\d+)" component={e => Auth.authorize(EditContract, e, store, "Edit Contract")} />
             </Switch>
           </Fragment>
         </BrowserRouter>

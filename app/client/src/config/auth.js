@@ -3,8 +3,8 @@ import { setAccount } from '../redux/actions/account';
 import Api from './api';
 import Layout from '../components/Layout';
 
-class Authentication {
-    storeUser(history, store, redirect = "/") {
+const auth = {
+    storeUser: (history, store, redirect = "/") => {
         const { tokenAuth } = localStorage;
         const sendToLogin = err => {
             if (!err) localStorage.removeItem('tokenAuth');
@@ -17,23 +17,23 @@ class Authentication {
                 history.push(redirect);
             } else sendToLogin();
         }).catch(sendToLogin);
-    }
+    },
 
-    authorize(Composed, props, store, name) {
+    authorize: (Composed, props, store, name) => {
         const { pathname } = props.history.location;
         const { account } = store.getState();
         if (!localStorage.tokenAuth) props.history.push('/login');
         if (account._id) return <Layout name={name} account={account} ><Composed {...props} /></Layout>;
-        else this.storeUser(props.history, store, pathname);
+        else auth.storeUser(props.history, store, pathname);
         return null;
-    }
+    },
 
-    validate(Composed, props, store) {
+    validate: (Composed, props, store) => {
         const { account } = store.getState();
         if (!localStorage.tokenAuth) return <Composed {...props} />;
-        if (!account._id) this.storeUser(props.history, store);
+        if (!account._id) auth.storeUser(props.history, store);
         return null;
     }
 }
 
-export default new Authentication();
+export default auth;

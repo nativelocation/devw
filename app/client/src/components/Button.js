@@ -9,7 +9,9 @@ import { COLORS } from '../config/constants';
  */
 const Button = ({ text, bigSize, onClick }) => {
     return (
-        <button type="submit" onClick={onClick} className="btn float-right text-white border-0" style={bigSize ? styles.bigButton : styles.normalButton}>{text}</button>
+        <button type="submit" onClick={onClick} className="btn float-right text-white border-0" style={bigSize ? styles.bigButton : styles.normalButton}>
+            {text}
+        </button>
     )
 };
 

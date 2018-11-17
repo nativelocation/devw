@@ -9,12 +9,16 @@ import { COLORS } from '../config/constants';
  * @param { } password - Change to password's type
  * @param { } bigSize - Set the big size
  * @param { } disableAutoComplete
+ * @param { } placeholder - Set placeholder = true to use Name value or placeholder = "value" to set custom 
  */
 export default class Input extends Component {
     state = {};
 
     render() {
-        const { name, disableAutoComplete, onChange, password, bigSize } = this.props;
+        const { name, disableAutoComplete, onChange, password, bigSize, placeholder } = this.props;
+        let ph = placeholder === true ? name : placeholder;
+        ph = ph === undefined ? "" : ph;
+        ph = ph ? ph.charAt(0).toUpperCase() + ph.slice(1) : undefined;
         return (
             <Fragment>
                 {password ?
@@ -22,7 +26,7 @@ export default class Input extends Component {
                         <span className={!this.state.revealPass ? "jam jam-eye-f" : "jam jam-eye-close-f"}></span>
                     </a>
                     : null}
-                <input type={password ? !this.state.revealPass ? "password" : "text" : 'text'} name={name} placeholder={name ? name.charAt(0).toUpperCase() + name.slice(1) : undefined} onChange={onChange} className={`form-control font-weight-bold ${bigSize ? "form-control-lg" : null}`} style={styles.input} autoComplete={disableAutoComplete ? 'on' : 'off'} />
+                <input type={password ? !this.state.revealPass ? "password" : "text" : 'text'} name={name} placeholder={ph} onChange={onChange} className={`form-control ${bigSize ? "form-control-lg" : null}`} style={styles.input} autoComplete={disableAutoComplete ? 'on' : 'off'} />
             </Fragment>
         )
     }
