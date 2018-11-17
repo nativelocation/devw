@@ -13,7 +13,7 @@ class Authentication {
 
         Api.GetUser(tokenAuth).then(res => {
             if (res.status === 201) {
-                store.dispatch(setAccount(res.data));
+                store.dispatch(setAccount({ tokenAuth, ...res.data }));
                 history.push(redirect);
             } else sendToLogin();
         }).catch(sendToLogin);

@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/all', (req, res, next) => {
-    model.getAll().then(r => generalSuccess(res, "Get current user", r)).catch(e => generalError(e, res));
+    model.getAll().then(r => generalSuccess(res, "Get users list", r)).catch(e => generalError(e, res));
 });
 
 module.exports = router;

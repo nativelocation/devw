@@ -16,9 +16,9 @@ export function Request(url, object) {
     })
 }
 
-export default function FetchRequest(endpoint, method, data, customHeaders) {
+export default function FetchRequest(endpoint, method, token, data, customBase) {
     const url = `${BASE_URL}${endpoint}`;
-    const headers = customHeaders || Headers();
+    const headers = Headers(token, customBase);
     const body = method !== 'GET' ? JSON.stringify(data) : null;
 
     return Request(url, { method, headers, body });
