@@ -165,11 +165,15 @@ h4 {
     border: none;
 }
 
-.form-control:focus, .form-control:active {
+.noBorder:focus, .form-control:focus, .form-control:active {
     outline: none !important;
     -webkit-box-shadow: none;
 }
 
 .font-raleway {
     font-family: Raleway;
+}
+
+.cursor-pointer{
+    cursor: pointer;
 }
