@@ -33,6 +33,15 @@ const methods = {
             console.log('catch error initApp :', e);
         }
 
+    },
+    busboy: (callback, req) => {
+        const Busboy = require('busboy');
+        const midleware = new Busboy({ headers: req.headers });
+        midleware.on('finish', () => {
+            const merge = { ...req.body, ...req.files }
+            callback(merge);
+        });
+        req.pipe(midleware);
     }
 }
 

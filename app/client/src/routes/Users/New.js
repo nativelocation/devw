@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Api from '../../config/api';
 
 import Wrapper from '../../components/Wrapper';
 import Label from '../../components/Label';
@@ -7,44 +9,55 @@ import Button from '../../components/Button';
 import FileInput from '../../components/FileInput';
 import RadioButton from '../../components/RadioButton';
 
-export default class NewUser extends Component {
+class NewUser extends Component {
 
-  fileInput = React.createRef();
   state = {
     name: '',
     email: '',
     phone: '',
-    picture: '',
     password: '',
     confirmPassword: '',
     fileImage: {}
   }
+  fileInput = React.createRef();
+
+  validateForm() {
+
+  }
 
   onSubmit(e) {
     e.preventDefault();
-    console.log('this.fileInput.current.files[0].name :', this.fileInput.current.files[0]);
-
+    const { account } = this.props;
     const { email, password } = this.state;
-    //TODO:Add loading stuff
-    // Api.Login({ email, password }).then(res => {
-    //   if (status === 201) {
+    const formData = new FormData();
+    formData.append('name', 'lala')
+    //TODO: Resolver formdata
 
-    //   }
-    // }).catch(err => {
-    //   //TODO: show error
-    // });
+
+    console.log(formData);
+    //TODO:Add loading stuff
+    Api.CreateUser(account.tokenAuth, formData).then(res => {
+      if (status === 201) {
+
+      }
+      console.log('res :', res);
+    }).catch(err => {
+      //TODO: show error
+      console.log('err :', err);
+    });
   }
 
   onChange(e) {
-    console.log('this.fileInput.current.files[0] :', this.fileInput.current.files[0]);
-    console.log(e.target.value)
     const { name, value } = e.target;
     this.setState({ [name]: value });
   }
 
+  onChangeFileImage(name) {
+    this.setState({ [name]: this.fileInput.current.files[0] });
+  }
+
   render() {
     const { fileImage } = this.state;
-    console.log('fileImage.length :', fileImage.length);
     return (
       <Wrapper name='Add new user'>
         <div className="d-flex flex-column">
@@ -65,7 +78,7 @@ export default class NewUser extends Component {
                 </div>
                 <div className="mt-3">
                   <Label label="Picture" />
-                  <FileInput refFile={this.fileInput} placeholder={fileImage.length > 0} name="picture" onChange={this.onChange.bind(this)} />
+                  <FileInput refFile={this.fileInput} placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} />
                 </div>
               </div>
 
@@ -97,3 +110,4 @@ export default class NewUser extends Component {
     );
   }
 }
+export default connect(s => ({ account: s.account }))(NewUser)

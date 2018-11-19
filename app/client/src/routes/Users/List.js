@@ -49,7 +49,6 @@ class Users extends Component {
               </div>
             )}
           </Fragment>
-
           :
           <Loading />
         }
