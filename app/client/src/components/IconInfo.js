@@ -7,12 +7,10 @@ import ReactDOMServer from 'react-dom/server';
  * @param  icon - Add class bootstrap to icon
  * @param  children - Add more components
  */
-export default class IconInfo extends Component {
-    render() {
-        const { icon, children } = this.props;
-        const htmlChildren = ReactDOMServer.renderToString(children)
-        return (
-            <span className={icon}
+const IconInfo = ({ icon, children }) => {
+    const htmlChildren = ReactDOMServer.renderToString(children)
+    return (
+        <span className={icon}
             tabIndex="0"
             role="button"
             data-toggle="popover"
@@ -20,8 +18,7 @@ export default class IconInfo extends Component {
             data-placement="bottom"
             title="Title"
             data-content={htmlChildren} style={styles.size}></span>
-        )
-    }
+    );
 }
 
 const styles = {
@@ -29,3 +26,5 @@ const styles = {
         fontSize: 16,
     }
 }
+
+export default IconInfo;
