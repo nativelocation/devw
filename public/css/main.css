@@ -69,10 +69,8 @@ h1 {
 }
 
 .hoverBox:hover {
-    /* border: 2px solid #42A5F5; */
     border-radius: 5px;
     box-shadow: 0 0 3px #42A5F5;
-    /* outline:2px solid #42A5F5; */
 }
 
 h2 {

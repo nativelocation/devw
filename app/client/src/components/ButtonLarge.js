@@ -3,17 +3,15 @@ import { COLORS, FONTS } from '../config/constants.js';
 /**
  * The Button Large Component.
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @param  text - Add the text
+ * @param  onClick - Add method
  */
-export default class ButtonLarge extends Component {
-    render() {
-        const { text } = this.props;
-        return (
-            <button type="submit" className="btn btn-lg font-weight-bold float-right text-white" style={styles.large}>{text}</button>
-        )
-    }
-}
+const ButtonLarge = ({ text, onClick }) => {
+    return (
+        <button type="submit" onClick={onClick} className="btn btn-lg font-weight-bold float-right text-white" style={styles.large}>{text}</button>
+    )
+};
 
 const styles = {
     large: {
@@ -26,4 +24,5 @@ const styles = {
     },
 }
 
+export default ButtonLarge
 
