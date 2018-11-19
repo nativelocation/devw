@@ -13,7 +13,7 @@ const Wrapper = ({ children, name }) => {
             <div className='col-md-12 col-lg-12 bg-primary m-0 py-2'>
                 <h4 className='font-weight-light pl-2 m-0 text-white'>{name}</h4>
             </div>
-            <div className='col-md-12 col-lg-12 bg-white p-3'>
+            <div className='col-md-12 col-lg-12 bg-white p-5'>
                 {children}
             </div>
         </div>

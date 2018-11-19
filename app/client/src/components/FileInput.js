@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 /**
  * The File input Component.
  *
@@ -6,11 +6,11 @@ import React, { Component, Fragment } from "react";
  * @param name - Input name
  */
 
-const FileInput = ({ name }) => {
+const FileInput = ({ name, refFile, onChange }) => {
     return (
         <div className="custom-file">
-            <input name={name} type="file" className="custom-file-input" id={`if-${name}`} />
-            <label className="custom-file-label" htmlFor={`if-${name}`}>Choose file</label>
+            <input ref={refFile} name={name} type="file" className="custom-file-input" onChange={onChange} id={name} />
+            <label className="custom-file-label" htmlFor={name}>Choose file</label>
         </div>
     );
 }

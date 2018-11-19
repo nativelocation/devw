@@ -10,7 +10,7 @@ import React, { Component } from "react";
 const ProfileImage = ({ src, width }) => {
     return (
         <div className="text-center">
-            <img src={src ? src : undefined} className="border rounded-circle m-1 border-dark" style={{ width: width ? parseInt(width) : 60, padding: src ? undefined : 29, backgroundColor: '#F6F8FA' }} />
+            <img src={src ? src : undefined} className="border rounded-circle m-1 border-dark" style={{ width: width ? parseInt(width) : 60, padding: src ? undefined : 29, backgroundColor: '#DDD' }} />
         </div>
     )
 }
