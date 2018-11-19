@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Wrapper from '../components/Wrapper';
-import Profile from '../components/ProfileInput.js';
+import Profile from '../components/ProfileImage.js';
 import ButtonLarge from '../components/ButtonLarge.js';
 import Label from '../components/Label.js';
 
