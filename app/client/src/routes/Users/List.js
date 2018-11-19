@@ -5,6 +5,8 @@ import Api from '../../config/api';
 import Wrapper from '../../components/Wrapper';
 import Loading from '../../components/Loading';
 import Button from '../../components/Button';
+import IconInfo from '../../components/IconInfo';
+import Profile from '../../components/ProfileView';
 
 class Users extends Component {
 
@@ -34,13 +36,21 @@ class Users extends Component {
     return (
       <Wrapper name='Users'>
         <Button text='Add new user' onClick={this.newUser.bind(this)} />
-        {users.length > 0 ?
+        {/* {users.length > 0 ?
           <ul>
             {users.map(u => <li key={u._id}>{u.name}</li>)}
           </ul>
           :
           <Loading />
-        }
+        } */}
+       <div className="d-flex flex-row mt-3 col-md-6">
+          <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation>
+            <div className="d-flex justify-content-end px-3 pt-3" style={{ flex: 1 }}>
+              <IconInfo icon="jam jam-eye" />
+              <IconInfo icon="jam jam-eyedropper px-1" />
+            </div>
+          </Profile>
+        </div>
       </Wrapper>
     );
   }
