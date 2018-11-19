@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Api from '../../config/api';
 
@@ -36,16 +36,27 @@ class Users extends Component {
     return (
       <Wrapper name='Users'>
         <Button text='Add new user' onClick={this.newUser.bind(this)} />
-        {/* {users.length > 0 ?
-          <ul>
-            {users.map(u => <li key={u._id}>{u.name}</li>)}
-          </ul>
+        {users.length > 0 ?
+          <Fragment>
+            {users.map(u =>
+              <div key={u._id} className="d-flex flex-row mt-3 col-md-6">
+                <Profile src="/assets/img/4.jpg" title={u.name} subtitle="Administrator" orientation>
+                  <div className="d-flex justify-content-end align-items-center px-3">
+                    <IconInfo icon="jam jam-eye" />
+                    <IconInfo icon="jam jam-eyedropper px-1" />
+                  </div>
+                </Profile>
+              </div>
+            )}
+          </Fragment>
+
           :
           <Loading />
-        } */}
-       <div className="d-flex flex-row mt-3 col-md-6">
+        }
+        {/* src="/assets/img/4.jpg" */}
+        <div className="d-flex flex-row mt-3 col-md-6">
           <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation>
-            <div className="d-flex justify-content-end px-3 pt-3" style={{ flex: 1 }}>
+            <div className="d-flex justify-content-end align-items-center px-3">
               <IconInfo icon="jam jam-eye" />
               <IconInfo icon="jam jam-eyedropper px-1" />
             </div>
