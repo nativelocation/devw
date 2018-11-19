@@ -7,24 +7,35 @@ import ReactDOMServer from 'react-dom/server';
  * @param  icon - Add class bootstrap to icon
  * @param  children - Add more components
  */
-const IconInfo = ({ icon, children }) => {
-    const htmlChildren = ReactDOMServer.renderToString(children)
-    return (
-        <span className={icon}
-            tabIndex="0"
-            role="button"
-            data-toggle="popover"
-            data-trigger="focus"
-            data-placement="bottom"
-            title="Title"
-            data-content={htmlChildren} style={styles.size}></span>
-    );
+export default class IconInfo extends Component {
+    state = {
+        colorIcon: this.props.color || '#ccc',
+    }
+
+    handleHover = colorIcon => {
+        if (colorIcon)
+            this.setState({ colorIcon });
+    }
+
+    render() {
+        const { icon, children, hover, color } = this.props;
+        const htmlChildren = ReactDOMServer.renderToString(children);
+        return (
+            <span className={`${hover ? "cursor-pointer" : ""} jam jam-${icon} noBorder`}
+                tabIndex="0"
+                role="button"
+                data-toggle="popover"
+                data-trigger="focus"
+                data-placement="bottom"
+                title="Title"
+                data-content={htmlChildren} style={{ color: this.state.colorIcon, fontSize: 16 }} onMouseEnter={this.handleHover.bind(this, hover)} onMouseLeave={this.handleHover.bind(this, color)}></span>
+        );
+
+    }
 }
 
 const styles = {
     size: {
-        fontSize: 16,
-    }
+        fontSize: 16
+    },
 }
-
-export default IconInfo;

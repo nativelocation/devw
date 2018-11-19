@@ -42,8 +42,8 @@ class Users extends Component {
               <div key={u._id} className="d-flex flex-row mt-3 col-md-6">
                 <Profile src="/assets/img/4.jpg" title={u.name} subtitle="Administrator" orientation>
                   <div className="d-flex justify-content-end align-items-center px-3">
-                    <IconInfo icon="jam jam-eye" />
-                    <IconInfo icon="jam jam-eyedropper px-1" />
+                    <IconInfo color="#2C3A41" hover="#777777" icon="eye" />
+                    <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" />
                   </div>
                 </Profile>
               </div>
@@ -52,15 +52,6 @@ class Users extends Component {
           :
           <Loading />
         }
-        {/* src="/assets/img/4.jpg" */}
-        <div className="d-flex flex-row mt-3 col-md-6">
-          <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation>
-            <div className="d-flex justify-content-end align-items-center px-3">
-              <IconInfo icon="jam jam-eye" />
-              <IconInfo icon="jam jam-eyedropper px-1" />
-            </div>
-          </Profile>
-        </div>
       </Wrapper>
     );
   }

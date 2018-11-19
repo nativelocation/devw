@@ -31,15 +31,15 @@ export default class Client extends Component {
         <div className={this.state.wrapperType ? "d-flex flex-column mt-3 col-md-6" : "d-flex flex-row mt-3 col-md-6"}>
           <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation={this.state.wrapperType ? true : false} >
             <div className={this.state.wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""} style={{ flex: 1 }}>
-              <IconInfo icon="jam jam-eye">
+              <IconInfo color="#2C3A41" hover="#777777" icon="eye">
                 <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" />
               </IconInfo>
-              <IconInfo icon="jam jam-eyedropper px-1" />
+              <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" />
               {!this.state.wrapperType ?
                 <Fragment>
-                  <IconInfo icon="jam jam-shield" />
-                  <IconInfo icon="jam jam-document px-1" />
-                  <IconInfo icon="jam jam-envelope " />
+                  <IconInfo color="#2C3A41" hover="#777777" icon="shield" />
+                  <IconInfo color="#2C3A41" hover="#777777" icon="document px-1" />
+                  <IconInfo color="#2C3A41" hover="#777777" icon="envelope " />
                 </Fragment>
                 : null}
             </div>
