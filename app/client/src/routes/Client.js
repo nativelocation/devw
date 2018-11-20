@@ -3,7 +3,7 @@ import Wrapper from '../components/Wrapper';
 import Profile from '../components/ProfileView';
 import IconInfo from '../components/IconInfo';
 import Icons from '../components/Icon';
-import Alerts from '../components/Alert';
+import ProfileImage from '../components/ProfileImage';
 
 
 export default class Client extends Component {
@@ -23,8 +23,6 @@ export default class Client extends Component {
   render() {
     return (
       /**
-       * TODO:
-       * Crear componete de alertas
        * FIXME:
        * verificar si existe la imagen
        */
@@ -40,6 +38,7 @@ export default class Client extends Component {
           </div>
         </div>
         <br/>
+        <ProfileImage/>
         <div className={this.state.wrapperType ? "d-flex flex-column mt-3 col-md-6" : "d-flex flex-row mt-3 col-md-6"}>
           <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation={this.state.wrapperType ? true : false} >
             <div className={this.state.wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""} style={{ flex: 1 }}>
