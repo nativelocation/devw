@@ -1,8 +1,7 @@
 import { BASE_URL, FETCH_TIMEOUT } from './constants';
 
-export const Headers = (token, customContentType) => {
-    let contentType = customContentType || 'application/json';
-    let base = { 'Content-Type': contentType }
+export const Headers = (token, customBase) => {
+    let base = customBase || { 'Content-Type': 'application/json' };
     if (token) base.Authorization = token;
     return base;
 }
@@ -17,11 +16,12 @@ export function Request(url, object) {
     })
 }
 
-export default function FetchRequest(endpoint, method, token, data, customContentType) {
+export default function FetchRequest(endpoint, method, token, data, customBase) {
     const url = `${BASE_URL}${endpoint}`;
-    const headers = Headers(token, customContentType);
+    const headers = Headers(token, customBase);
     const dataParse = data instanceof FormData ? data : JSON.stringify(data);
     const body = method !== 'GET' ? dataParse : null;
+
     return Request(url, { method, headers, body });
 }
 

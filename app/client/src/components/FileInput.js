@@ -6,10 +6,10 @@ import React from "react";
  * @param name - Input name
  */
 
-const FileInput = ({ name, placeholder, refFile, onChange }) => {
+const FileInput = ({ name, placeholder, onChange }) => {
     return (
         <div className="custom-file">
-            <input ref={refFile} name={name} type="file" className="custom-file-input" onChange={onChange} id={name} />
+            <input name={name} type="file" className="custom-file-input" onChange={onChange} id={name} />
             <label className="custom-file-label" htmlFor={name}>{placeholder || "Choose File"}</label>
         </div>
     );

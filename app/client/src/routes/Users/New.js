@@ -19,32 +19,33 @@ class NewUser extends Component {
     confirmPassword: '',
     fileImage: {}
   }
-  fileInput = React.createRef();
 
   validateForm() {
+    const formData = new FormData();
+    const { name, email, phone, password, confirmPassword, fileImage } = this.state;
+    formData.append('image', fileImage);
 
+    return formData;
   }
 
   onSubmit(e) {
     e.preventDefault();
     const { account } = this.props;
-    const { email, password } = this.state;
-    const formData = new FormData();
-    formData.append('name', 'lala')
-    //TODO: Resolver formdata
+    const data = this.validateForm();
 
 
-    console.log(formData);
-    //TODO:Add loading stuff
-    Api.CreateUser(account.tokenAuth, formData).then(res => {
-      if (status === 201) {
+    if (data) {
+      //TODO:Add loading stuff
+      Api.CreateUser(account.tokenAuth, data).then(res => {
+        if (status === 201) {
 
-      }
-      console.log('res :', res);
-    }).catch(err => {
-      //TODO: show error
-      console.log('err :', err);
-    });
+        }
+        console.log('res :', res);
+      }).catch(err => {
+        //TODO: show error
+        console.log('err :', err);
+      });
+    }
   }
 
   onChange(e) {
@@ -52,8 +53,8 @@ class NewUser extends Component {
     this.setState({ [name]: value });
   }
 
-  onChangeFileImage(name) {
-    this.setState({ [name]: this.fileInput.current.files[0] });
+  onChangeFileImage(name, event) {
+    this.setState({ [name]: event.target.files[0] });
   }
 
   render() {
@@ -78,7 +79,7 @@ class NewUser extends Component {
                 </div>
                 <div className="mt-3">
                   <Label label="Picture" />
-                  <FileInput refFile={this.fileInput} placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} />
+                  <FileInput placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} />
                 </div>
               </div>
 

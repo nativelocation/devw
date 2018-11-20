@@ -16,6 +16,7 @@ router.post('/login', (req, res, next) => {
 router.use(jwt.verifyHelper);
 router.post('/create', (req, res) => {
     busboy(merge => {
+        console.log('merge :', merge);
         model.create(merge).then(user => generalSuccess(res, 'Create User Ok', { user })).catch(e => generalError(e, res));
     }, req)
 });
