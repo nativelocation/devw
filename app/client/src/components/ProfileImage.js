@@ -7,12 +7,25 @@ import React, { Component } from "react";
  * @param  width - Add new width to the image
  */
 
-const ProfileImage = ({ src, width }) => {
-    return (
-        <div className="text-center">
-            <img src={src ? src : undefined} className="border rounded-circle m-1 border-dark" style={{ width: width ? parseInt(width) : 60, padding: src ? undefined : 29, backgroundColor: '#DDD' }} />
-        </div>
-    )
-}
+export default class ProfileImage extends Component {
 
-export default ProfileImage;
+    state = {
+        error: false
+    }
+
+    handlError = (e) => {
+        console.log('target', e.target.src);
+        this.setState({ error: true });
+    }
+
+    render() {
+        const { src, width } = this.props;
+        const { error } = this.state;
+        return (
+            <div className="text-center">
+                <img src={!error ? src : undefined} className="border rounded-circle m-1 border-dark" style={{ width: width ? parseInt(width) : 60, padding: error || !src ? 29 : src, backgroundColor: '#DDD' }} onError={this.handlError.bind(this)} />
+            </div>
+        )
+    }
+
+}
