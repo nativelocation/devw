@@ -6,27 +6,69 @@ import { COLORS } from '../config/constants';
  * @version 1.0.1
  * @param { string } name - Input name and placeholder
  * @param { method } onChange - Method to onChange
+ * @param { method } beforeSet - Method(value, next callback) to set validations before to set on input and trigger onChange event
  * @param { } password - Change to password's type
  * @param { } bigSize - Set the big size
  * @param { } disableAutoComplete
  * @param { } placeholder - Set placeholder = true to use Name value or placeholder = "value" to set custom 
+ * @param { } error - if error is true, set a red border over the input
+ * @param { } type - default type is 'text', you can customize by set this, password param will ignore this
+ * @param { } max - set max limit in case you need, default will be set on 50
  */
 export default class Input extends Component {
-    state = {};
+    state = {
+        revealPass: false,
+        input: ''
+    };
+
+    setValue(value) {
+        this.setState({ input: value });
+    }
+
+    getValue() {
+        return this.state.input;
+    }
+
+    onChange(e) {
+        const { onChange, beforeSet, disableSpaces } = this.props;
+        let { value } = e.target;
+        if (disableSpaces) value = value.replace(' ', '').trim();
+
+        const setValue = () => {
+            if (onChange) onChange(e.target);
+            this.setState({ input: value });
+        }
+        if (beforeSet) beforeSet(value, setValue);
+        else setValue();
+    }
 
     render() {
-        const { name, disableAutoComplete, onChange, password, bigSize, placeholder } = this.props;
+        const { name, disableAutoComplete, password, bigSize, placeholder, error, type, max } = this.props;
+        const { revealPass, input } = this.state;
+
         let ph = placeholder === true ? name : placeholder;
         ph = ph === undefined ? "" : ph;
         ph = ph ? ph.charAt(0).toUpperCase() + ph.slice(1) : undefined;
+
+        let inputType = type || 'text';
+        inputType = password ? (revealPass ? 'text' : 'password') : inputType;
         return (
             <Fragment>
                 {password ?
-                    <a style={styles.icon} href="#" onClick={() => this.setState({ revealPass: !this.state.revealPass })}>
-                        <span className={!this.state.revealPass ? "jam jam-eye-f" : "jam jam-eye-close-f"}></span>
+                    <a style={styles.icon} href="#" onClick={() => this.setState({ revealPass: !revealPass })}>
+                        <span className={`jam jam-${!revealPass ? "eye-f" : "eye-close-f"}`}></span>
                     </a>
                     : null}
-                <input type={password ? !this.state.revealPass ? "password" : "text" : 'text'} name={name} placeholder={ph} onChange={onChange} className={`form-control ${bigSize ? "form-control-lg" : null}`} style={styles.input} autoComplete={disableAutoComplete ? 'on' : 'off'} />
+                <input
+                    value={input}
+                    type={inputType}
+                    name={name}
+                    placeholder={ph}
+                    onChange={this.onChange.bind(this)}
+                    style={styles.input}
+                    maxLength={max || 50}
+                    className={`form-control ${bigSize ? "form-control-lg" : ''} ${error ? 'is-invalid' : ''}`}
+                    autoComplete={disableAutoComplete ? 'on' : 'off'} />
             </Fragment>
         )
     }

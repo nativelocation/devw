@@ -177,3 +177,9 @@ h4 {
 .cursor-pointer{
     cursor: pointer;
 }
+
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}

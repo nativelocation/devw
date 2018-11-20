@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import Api from '../../config/api';
 
 import Wrapper from '../../components/Wrapper';
@@ -8,6 +9,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import FileInput from '../../components/FileInput';
 import RadioButton from '../../components/RadioButton';
+import Error from '../../components/Error';
 
 class NewUser extends Component {
 
@@ -17,22 +19,38 @@ class NewUser extends Component {
     phone: '',
     password: '',
     confirmPassword: '',
-    fileImage: {}
+    fileImage: {},
+    errors: {}
   }
 
   validateForm() {
     const formData = new FormData();
-    const { name, email, phone, password, confirmPassword, fileImage } = this.state;
-    formData.append('image', fileImage);
+    let { name, email, phone, password, confirmPassword, fileImage, errors } = this.state;
 
-    return formData;
+    try {
+      if (_.isEmpty(phone)) throw { key: 'phone', value: 'Phone is required' };
+
+
+
+      formData.append('image', fileImage);
+
+
+      return formData;
+    }
+    catch (e) {
+      if (e.key && e.value) errors[e.key] = e.value;
+      else throw e;
+
+      this.setState({ errors })
+      return false;
+    }
   }
 
   onSubmit(e) {
     e.preventDefault();
+    this.setState({ errors: {} });
     const { account } = this.props;
     const data = this.validateForm();
-
 
     if (data) {
       //TODO:Add loading stuff
@@ -49,16 +67,24 @@ class NewUser extends Component {
   }
 
   onChange(e) {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+    const { name, value } = e;
+    let { errors } = this.state;
+    delete errors[name]
+    this.setState({ [name]: value, errors });
   }
 
   onChangeFileImage(name, event) {
     this.setState({ [name]: event.target.files[0] });
   }
 
+  phoneSet(value, next) {
+    const hasPlus = value.substring(0, 1) === '+';
+    value = hasPlus ? value.substring(1, value.length) : value;
+    if (!isNaN(value) || _.isEmpty(value)) next();
+  }
+
   render() {
-    const { fileImage } = this.state;
+    const { fileImage, errors } = this.state;
     return (
       <Wrapper name='Add new user'>
         <div className="d-flex flex-column">
@@ -71,13 +97,14 @@ class NewUser extends Component {
                 </div>
                 <div className=" mt-3">
                   <Label label="Email Address" />
-                  <Input name="email" onChange={this.onChange.bind(this)} />
+                  <Input name="email" disableSpaces onChange={this.onChange.bind(this)} type="email" />
                 </div>
                 <div className="mt-3">
                   <Label label="Phone Number" />
-                  <Input name="phone" onChange={this.onChange.bind(this)} />
+                  <Input name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
+                  <Error text={errors.phone} />
                 </div>
-                <div className="mt-3">
+                <div className="col-md-6 pl-0 mt-3">
                   <Label label="Picture" />
                   <FileInput placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} />
                 </div>
