@@ -27,7 +27,6 @@ export default class IconInfo extends Component {
                 data-toggle="popover"
                 data-trigger="focus"
                 data-placement="bottom"
-                title="Title"
                 data-content={htmlChildren} style={{ color: this.state.colorIcon, fontSize: 16 }} onMouseEnter={this.handleHover.bind(this, hover)} onMouseLeave={this.handleHover.bind(this, color)}></span>
         );
 

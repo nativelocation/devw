@@ -3,7 +3,6 @@ import Wrapper from '../components/Wrapper';
 import Profile from '../components/ProfileView';
 import IconInfo from '../components/IconInfo';
 import Icons from '../components/Icon';
-import ProfileImage from '../components/ProfileImage';
 
 
 export default class Client extends Component {
@@ -17,7 +16,6 @@ export default class Client extends Component {
 
   changeList = () => {
     this.setState({ wrapperType: !this.state.wrapperType });
-    console.log('lol');
   }
 
   render() {
