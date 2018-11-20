@@ -67,7 +67,7 @@ class NewUser extends Component {
   }
 
   onChange(e) {
-    const { name, value } = e.target;
+    const { name, value } = e;
     let { errors } = this.state;
     delete errors[name]
     this.setState({ [name]: value, errors });
@@ -75,6 +75,12 @@ class NewUser extends Component {
 
   onChangeFileImage(name, event) {
     this.setState({ [name]: event.target.files[0] });
+  }
+
+  phoneSet(value, next) {
+    const hasPlus = value.substring(0, 1) === '+';
+    value = hasPlus ? value.substring(1, value.length) : value;
+    if (!isNaN(value) || _.isEmpty(value)) next();
   }
 
   render() {
@@ -91,11 +97,11 @@ class NewUser extends Component {
                 </div>
                 <div className=" mt-3">
                   <Label label="Email Address" />
-                  <Input name="email" onChange={this.onChange.bind(this)} />
+                  <Input name="email" disableSpaces onChange={this.onChange.bind(this)} type="email" />
                 </div>
                 <div className="mt-3">
                   <Label label="Phone Number" />
-                  <Input name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} />
+                  <Input name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
                   <Error text={errors.phone} />
                 </div>
                 <div className="col-md-6 pl-0 mt-3">
