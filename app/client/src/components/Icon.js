@@ -11,7 +11,7 @@ import React from "react";
  */
 const Icon = ({ name, size, onClick, fontWeight, classes, color }) => {
     return (
-        <span className={`jam jam-${name} ${classes ? classes : ''}`} style={{ fontSize: size ? parseInt(size) : undefined, fontWeight: fontWeight ? fontWeight : undefined, marginTop: 10, color: color ? color : undefined }} onClick={onClick}></span>
+        <span className={`jam jam-${name} ${classes ? classes : ''}`} style={{ fontSize: size ? parseInt(size) : undefined, fontWeight: fontWeight ? fontWeight : undefined, marginTop: -1, color: color ? color : undefined }} onClick={onClick}></span>
     )
 };
 export default Icon;

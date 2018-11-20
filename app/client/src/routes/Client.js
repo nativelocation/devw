@@ -24,7 +24,7 @@ export default class Client extends Component {
       <Wrapper name={'Athlete/Agent'}>
         <div className="d-flex flex-row">
           <div className="btn-group mr-2" role="group">
-            <button type="button" className="btn border noBorder px-2 py-0" onClick={this.changeList} style={{ height: 35 }}>
+            <button type="button" className="btn border noBorder px-2 py-0 d-flex align-items-center" onClick={this.changeList} style={{ height: 35 }}>
               <Icons name="grid-f" size="22" color={wrapperType ? '#777777' : '#ccc'} /><Icons name="grid-f" size="22" color={wrapperType ? '#777777' : '#ccc'} />
             </button>
             <button type="button" className="btn border noBorder px-1 py-0" onClick={this.changeList} style={{ height: 35 }}>
