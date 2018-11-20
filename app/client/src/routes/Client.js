@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import Wrapper from '../components/Wrapper';
-import Profile from '../components/ProfileView.js';
-import IconInfo from '../components/IconInfo.js';
-
+import Profile from '../components/ProfileView';
+import IconInfo from '../components/IconInfo';
+import Icons from '../components/Icon';
+import Alerts from '../components/Alert';
 
 
 export default class Client extends Component {
@@ -21,13 +22,24 @@ export default class Client extends Component {
 
   render() {
     return (
+      /**
+       * TODO:
+       * Crear componete de alertas
+       * FIXME:
+       * verificar si existe la imagen
+       */
       <Wrapper name={'Athlete/Agent'}>
         <div className="d-flex flex-row">
-          <div className="btn-group" role="group">
-            <button type="button" className={this.state.wrapperType ? "btn btn-light btn-sm active" : "btn btn-light btn-sm"} onClick={this.changeList}><span className="jam jam-grid-f"></span><span className="jam jam-grid-f"></span></button>
-            <button type="button" className={this.state.wrapperType ? "btn btn-light btn-sm" : "btn btn-light active btn-sm"} onClick={this.changeList}><span className="jam jam-align-justify" style={{ fontSize: 25 }}></span><span className="jam jam-align-justify" style={{ fontSize: 25 }}></span></button>
+          <div className="btn-group mr-2" role="group">
+            <button type="button" className={`btn border noBorder px-2 py-0 ${this.state.wrapperType ? 'active' : ''}`} onClick={this.changeList} style={{ backgroundColor: this.state.wrapperType ? '#ccc' : '', color: this.state.wrapperType ? '#FAFAFB' : '', height: 35 }}>
+              <Icons name="grid-f" size="22" /><Icons name="grid-f" size="22" />
+            </button>
+            <button type="button" className={`btn border noBorder px-1 py-0 ${!this.state.wrapperType ? 'active' : ''}`} onClick={this.changeList} style={{ backgroundColor: this.state.wrapperType ? '' : '#ccc', color: this.state.wrapperType ? '' : '#FAFAFB', height: 35 }}>
+              <Icons name="align-justify" size="32" /><Icons name="align-justify" size="32" />
+            </button>
           </div>
         </div>
+        <br/>
         <div className={this.state.wrapperType ? "d-flex flex-column mt-3 col-md-6" : "d-flex flex-row mt-3 col-md-6"}>
           <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation={this.state.wrapperType ? true : false} >
             <div className={this.state.wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""} style={{ flex: 1 }}>
