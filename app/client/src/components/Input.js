@@ -12,10 +12,12 @@ import { COLORS } from '../config/constants';
  * @param { } placeholder - Set placeholder = true to use Name value or placeholder = "value" to set custom 
  */
 export default class Input extends Component {
-    state = {};
+    state = {
+        revealPass: false
+    };
 
     render() {
-        const { name, disableAutoComplete, onChange, password, bigSize, placeholder } = this.props;
+        const { name, disableAutoComplete, onChange, password, bigSize, placeholder, error } = this.props;
         let ph = placeholder === true ? name : placeholder;
         ph = ph === undefined ? "" : ph;
         ph = ph ? ph.charAt(0).toUpperCase() + ph.slice(1) : undefined;
@@ -26,7 +28,14 @@ export default class Input extends Component {
                         <span className={!this.state.revealPass ? "jam jam-eye-f" : "jam jam-eye-close-f"}></span>
                     </a>
                     : null}
-                <input type={password ? !this.state.revealPass ? "password" : "text" : 'text'} name={name} placeholder={ph} onChange={onChange} className={`form-control ${bigSize ? "form-control-lg" : null}`} style={styles.input} autoComplete={disableAutoComplete ? 'on' : 'off'} />
+                <input
+                    type={password ? !this.state.revealPass ? "password" : "text" : 'text'}
+                    name={name}
+                    placeholder={ph}
+                    onChange={onChange}
+                    style={styles.input}
+                    className={`form-control ${bigSize ? "form-control-lg" : ''} ${error ? 'is-invalid' : ''}`}
+                    autoComplete={disableAutoComplete ? 'on' : 'off'} />
             </Fragment>
         )
     }
