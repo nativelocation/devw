@@ -22,10 +22,6 @@ export default class Client extends Component {
 
   render() {
     return (
-      /**
-       * FIXME:
-       * verificar si existe la imagen
-       */
       <Wrapper name={'Athlete/Agent'}>
         <div className="d-flex flex-row">
           <div className="btn-group mr-2" role="group">
@@ -37,8 +33,6 @@ export default class Client extends Component {
             </button>
           </div>
         </div>
-        <br/>
-        <ProfileImage/>
         <div className={this.state.wrapperType ? "d-flex flex-column mt-3 col-md-6" : "d-flex flex-row mt-3 col-md-6"}>
           <Profile src="/assets/img/4.jpg" title="Maria Hamilton" subtitle="Administrator" orientation={this.state.wrapperType ? true : false} >
             <div className={this.state.wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""} style={{ flex: 1 }}>
