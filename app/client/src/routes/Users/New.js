@@ -18,6 +18,7 @@ class NewUser extends Component {
     email: '',
     phone: '',
     password: '',
+    userType: '',
     confirmPassword: '',
     fileImage: {},
     errors: {}
@@ -25,25 +26,39 @@ class NewUser extends Component {
 
   validateForm() {
     const formData = new FormData();
-    let { name, email, phone, password, confirmPassword, fileImage, errors } = this.state;
+    let { name, email, phone, password, userType, confirmPassword, fileImage, errors } = this.state;
 
-    try {
-      if (_.isEmpty(phone)) throw { key: 'phone', value: 'Phone is required' };
+    if (_.isEmpty(name)) errors.name = 'Name is required';
+    if (_.isEmpty(email)) errors.email = 'Email is required';
+    if (_.isEmpty(phone)) errors.phone = 'Phone is required';
+    if (_.isEmpty(password)) errors.password = 'Password is required';
+    if (_.isEmpty(confirmPassword)) errors.confirmPassword = 'Confirm Password is required';
+    if (_.isEmpty(userType)) errors.userType = 'User Type is required';
 
+    if (!errors.email && !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i))
+      errors.email = `Email format is invalid: ${email}`;
+    if (!errors.phone && phone.length <= 10)
+      errors.phone = 'Phone length must be higher than 10';
+    if (!errors.password && password.length <= 6)
+      errors.password = 'Password length must be higher than 6';
+    if (!errors.confirmPassword && !_.isEqual(password, confirmPassword))
+      errors.confirmPassword = 'Password confirmation must match with password field';
 
-
-      formData.append('image', fileImage);
-
-
-      return formData;
-    }
-    catch (e) {
-      if (e.key && e.value) errors[e.key] = e.value;
-      else throw e;
-
-      this.setState({ errors })
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors });
       return false;
     }
+
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('password', password);
+    //TODO: server says must be numeric, check.
+    formData.append('type', userType);
+    //TODO: validate fileImage and try to reduce size
+    formData.append('image', fileImage);
+
+    return formData;
   }
 
   onSubmit(e) {
@@ -67,7 +82,7 @@ class NewUser extends Component {
   }
 
   onChange(e) {
-    const { name, value } = e;
+    const { name, value } = e.target;
     let { errors } = this.state;
     delete errors[name]
     this.setState({ [name]: value, errors });
@@ -93,11 +108,13 @@ class NewUser extends Component {
               <div className="col-md-6">
                 <div className="mt-3">
                   <Label label="Full Name" />
-                  <Input name="name" onChange={this.onChange.bind(this)} />
+                  <Input name="name" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
+                  <Error text={errors.name} />
                 </div>
                 <div className=" mt-3">
                   <Label label="Email Address" />
-                  <Input name="email" disableSpaces onChange={this.onChange.bind(this)} type="email" />
+                  <Input name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
+                  <Error text={errors.email} />
                 </div>
                 <div className="mt-3">
                   <Label label="Phone Number" />
@@ -107,23 +124,27 @@ class NewUser extends Component {
                 <div className="col-md-6 pl-0 mt-3">
                   <Label label="Picture" />
                   <FileInput placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} />
+                  <Error text={errors.picture} />
                 </div>
               </div>
 
               <div className="col-md-6">
                 <div className="mt-3">
                   <Label label="Password" />
-                  <Input name="password" onChange={this.onChange.bind(this)} password />
+                  <Input name="password" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.password)} password />
+                  <Error text={errors.password} />
                 </div>
                 <div className="mt-3">
                   <Label label="Confirm Password" />
-                  <Input name="confirmPassword" onChange={this.onChange.bind(this)} password />
+                  <Input name="confirmPassword" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.confirmPassword)} password />
+                  <Error text={errors.confirmPassword} />
                 </div>
                 <div className="mt-4">
                   <h4>User Type</h4>
                   <hr />
-                  <RadioButton text="Administrator" id="userType01" name="userType" />
-                  <RadioButton text="Manager" id="userType02" name="userType" />
+                  <RadioButton onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
+                  <RadioButton onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
+                  <Error text={errors.userType} />
                 </div>
               </div>
             </div>

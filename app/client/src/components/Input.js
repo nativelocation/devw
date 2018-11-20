@@ -35,7 +35,7 @@ export default class Input extends Component {
         if (disableSpaces) value = value.replace(' ', '').trim();
 
         const setValue = () => {
-            if (onChange) onChange(e.target);
+            if (onChange) onChange(e);
             this.setState({ input: value });
         }
         if (beforeSet) beforeSet(value, setValue);

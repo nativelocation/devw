@@ -7,12 +7,14 @@ import React, { Component, Fragment } from "react";
  * @param  text - Description 
  * @param  name - Radio name 
  * @param  inline - true = row | false = column
+ * @param  onChange - onChange method
  */
 
-const RadioButton = ({ text, name, id, inline }) => {
+const RadioButton = ({ text, name, id, inline, onChange, value }) => {
+    id = id ? id : `${name}0${value}`;
     return (
-        <div className={inline ? "custom-control custom-radio custom-control-inline" : "custom-control custom-radio"}>
-            <input type="radio" id={id} name={name} className="custom-control-input" />
+        <div className={`custom-control custom-radio ${inline ? "custom-control-inline" : ''}`}>
+            <input type="radio" id={id} name={name} value={value} className="custom-control-input" onChange={onChange} />
             <label className="custom-control-label form-text text-muted" htmlFor={id}>{text}</label>
         </div>
     )
