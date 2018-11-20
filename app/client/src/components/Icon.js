@@ -5,12 +5,13 @@ import React from "react";
  * @version 1
  * @param  name - Add the icon name
  * @param  size - Set the size 
+ * @param  color - Add color  
  * @param  onClick - Add the method 
  * @param  fontWeight - Add type of font  
  */
-const Icon = ({ name, size, onClick, fontWeight, classes }) => {
+const Icon = ({ name, size, onClick, fontWeight, classes, color }) => {
     return (
-        <span className={`jam jam-${name} ${classes ? classes : ''}`} style={{ fontSize: size ? parseInt(size) : undefined, fontWeight: fontWeight ? fontWeight : undefined, marginTop: 10 }} onClick={onClick}></span>
+        <span className={`jam jam-${name} ${classes ? classes : ''}`} style={{ fontSize: size ? parseInt(size) : undefined, fontWeight: fontWeight ? fontWeight : undefined, marginTop: 10, color: color ? color : undefined }} onClick={onClick}></span>
     )
 };
 export default Icon;

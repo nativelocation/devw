@@ -25,11 +25,11 @@ export default class Client extends Component {
       <Wrapper name={'Athlete/Agent'}>
         <div className="d-flex flex-row">
           <div className="btn-group mr-2" role="group">
-            <button type="button" className={`btn border noBorder px-2 py-0 ${this.state.wrapperType ? 'active' : ''}`} onClick={this.changeList} style={{ backgroundColor: this.state.wrapperType ? '#ccc' : '', color: this.state.wrapperType ? '#FAFAFB' : '', height: 35 }}>
-              <Icons name="grid-f" size="22" /><Icons name="grid-f" size="22" />
+            <button type="button" className="btn border noBorder px-2 py-0" onClick={this.changeList} style={{ height: 35 }}>
+              <Icons name="grid-f" size="22" color={this.state.wrapperType ? '#ccc' : '#777777'}/><Icons name="grid-f" size="22" color={this.state.wrapperType ? '#ccc' : '#777777'}/>
             </button>
-            <button type="button" className={`btn border noBorder px-1 py-0 ${!this.state.wrapperType ? 'active' : ''}`} onClick={this.changeList} style={{ backgroundColor: this.state.wrapperType ? '' : '#ccc', color: this.state.wrapperType ? '' : '#FAFAFB', height: 35 }}>
-              <Icons name="align-justify" size="32" /><Icons name="align-justify" size="32" />
+            <button type="button" className="btn border noBorder px-1 py-0"  onClick={this.changeList} style={{ height: 35 }}>
+              <Icons name="align-justify" size="32" color={this.state.wrapperType ? '#777777' : '#ccc'}/><Icons name="align-justify" size="32" color={this.state.wrapperType ? '#777777' : '#ccc'}/>
             </button>
           </div>
         </div>
