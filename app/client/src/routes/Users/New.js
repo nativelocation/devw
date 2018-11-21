@@ -25,6 +25,8 @@ class NewUser extends Component {
   }
 
   validateForm() {
+    const byteFileAllowed = 5 * 1000000;
+    const validMimetypes = ['image/jpeg', 'image/png', 'image/gif'];
     const formData = new FormData();
     let { name, email, phone, password, userType, confirmPassword, fileImage, errors } = this.state;
 
@@ -44,10 +46,17 @@ class NewUser extends Component {
     if (!errors.confirmPassword && !_.isEqual(password, confirmPassword))
       errors.confirmPassword = 'Password confirmation must match with password field';
 
-    if (Object.keys(errors).length > 0) {
-      this.setState({ errors });
-      return false;
+    if (fileImage.type) {
+      const { type, size } = fileImage;
+      console.log('size :', size);
+      if (size > byteFileAllowed)
+        errors.picture = 'File requires to be lower than 5mb';
+      if (!validMimetypes.includes(type.toLowerCase()))
+        errors.picture = 'File must be an image';
     }
+
+    this.setState({ errors });
+    if (Object.keys(errors).length > 0) return false;
 
     formData.append('name', name);
     formData.append('email', email);
@@ -55,7 +64,6 @@ class NewUser extends Component {
     formData.append('password', password);
     //TODO: server says must be numeric, check.
     formData.append('type', userType);
-    //TODO: validate fileImage and try to reduce size
     formData.append('image', fileImage);
 
     return formData;
@@ -88,8 +96,11 @@ class NewUser extends Component {
     this.setState({ [name]: value, errors });
   }
 
-  onChangeFileImage(name, event) {
-    this.setState({ [name]: event.target.files[0] });
+  onChangeFileImage(nameField, e) {
+    const { name, value, files } = e.target;
+    let { errors } = this.state;
+    delete errors[name]
+    this.setState({ [nameField]: files[0], errors });
   }
 
   phoneSet(value, next) {
@@ -121,9 +132,9 @@ class NewUser extends Component {
                   <Input name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
                   <Error text={errors.phone} />
                 </div>
-                <div className="col-md-6 pl-0 mt-3">
+                <div className="col-md-9 pl-0 mt-3">
                   <Label label="Picture" />
-                  <FileInput placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} />
+                  <FileInput placeholder={fileImage.name} name="picture" onChange={this.onChangeFileImage.bind(this, "fileImage")} error={!_.isEmpty(errors.picture)} />
                   <Error text={errors.picture} />
                 </div>
               </div>
