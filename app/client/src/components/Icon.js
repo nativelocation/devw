@@ -10,8 +10,9 @@ import React from "react";
  * @param  fontWeight - Add type of font  
  */
 const Icon = ({ name, size, onClick, fontWeight, classes, color }) => {
+    let fontSize = size ? parseInt(size) : undefined;
     return (
-        <span className={`jam jam-${name} ${classes ? classes : ''}`} style={{ fontSize: size ? parseInt(size) : undefined, fontWeight: fontWeight ? fontWeight : undefined, marginTop: -1, color: color ? color : undefined }} onClick={onClick}></span>
+        <span className={`jam jam-${name} ${classes ? classes : ''}`} style={{ fontSize, fontWeight, marginTop: -1, color }} onClick={onClick}></span>
     )
 };
 export default Icon;
