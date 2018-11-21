@@ -3,8 +3,15 @@ import Wrapper from '../../components/Wrapper';
 import Input from '../../components/Input';
 import Label from '../../components/Label';
 import Button from '../../components/Button';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import Api from '../../config/api';
 
 export default class NewTeam extends Component {
+
+  state = { 
+    name: ''
+  }
 
   render() {
     return (
