@@ -1,77 +1,29 @@
 const express = require('express');
 const router = express.Router();
 const model = require('../models/team');
+const jwt = require('../config/jwt');
 const helpers = require('../config/helpers');
-const { generalError } = helpers;
+const { generalError, generalSuccess } = helpers;
 
-router.get('/', (req, res, next) => {
-    res.send('Team');
+router.use(jwt.verifyHelper);
+router.get('/all', (req, res, next) => {
+    model.getAll().then(r => generalSuccess(res, "Get team list", r)).catch(e => generalError(e, res));
 });
 
-//GET ALL
-const getAll = (req, res, next) => {
+router.get('/get/:id', (req, res, next) => {
+    model.getById(req.params).then(r => generalSuccess(res, "Get team by id", r)).catch(e => generalError(e, res));
+});
 
-    const success = data => {
-        return res.status(201).json({
-            status: 201,
-            message: 'Get All Team',
-            data
-        });
-    }
-    model.getAll().then(success).catch(e => generalError(e, res));
-}
-router.get('/get', getAll);
+router.post('/create', (req, res, next) => {
+    model.create(req.body).then(r => generalSuccess(res, "Team created", r)).catch(e => generalError(e, res));
+});
 
-//GET BY ID
-const getById = (req, res, next) => {
-    const success = data => {
-        return res.status(201).json({
-            status: 201,
-            message: 'Get Team',
-            data
-        });
-    }
-    model.getById(req.params).then(success).catch(e => generalError(e, res));
-}
-router.get('/get/:id', getById);
+router.post('/update', (req, res, next) => {
+    model.update(req.body).then(r => generalSuccess(res, "Team updated", r)).catch(e => generalError(e, res));
+});
 
-//CREATE
-const create = (req, res, next) => {
-    const success = data => {
-        return res.status(201).json({
-            status: 201,
-            message: 'Team Created',
-            data
-        });
-    }
-    model.create(req.body).then(success).catch(e => generalError(e, res));
-}
-router.post('/create', create);
-
-//UPDATE
-const update = (req, res, next) => {
-    const success = data => {
-        return res.status(201).json({
-            status: 201,
-            message: 'Team updated',
-            data
-        });
-    }
-    model.update(req.body).then(success).catch(e => generalError(e, res));
-}
-router.post('/edit', update);
-
-//DELETE
-const remove = (req, res, next) => {
-    const success = data => {
-        return res.status(201).json({
-            status: 201,
-            message: 'Team deleted',
-            data
-        });
-    }
-    model.delete(req.body).then(success).catch(e => generalError(e, res));
-}
-router.post('/delete', remove);
+router.post('/delete', (req, res, next) => {
+    model.delete(req.body).then(r => generalSuccess(res, "Team deleted", r)).catch(e => generalError(e, res));
+});
 
 module.exports = router;
