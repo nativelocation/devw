@@ -6,8 +6,11 @@ const database = {
         const item = new db.Team(values);
         return await item.save();
     },
-    update: async (id, data) => {
-        const team = await db.Team.findByIdAndUpdate({_id: id}, data);
+    update: async (_id, data) => {
+        const { name } = data;
+        const values = { name };
+
+        const team = await db.Team.findByIdAndUpdate(_id, values);
         return await db.Team.findById(team._id);
     },
     delete: async id => {
