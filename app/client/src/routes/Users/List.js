@@ -33,8 +33,13 @@ class Users extends Component {
 
   render() {
     const { users } = this.state;
+    const links = [
+      { name: 'user', link: '/user' },
+      { name: 'new', link: '/user/new' },
+    ];
+
     return (
-      <Wrapper name='Users'>
+      <Wrapper name='Users' breadcrumb={links}>
         <Button text='Add new user' onClick={this.newUser.bind(this)} />
         {users.length > 0 ?
           <Fragment>
