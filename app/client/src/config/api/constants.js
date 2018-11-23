@@ -5,3 +5,4 @@ export const LOGIN = 'user/login';
 export const GETCURRENT = 'user';
 export const GETUSERS = 'user/all';
 export const CREATEUSER = 'user/create';
+export const CREATETEAM = 'team/create';
