@@ -18,8 +18,7 @@ import EditUser from './routes/Users/Edit';
 import User from './routes/Users/Info';
 
 import Teams from './routes/Teams/List';
-import NewTeam from './routes/Teams/New';
-import EditTeam from './routes/Teams/Edit';
+import RegisterTeam from './routes/Teams/Register';
 import Team from './routes/Teams/Info';
 
 import Contracts from './routes/Contracts/List';
@@ -50,8 +49,8 @@ class App extends Component {
 
               <Route exact path="/team" component={e => Auth.authorize(Teams, e, store, "Teams")} />
               <Route exact path="/team/:id(\d+)" component={e => Auth.authorize(Team, e, store, "Team Info")} />
-              <Route exact path="/team/new" component={e => Auth.authorize(NewTeam, e, store, "New Team")} />
-              <Route exact path="/team/edit/:id(\d+)" component={e => Auth.authorize(EditTeam, e, store, "Edit Team")} />
+              <Route exact path="/team/new" component={e => Auth.authorize(RegisterTeam, e, store, "New Team")} />
+              <Route exact path="/team/edit/:id" component={e => Auth.authorize(RegisterTeam, e, store, "Edit Team")} />
 
               <Route exact path="/contract" component={e => Auth.authorize(Contracts, e, store, "Contracts")} />
               <Route exact path="/contract/:id(\d+)" component={e => Auth.authorize(Contract, e, store, "Contract Info")} />

@@ -8,11 +8,17 @@ import _ from 'lodash';
 import Api from '../../config/api';
 import Error from '../../components/Error';
 
-class NewTeam extends Component {
+class Register extends Component {
 
   state = {
     name: '',
-    errors: {}
+    errors: {},
+    id: this.props.match.params.id || '',
+  }
+
+  componentDidMount() {
+    const { id } = this.state;
+    if(id !== '') this.getTeam(id);
   }
 
   validateForm() {
@@ -22,7 +28,7 @@ class NewTeam extends Component {
     this.setState({ errors });
     if (Object.keys(errors).length > 0) return false;
 
-    return { 'name': name }
+    return { name }
   }
 
   onChange(e) {
@@ -53,10 +59,27 @@ class NewTeam extends Component {
     }
   }
 
+  getTeam = id => {
+    const { account } = this.props;
+    console.log('ID: ', id);
+    Api.GetTeam(account.tokenAuth, id).then(res => {
+      if (status === 201) {
+
+      }
+      console.log('res :', res);
+    }).catch(err => {
+      //TODO: show error
+      console.log('err :', err);
+    });
+  }
+
   render() {
     const { errors } = this.state;
+    const links = [
+      { name: 'Team', link: '/team' },
+    ];
     return (
-      <Wrapper name='Create a new team'>
+      <Wrapper name='Create a new team' breadcrumb={links}>
         <div className='d-flex flex-column'>
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="col-md-12">
@@ -74,4 +97,4 @@ class NewTeam extends Component {
     );
   }
 }
-export default connect(s => ({ account: s.account }))(NewTeam)
+export default connect(s => ({ account: s.account }))(Register)

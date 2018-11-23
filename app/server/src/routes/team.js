@@ -11,6 +11,7 @@ router.get('/all', (req, res, next) => {
 });
 
 router.get('/get/:id', (req, res, next) => {
+    console.log('ruta ', req.params);
     model.getById(req.params).then(r => generalSuccess(res, "Get team by id", r)).catch(e => generalError(e, res));
 });
 
