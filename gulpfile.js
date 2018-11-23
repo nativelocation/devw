@@ -23,9 +23,10 @@ gulp.task('js', () => {
     .pipe(browserSync.stream());
 });
 
-gulp.task('icons', () => {
+gulp.task('css', () => {
     return gulp.src([
-        'node_modules/jam-icons/css/jam.min.css'
+        'node_modules/jam-icons/css/jam.min.css',
+        'node_modules/sweetalert/dist/sweetalert.css',
     ]).pipe(gulp.dest('public/css'))
 });
 
@@ -48,4 +49,4 @@ gulp.task('server', ['sass'], () => {
 });
 
 
-gulp.task('default', ['js', 'fonts-icons', 'icons', 'sass' ])
+gulp.task('default', ['js', 'fonts-icons', 'css', 'sass' ])

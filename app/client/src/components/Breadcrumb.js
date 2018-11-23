@@ -16,7 +16,11 @@ const Breadcrumb = ({ links }) => {
                     {!links || links.length === 0 ? <Fragment>Home</Fragment> : <Link to='/' style={styles.breadcrum}>Home </Link>}
                     {links && links.map((x, i) =>
                         <Fragment key={i}>
-                            > <Link to={x.link} style={styles.breadcrum}>{x.name} </Link>
+                            {x.onClick ?
+                                <Fragment>> <a href={x.link || "javascript:;"} className="text-white" onClick={x.onClick}>{x.name}</a> </Fragment>
+                                :
+                                <Fragment>> <Link to={x.link} style={styles.breadcrum}>{x.name}</Link> </Fragment>
+                            }
                         </Fragment>
                     )}
                 </p>

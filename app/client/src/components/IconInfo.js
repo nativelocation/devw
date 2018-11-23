@@ -19,6 +19,7 @@ export default class IconInfo extends Component {
 
     render() {
         const { icon, children, hover, color, onClick } = this.props;
+        const { colorIcon } = this.state;
         const htmlChildren = ReactDOMServer.renderToString(children);
         return (
             <span className={`${hover ? "cursor-pointer" : ""} jam jam-${icon} noBorder`}
@@ -27,14 +28,7 @@ export default class IconInfo extends Component {
                 data-toggle="popover"
                 data-trigger="focus"
                 data-placement="bottom"
-                data-content={htmlChildren} style={{ color: this.state.colorIcon, fontSize: 16 }} onMouseEnter={this.handleHover.bind(this, hover)} onMouseLeave={this.handleHover.bind(this, color)} onClick={onClick}></span>
+                data-content={htmlChildren} style={{ color: colorIcon, fontSize: 16 }} onMouseEnter={this.handleHover.bind(this, hover)} onMouseLeave={this.handleHover.bind(this, color) }onClick={onClick}></span>
         );
-
     }
-}
-
-const styles = {
-    size: {
-        fontSize: 16
-    },
 }
