@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Api from '../../config/api';
+import SweetAlert from 'sweetalert-react';
 
 import Wrapper from '../../components/Wrapper';
 import Loading from '../../components/Loading';
@@ -36,7 +37,7 @@ class Users extends Component {
     const links = [
       { name: 'user', link: '/user' },
       { name: 'new', link: '/user/new' },
-      { name: 'externo', link: '/user/new',  onClick: e => { e.preventDefault(); console.log('entro perro') } },
+      { name: 'externo', link: '/user/new', onClick: e => { e.preventDefault(); console.log('entro perro') } },
     ];
 
     return (
@@ -54,6 +55,12 @@ class Users extends Component {
                 </Profile>
               </div>
             )}
+            <SweetAlert
+              show={true}
+              title="Demo"
+              text="SweetAlert in React"
+              onConfirm={() => this.setState({ show: false })}
+            />
           </Fragment>
           :
           <Loading />
