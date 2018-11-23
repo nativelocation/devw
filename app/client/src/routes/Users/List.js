@@ -36,6 +36,7 @@ class Users extends Component {
     const links = [
       { name: 'user', link: '/user' },
       { name: 'new', link: '/user/new' },
+      { name: 'externo', link: '/user/new',  onClick: e => { e.preventDefault(); console.log('entro perro') } },
     ];
 
     return (
