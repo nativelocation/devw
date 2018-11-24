@@ -16,7 +16,8 @@ import Error from '../../components/Error';
 class NewUser extends Component {
 
   state = {
-    alertSave: false,
+    alertProps: { title: 'Alert' },
+    alertShow: false,
     name: '',
     email: '',
     phone: '',
@@ -68,7 +69,7 @@ class NewUser extends Component {
     formData.append('type', userType && userType.length > 0 ? Number.parseInt(userType) : 1);
     formData.append('image', fileImage);
 
-    this.setState({ formData, alertSave: true });
+    this.setState({ formData, alertShow: true, alertProps: this.getSaveAlertProps() });
   }
 
   createUser() {
@@ -79,15 +80,16 @@ class NewUser extends Component {
     if (formData) {
       //TODO:Add loading stuff
       Api.CreateUser(account.tokenAuth, formData).then(res => {
-        if (status === 201) {
-
+        if (res.status === 201) {
+          this.setState({ formData: false, alertShow: false });
+          this.props.history.push('/user');
         }
         console.log('res :', res);
       }).catch(err => {
         //TODO: show error
         console.log('err :', err);
       });
-    } else this.setState({ formData: false, alertSave: false });
+    } else this.setState({ formData: false, alertShow: false });
   }
 
   onChange(e) {
@@ -115,8 +117,19 @@ class NewUser extends Component {
     this.validateForm();
   }
 
+  getSaveAlertProps() {
+    return {
+      title: "Create User",
+      text: "Are you sure to save the user?",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Success,
+      onConfirm: this.createUser.bind(this),
+      onCancel: () => this.setState({ formData: false, alertShow: false })
+    };
+  }
+
   render() {
-    const { fileImage, errors, alertSave } = this.state;
+    const { fileImage, errors, alertProps, alertShow } = this.state;
     return (
       <Wrapper name='Add new user'>
         <div className="d-flex flex-column">
@@ -172,16 +185,7 @@ class NewUser extends Component {
             </div>
           </form>
         </div>
-
-        <SweetAlert
-          show={alertSave}
-          title="Create User"
-          text="Are you sure to save the user?"
-          showCancelButton
-          confirmButtonColor={COLORS.Success}
-          onConfirm={this.createUser.bind(this)}
-          onCancel={() => this.setState({ formData: false, alertSave: false })}
-        />
+        <SweetAlert show={alertShow} {...alertProps} />
       </Wrapper>
     );
   }
