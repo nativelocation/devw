@@ -23,9 +23,9 @@ const model = {
     },
     getById: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
-        if (!data._id) throw { code: 400, msg: "Id is required" };
+        if (!data.id) throw { code: 400, msg: "Id is required" };
 
-        return await team.getById(data._id);
+        return await team.getById(data.id);
     }
 }
 
