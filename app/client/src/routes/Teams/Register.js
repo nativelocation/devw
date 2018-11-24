@@ -50,10 +50,7 @@ class Register extends Component {
       const register = !id ? Api.CreateTeam(account.tokenAuth, data) : Api.UpdateTeam(account.tokenAuth, data, ...id);
       //TODO:Add loading stuff
       register.then(res => {
-        if (status === 201) {
-          console.log('data ',data, id);
-
-        }
+        if (status === 201) {}
         console.log('res :', res);
       }).catch(err => {
         //TODO: show error

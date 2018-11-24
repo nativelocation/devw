@@ -50,6 +50,7 @@ class Teams extends Component {
               <div className="d-flex justify-content-end align-items-center px-3">
                 <IconInfo color="#2C3A41" hover="#777777" icon="eye" />
                 <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" onClick={this.editTeam.bind(this, t._id)}/>
+                <IconInfo color="#2C3A41" hover="#777777" icon="trash" onClick={this.editTeam.bind(this, t._id)}/>
               </div>
             </Profile>
           </div>

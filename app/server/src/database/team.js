@@ -10,11 +10,11 @@ const database = {
         const { name } = data;
         const values = { name };
 
-        console.log('database ',data._id)
         // const team = await db.Team.findByIdAndUpdate({ _id: data._id }, values);
-        const team = await db.Team.findById(data._id);
+        const team = await db.Team.findByIdAndUpdate({_id: data._id}, values);
+        console.log('database ',team)
         // const team = await db.Team.findById(data._id);
-        return await db.Team.findById(team._id);
+        // return await db.Team.findById(team._id);
     },
     delete: async id => {
         return await db.Team.findByIdAndRemove(id);

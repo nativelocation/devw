@@ -19,7 +19,6 @@ router.post('/create', (req, res, next) => {
 });
 
 router.post('/update', (req, res, next) => {
-    console.log('route ',req.body);
     model.update(req.body).then(r => generalSuccess(res, "Team updated", r)).catch(e => generalError(e, res));
 });
 
