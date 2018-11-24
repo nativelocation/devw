@@ -21,4 +21,6 @@ export const COLORS = {
     LightBlue: '#42A5F5',
     MediumBlue: '#1286E8',
     DarkBlue: '#1665C0',
+
+    Success: "#28a745"
 }
