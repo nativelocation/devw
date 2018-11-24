@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Api from '../../config/api';
-import SweetAlert from 'sweetalert-react';
 
 import Wrapper from '../../components/Wrapper';
 import Loading from '../../components/Loading';
@@ -55,12 +54,6 @@ class Users extends Component {
                 </Profile>
               </div>
             )}
-            <SweetAlert
-              show={true}
-              title="Demo"
-              text="SweetAlert in React"
-              onConfirm={() => this.setState({ show: false })}
-            />
           </Fragment>
           :
           <Loading />
