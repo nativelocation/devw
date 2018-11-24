@@ -6,11 +6,14 @@ const database = {
         const item = new db.Team(values);
         return await item.save();
     },
-    update: async (_id, data) => {
+    update: async (data) => {
         const { name } = data;
         const values = { name };
 
-        const team = await db.Team.findByIdAndUpdate(_id, values);
+        console.log('database ',data._id)
+        // const team = await db.Team.findByIdAndUpdate({ _id: data._id }, values);
+        const team = await db.Team.findById(data._id);
+        // const team = await db.Team.findById(data._id);
         return await db.Team.findById(team._id);
     },
     delete: async id => {

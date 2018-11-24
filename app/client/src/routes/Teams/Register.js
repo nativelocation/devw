@@ -18,7 +18,7 @@ class Register extends Component {
 
   componentDidMount() {
     const { id } = this.state;
-    if(id !== '') this.getTeam(id);
+    if (id !== '') this.getTeam(id);
   }
 
   validateForm() {
@@ -42,13 +42,16 @@ class Register extends Component {
     e.preventDefault();
     this.setState({ errors: {} });
     const { account } = this.props;
+    const { id } = this.state;
     const data = this.validateForm();
-    console.log(data);
-
+    
     if (data) {
+      
+      const register = !id ? Api.CreateTeam(account.tokenAuth, data) : Api.UpdateTeam(account.tokenAuth, data, ...id);
       //TODO:Add loading stuff
-      Api.CreateTeam(account.tokenAuth, data).then(res => {
+      register.then(res => {
         if (status === 201) {
+          console.log('data ',data, id);
 
         }
         console.log('res :', res);
@@ -61,12 +64,13 @@ class Register extends Component {
 
   getTeam = id => {
     const { account } = this.props;
-    console.log('ID: ', id);
     Api.GetTeam(account.tokenAuth, id).then(res => {
-      if (status === 201) {
-
+      if (res.status === 201) {
+        this.setState({name: res.data.name})
+        const n = res.data.name;
+        this.refs.inputTeamName.setValue(n);
+        // console.log('res :', name);
       }
-      console.log('res :', res);
     }).catch(err => {
       //TODO: show error
       console.log('err :', err);
@@ -74,7 +78,7 @@ class Register extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, name } = this.state;
     const links = [
       { name: 'Team', link: '/team' },
     ];
@@ -84,7 +88,7 @@ class Register extends Component {
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="col-md-12">
               <Label label='Name' />
-              <Input name='name' onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
+              <Input ref="inputTeamName" name='name' onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} >{name}</Input>
               <Error text={errors.name} />
             </div>
             <hr />

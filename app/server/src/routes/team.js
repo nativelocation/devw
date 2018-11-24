@@ -11,7 +11,6 @@ router.get('/all', (req, res, next) => {
 });
 
 router.get('/get/:id', (req, res, next) => {
-    console.log('ruta ', req.params);
     model.getById(req.params).then(r => generalSuccess(res, "Get team by id", r)).catch(e => generalError(e, res));
 });
 
@@ -20,6 +19,7 @@ router.post('/create', (req, res, next) => {
 });
 
 router.post('/update', (req, res, next) => {
+    console.log('route ',req.body);
     model.update(req.body).then(r => generalSuccess(res, "Team updated", r)).catch(e => generalError(e, res));
 });
 
