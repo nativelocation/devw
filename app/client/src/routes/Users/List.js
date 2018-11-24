@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import Api from '../../config/api';
-import SweetAlert from 'sweetalert-react';
 
 import Wrapper from '../../components/Wrapper';
 import Loading from '../../components/Loading';
@@ -12,18 +12,22 @@ import Profile from '../../components/ProfileView';
 class Users extends Component {
 
   state = {
+    loading: true,
     users: []
   };
 
   componentWillMount() {
+    this.getUsers();
+  }
+
+  getUsers() {
     const { account } = this.props;
     Api.GetUsers(account.tokenAuth).then(res => {
       if (res.status === 201) {
-
-        this.setState({ users: res.data });
+        this.setState({ users: res.data, loading: false });
       }
     }).catch(err => {
-
+      this.setState({ loading: false });
     });
   }
 
@@ -33,17 +37,16 @@ class Users extends Component {
   }
 
   render() {
-    const { users } = this.state;
+    const { users, loading } = this.state;
     const links = [
       { name: 'user', link: '/user' },
       { name: 'new', link: '/user/new' },
       { name: 'externo', link: '/user/new', onClick: e => { e.preventDefault(); console.log('entro perro') } },
     ];
-
     return (
       <Wrapper name='Users' breadcrumb={links}>
         <Button text='Add new user' onClick={this.newUser.bind(this)} />
-        {users.length > 0 ?
+        {!loading ?
           <Fragment>
             {users.map(u =>
               <div key={u._id} className="d-flex flex-row mt-3 col-md-6">
@@ -55,12 +58,6 @@ class Users extends Component {
                 </Profile>
               </div>
             )}
-            <SweetAlert
-              show={true}
-              title="Demo"
-              text="SweetAlert in React"
-              onConfirm={() => this.setState({ show: false })}
-            />
           </Fragment>
           :
           <Loading />

@@ -18,7 +18,6 @@ const model = {
         if (!data.phone) throw { code: 400, msg: "Phone is required" };
         if (data.teamId && !Number.isInteger(data.teamId)) throw { code: 400, msg: "Id Team must be numeric" };
         if (!data.type) throw { code: 400, msg: "Type is required" };
-        if (!Number.isInteger(data.type)) throw { code: 400, msg: "Type must be numeric" };
         if (!data.password) throw { code: 400, msg: "Password is required" };
 
         const existUser = await user.getByEmail(data.email);

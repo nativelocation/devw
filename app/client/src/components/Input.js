@@ -55,7 +55,7 @@ export default class Input extends Component {
         return (
             <Fragment>
                 {password ?
-                    <a style={styles.icon} href="#" onClick={() => this.setState({ revealPass: !revealPass })}>
+                    <a tabIndex="-1" style={styles.icon} href="#" onClick={() => this.setState({ revealPass: !revealPass })}>
                         <span className={`jam jam-${!revealPass ? "eye-f" : "eye-close-f"}`}></span>
                     </a>
                     : null}
