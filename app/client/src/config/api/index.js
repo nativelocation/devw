@@ -11,6 +11,7 @@ class ApiModel {
     CreateUser = (token, user) => FetchRequest(c.CREATEUSER, 'POST', token, user, {});
     CreateTeam = (token, team) => FetchRequest(c.CREATETEAM, 'POST', token, team);
     UpdateTeam = (token, team) => FetchRequest(c.UPDATETEAM, 'POST', token, team);
+    DeleteTeam = (token, team) => FetchRequest(c.DELETETEAM, 'POST', token, team);
 }
 
 export default new ApiModel();

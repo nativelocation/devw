@@ -23,6 +23,7 @@ router.post('/update', (req, res, next) => {
 });
 
 router.post('/delete', (req, res, next) => {
+    console.log('route ',req.body)
     model.delete(req.body).then(r => generalSuccess(res, "Team deleted", r)).catch(e => generalError(e, res));
 });
 

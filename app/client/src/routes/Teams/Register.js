@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import Api from '../../config/api';
 import Error from '../../components/Error';
+import SweetAlert from 'sweetalert-react';
+import { COLORS } from '../../config/constants';
 
 class Register extends Component {
 
@@ -14,6 +16,8 @@ class Register extends Component {
     name: '',
     errors: {},
     id: this.props.match.params.id || '',
+    alertProps: { title: 'Alert' },
+    alertShow: false,
   }
 
   componentDidMount() {
@@ -37,24 +41,31 @@ class Register extends Component {
     this.setState({ [name]: value, errors });
   }
 
-  onSubmit(e) {
-    e.preventDefault();
+  registerTeam() {
     this.setState({ errors: {} });
     const { account } = this.props;
     const { id } = this.state;
     const data = this.validateForm();
-
+    // return console.log('entro a registro', data);
     if (data) {
       const register = !id ? Api.CreateTeam(account.tokenAuth, data) : Api.UpdateTeam(account.tokenAuth, { ...data, _id: id });
       //TODO:Add loading stuff
       register.then(res => {
-        if (status === 201) { }
+        if (res.status === 201) { 
+          this.setState({ alertShow: false });
+          this.props.history.push('/team');
+        }
         console.log('res :', res);
       }).catch(err => {
         //TODO: show error
         console.log('err :', err);
       });
     }
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
   }
 
   getTeam = () => {
@@ -75,8 +86,20 @@ class Register extends Component {
     }
   }
 
+  getSaveAlertProps() {
+    const { id } = this.state;
+    return {
+      title: `${!id ? 'Create Team' : 'Edit Team'}`,
+      text: `Are you sure to ${!id ? 'save the team' : 'edit the team'}?`,
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Success,
+      onConfirm: this.registerTeam.bind(this),
+      onCancel: () => this.setState({ alertShow: false })
+    };
+  }
+
   render() {
-    const { errors, name } = this.state;
+    const { errors, name, alertProps, alertShow } = this.state;
     const links = [
       { name: 'Team', link: '/team' },
     ];
@@ -95,6 +118,7 @@ class Register extends Component {
             </div>
           </form>
         </div>
+        <SweetAlert show={alertShow} {...alertProps} />
       </Wrapper>
     );
   }
