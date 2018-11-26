@@ -7,14 +7,8 @@ const database = {
         return await item.save();
     },
     update: async (data) => {
-        const { name } = data;
-        const values = { name };
-
-        // const team = await db.Team.findByIdAndUpdate({ _id: data._id }, values);
-        const team = await db.Team.findByIdAndUpdate({_id: data._id}, values);
-        console.log('database ',team)
-        // const team = await db.Team.findById(data._id);
-        // return await db.Team.findById(team._id);
+        const { _id, name } = data;
+        return await db.Team.findByIdAndUpdate(_id, { name });
     },
     delete: async id => {
         return await db.Team.findByIdAndRemove(id);

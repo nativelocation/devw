@@ -11,7 +11,7 @@ const auth = {
             history.push('/login');
         }
 
-        Api.GetUser(tokenAuth).then(res => {
+        Api.GetUserToken(tokenAuth).then(res => {
             if (res.status === 201) {
                 store.dispatch(setAccount({ ...res.data, tokenAuth }));
                 history.push(redirect);

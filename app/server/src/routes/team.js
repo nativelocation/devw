@@ -10,7 +10,7 @@ router.get('/all', (req, res, next) => {
     model.getAll().then(r => generalSuccess(res, "Get team list", r)).catch(e => generalError(e, res));
 });
 
-router.get('/get/:id', (req, res, next) => {
+router.get('/get/:_id', (req, res, next) => {
     model.getById(req.params).then(r => generalSuccess(res, "Get team by id", r)).catch(e => generalError(e, res));
 });
 

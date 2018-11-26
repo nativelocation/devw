@@ -17,8 +17,7 @@ class Register extends Component {
   }
 
   componentDidMount() {
-    const { id } = this.state;
-    if (id !== '') this.getTeam(id);
+    this.getTeam();
   }
 
   validateForm() {
@@ -44,13 +43,12 @@ class Register extends Component {
     const { account } = this.props;
     const { id } = this.state;
     const data = this.validateForm();
-    
+
     if (data) {
-      
-      const register = !id ? Api.CreateTeam(account.tokenAuth, data) : Api.UpdateTeam(account.tokenAuth, data, ...id);
+      const register = !id ? Api.CreateTeam(account.tokenAuth, data) : Api.UpdateTeam(account.tokenAuth, { ...data, _id: id });
       //TODO:Add loading stuff
       register.then(res => {
-        if (status === 201) {}
+        if (status === 201) { }
         console.log('res :', res);
       }).catch(err => {
         //TODO: show error
@@ -59,19 +57,22 @@ class Register extends Component {
     }
   }
 
-  getTeam = id => {
+  getTeam = () => {
+    const { id } = this.state;
     const { account } = this.props;
-    Api.GetTeam(account.tokenAuth, id).then(res => {
-      if (res.status === 201) {
-        this.setState({name: res.data.name})
-        const n = res.data.name;
-        this.refs.inputTeamName.setValue(n);
-        // console.log('res :', name);
-      }
-    }).catch(err => {
-      //TODO: show error
-      console.log('err :', err);
-    });
+    if (id) {
+      Api.GetTeam(account.tokenAuth, id).then(res => {
+        if (res.status === 201) {
+          this.setState({ name: res.data.name })
+          const n = res.data.name;
+          this.refs.inputTeamName.setValue(n);
+          // console.log('res :', name);
+        }
+      }).catch(err => {
+        //TODO: show error
+        console.log('err :', err);
+      });
+    }
   }
 
   render() {

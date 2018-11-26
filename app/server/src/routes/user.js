@@ -15,6 +15,12 @@ router.post('/login', (req, res, next) => {
 });
 
 router.use(jwt.verifyHelper);
+router.get('/token', (req, res, next) => {
+    model.getByToken(req.body).then(r => generalSuccess(res, "Get logged user", r)).catch(e => generalError(e, res));
+});
+router.get('/', (req, res, next) => {
+    model.getById(req.body).then(r => generalSuccess(res, "Get user by id", r)).catch(e => generalError(e, res));
+});
 router.post('/create', (req, res) => {
     busboy(merge =>
         model.create(merge)
@@ -22,10 +28,6 @@ router.post('/create', (req, res) => {
             .catch(e => generalError(e, res))
         , req);
 });
-router.get('/', (req, res, next) => {
-    model.getById(req.body).then(r => generalSuccess(res, "Get all users", r)).catch(e => generalError(e, res));
-});
-
 router.get('/all', (req, res, next) => {
     model.getAll().then(r => generalSuccess(res, "Get users list", r)).catch(e => generalError(e, res));
 });
