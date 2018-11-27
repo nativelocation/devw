@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import Wrapper from '../components/Wrapper';
 import Profile from '../components/ProfileView';
 import IconInfo from '../components/IconInfo';
-import Icons from '../components/Icon';
 import ToggleButton from '../components/ToggleButton';
 
 
