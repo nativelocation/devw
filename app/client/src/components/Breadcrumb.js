@@ -13,13 +13,13 @@ const Breadcrumb = ({ links }) => {
         <div style={styles.container}>
             <div className='float-right'>
                 <p className='ml-auto mt-3 mr-5' style={styles.breadcrum}>
-                    {!links || links.length === 0 ? <Fragment>Home</Fragment> : <Link to='/' style={styles.breadcrum}>Home </Link>}
+                    {!links || links.length === 0 ? <Fragment>Home</Fragment> : null}
                     {links && links.map((x, i) =>
                         <Fragment key={i}>
                             {x.onClick ?
-                                <Fragment>> <a href={x.link || "javascript:;"} className="text-white" onClick={x.onClick}>{x.name}</a> </Fragment>
+                                <Fragment>{i == 0 ? "" : "> "}<a href={x.link || "javascript:;"} className="text-white" onClick={e => { e.preventDefault(); x.onClick(); }}>{x.name}</a> </Fragment>
                                 :
-                                <Fragment>> <Link to={x.link} style={styles.breadcrum}>{x.name}</Link> </Fragment>
+                                <Fragment>{i == 0 ? "" : "> "}<Link to={x.link} style={styles.breadcrum}>{x.name}</Link> </Fragment>
                             }
                         </Fragment>
                     )}

@@ -7,25 +7,26 @@ import { COLORS } from '../config/constants';
  * @param  text - Add the text
  * @param  bigSize - Set the big size
  */
-const Button = ({ text, bigSize, onClick }) => {
+const Button = ({ text, bigSize, onClick, link }) => {
+    const typeClass = link ? "btn-link text-danger" : "text-white";
+    let style = !link ? { ...styles.common } : {};
+    if (bigSize) style = { ...style, ...styles.bigButton };
     return (
-        <button type="submit" onClick={onClick} className="btn float-right text-white border-0" style={bigSize ? styles.bigButton : styles.normalButton}>
+        <button type={`${onClick ? "button" : "submit"}`} onClick={onClick} className={`btn float-right border-0 ${typeClass}`} style={style}>
             {text}
         </button>
     )
 };
 
 const styles = {
-    normalButton: {
+    common: {
         backgroundColor: COLORS.Orange,
         fontSize: 13
     },
     bigButton: {
-        backgroundColor: COLORS.Orange,
         width: 110,
-        height: 50,
-        fontSize: 13
-    },
+        height: 50
+    }
 }
 
 export default Button;
