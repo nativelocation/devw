@@ -15,6 +15,10 @@ import Error from '../../components/Error';
 import Loading from '../../components/Loading';
 
 class NewUser extends Component {
+  links = [
+    { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
+    { name: 'New User', link: '/user/new' },
+  ];
 
   state = {
     alertProps: { title: 'Alert' },
@@ -28,6 +32,7 @@ class NewUser extends Component {
     confirmPassword: '',
     fileImage: {},
     errors: {},
+    errorMessage: '',
     formData: false
   }
 
@@ -75,23 +80,23 @@ class NewUser extends Component {
   }
 
   createUser() {
-    this.setState({ errors: {}, loading: true });
+    this.setState({ errors: {}, loading: true, errorMessage: "" });
     const { account } = this.props;
     const { formData } = this.state;
+    const closeProcess = msg => this.setState({ formData: false, alertShow: false, loading: false, errorMessage: msg || "" });
 
     if (formData) {
       Api.CreateUser(account.tokenAuth, formData).then(res => {
         if (res.status === 201) {
-          this.setState({ formData: false, alertShow: false });
-          this.props.history.push('/user');
-        }
-        console.log('res :', res);
-        this.setState({ loading: false });
-      }).catch(err => {
-        this.setState({ loading: false });
-        console.log('err :', err);
-      });
-    } else this.setState({ formData: false, alertShow: false, loading: false });
+
+          const alertProps = this.getSuccessAlertProps(() => {
+            this.setState({ alertShow: false }, () => this.props.history.push('/user'));
+          });
+          this.setState({ formData: false, alertProps, loading: false });
+
+        } else closeProcess(res.message)
+      }).catch(err => closeProcess(err.message));
+    } else closeProcess();
   }
 
   onChange(e) {
@@ -102,7 +107,7 @@ class NewUser extends Component {
   }
 
   onChangeFileImage(nameField, e) {
-    const { name, value, files } = e.target;
+    const { name, files } = e.target;
     let { errors } = this.state;
     delete errors[name]
     this.setState({ [nameField]: files[0], errors });
@@ -119,6 +124,13 @@ class NewUser extends Component {
     this.validateForm();
   }
 
+  onCancel() {
+    const onClickCancel = () => {
+      this.setState({ alertShow: false }, () => this.props.history.push('/user'));
+    }
+    this.setState({ alertShow: true, alertProps: this.getCancelAlertProps(onClickCancel) });
+  }
+
   getSaveAlertProps() {
     return {
       title: "Create User",
@@ -130,10 +142,32 @@ class NewUser extends Component {
     };
   }
 
+  getSuccessAlertProps(onClick) {
+    return {
+      title: "User Created",
+      text: "The user has been created successfully",
+      type: "success",
+      confirmButtonColor: COLORS.Success,
+      onConfirm: onClick.bind(this)
+    };
+  }
+
+  getCancelAlertProps(onClickCancel) {
+    return {
+      title: "Cancel",
+      text: "Are you sure to cancel the new user?",
+      type: "info",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Danger,
+      onConfirm: onClickCancel.bind(this),
+      onCancel: () => this.setState({ alertShow: false })
+    };
+  }
+
   render() {
-    const { fileImage, errors, alertProps, alertShow, loading } = this.state;
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading } = this.state;
     return (
-      <Wrapper name='Add new user'>
+      <Wrapper name='Add new user' breadcrumb={this.links}>
         <div className="d-flex flex-column">
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="row">
@@ -183,13 +217,14 @@ class NewUser extends Component {
 
             <div className="mt-3">
               <hr />
+              <span className="text-danger">{errorMessage}</span>
               <Button text="Create User" bigSize />
-              <button type="button" class="btn btn-link text-danger float-right">Cancel</button>
+              <Button text="Cancel" bigSize link onClick={this.onCancel.bind(this)} />
             </div>
           </form>
         </div>
         <SweetAlert show={alertShow} {...alertProps} />
-        <Loading show={loading} absolute/>
+        <Loading show={loading} absolute />
       </Wrapper>
     );
   }

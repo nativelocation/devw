@@ -6,7 +6,7 @@ const model = {
         if (!data) throw { code: 400, msg: "User data is required" };
         if (!data.email) throw { code: 400, msg: "Email is required" };
         if (!data.password) throw { code: 400, msg: "Password is required" };
-
+        
         let exist = await user.getByEmail(data.email);
         if (exist && await bcrypt.compare(data.password, exist.password)) return exist;
         throw { code: 401, msg: "Authentication failed" }
@@ -19,9 +19,9 @@ const model = {
         if (data.teamId && !Number.isInteger(data.teamId)) throw { code: 400, msg: "Id Team must be numeric" };
         if (!data.type) throw { code: 400, msg: "Type is required" };
         if (!data.password) throw { code: 400, msg: "Password is required" };
-
+        
         const existUser = await user.getByEmail(data.email);
-        if (existUser) throw { code: 400, msg: "The User already exists" };
+        if (existUser) throw { code: 400, msg: "The email already exists" };
 
         data.password = await bcrypt.hash(data.password, 10);
 
