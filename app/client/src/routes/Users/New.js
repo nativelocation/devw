@@ -33,7 +33,8 @@ class NewUser extends Component {
     fileImage: {},
     errors: {},
     errorMessage: '',
-    formData: false
+    formData: false,
+    modified: false
   }
 
   validateForm() {
@@ -76,7 +77,7 @@ class NewUser extends Component {
     formData.append('type', userType && userType.length > 0 ? Number.parseInt(userType) : 1);
     formData.append('image', fileImage);
 
-    this.setState({ formData, alertShow: true, alertProps: this.getSaveAlertProps() });
+    this.setState({ formData, alertShow: true, alertProps: this.getSaveAlertProps(), modified: true });
   }
 
   createUser() {
@@ -103,14 +104,14 @@ class NewUser extends Component {
     const { name, value } = e.target;
     let { errors } = this.state;
     delete errors[name]
-    this.setState({ [name]: value, errors });
+    this.setState({ [name]: value, errors, modified: true });
   }
 
   onChangeFileImage(nameField, e) {
     const { name, files } = e.target;
     let { errors } = this.state;
     delete errors[name]
-    this.setState({ [nameField]: files[0], errors });
+    this.setState({ [nameField]: files[0], errors, modified: true });
   }
 
   phoneSet(value, next) {
@@ -125,43 +126,10 @@ class NewUser extends Component {
   }
 
   onCancel() {
-    const onClickCancel = () => {
-      this.setState({ alertShow: false }, () => this.props.history.push('/user'));
-    }
-    this.setState({ alertShow: true, alertProps: this.getCancelAlertProps(onClickCancel) });
-  }
-
-  getSaveAlertProps() {
-    return {
-      title: "Create User",
-      text: "Are you sure to save the user?",
-      showCancelButton: true,
-      confirmButtonColor: COLORS.Success,
-      onConfirm: this.createUser.bind(this),
-      onCancel: () => this.setState({ formData: false, alertShow: false })
-    };
-  }
-
-  getSuccessAlertProps(onClick) {
-    return {
-      title: "User Created",
-      text: "The user has been created successfully",
-      type: "success",
-      confirmButtonColor: COLORS.Success,
-      onConfirm: onClick.bind(this)
-    };
-  }
-
-  getCancelAlertProps(onClickCancel) {
-    return {
-      title: "Cancel",
-      text: "Are you sure to cancel the new user?",
-      type: "info",
-      showCancelButton: true,
-      confirmButtonColor: COLORS.Danger,
-      onConfirm: onClickCancel.bind(this),
-      onCancel: () => this.setState({ alertShow: false })
-    };
+    if (this.state.modified) {
+      const onClickCancel = () => this.setState({ alertShow: false }, () => this.props.history.push('/user'))
+      this.setState({ alertShow: true, alertProps: this.getCancelAlertProps(onClickCancel) });
+    } else this.props.history.push('/user');
   }
 
   render() {
@@ -227,6 +195,39 @@ class NewUser extends Component {
         <Loading show={loading} absolute />
       </Wrapper>
     );
+  }
+
+  getSaveAlertProps() {
+    return {
+      title: "Create User",
+      text: "Are you sure to save the user?",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Success,
+      onConfirm: this.createUser.bind(this),
+      onCancel: () => this.setState({ formData: false, alertShow: false })
+    };
+  }
+
+  getSuccessAlertProps(onClick) {
+    return {
+      title: "User Created",
+      text: "The user has been created successfully",
+      type: "success",
+      confirmButtonColor: COLORS.Success,
+      onConfirm: onClick.bind(this)
+    };
+  }
+
+  getCancelAlertProps(onClickCancel) {
+    return {
+      title: "Cancel",
+      text: "Are you sure to cancel the new user?",
+      type: "info",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Danger,
+      onConfirm: onClickCancel.bind(this),
+      onCancel: () => this.setState({ alertShow: false })
+    };
   }
 }
 export default connect(s => ({ account: s.account }))(NewUser)
