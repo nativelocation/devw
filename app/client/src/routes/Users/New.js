@@ -12,12 +12,14 @@ import Button from '../../components/Button';
 import FileInput from '../../components/FileInput';
 import RadioButton from '../../components/RadioButton';
 import Error from '../../components/Error';
+import Loading from '../../components/Loading';
 
 class NewUser extends Component {
 
   state = {
     alertProps: { title: 'Alert' },
     alertShow: false,
+    loading: false,
     name: '',
     email: '',
     phone: '',
@@ -73,23 +75,23 @@ class NewUser extends Component {
   }
 
   createUser() {
-    this.setState({ errors: {} });
+    this.setState({ errors: {}, loading: true });
     const { account } = this.props;
     const { formData } = this.state;
 
     if (formData) {
-      //TODO:Add loading stuff
       Api.CreateUser(account.tokenAuth, formData).then(res => {
         if (res.status === 201) {
           this.setState({ formData: false, alertShow: false });
           this.props.history.push('/user');
         }
         console.log('res :', res);
+        this.setState({ loading: false });
       }).catch(err => {
-        //TODO: show error
+        this.setState({ loading: false });
         console.log('err :', err);
       });
-    } else this.setState({ formData: false, alertShow: false });
+    } else this.setState({ formData: false, alertShow: false, loading: false });
   }
 
   onChange(e) {
@@ -129,7 +131,7 @@ class NewUser extends Component {
   }
 
   render() {
-    const { fileImage, errors, alertProps, alertShow } = this.state;
+    const { fileImage, errors, alertProps, alertShow, loading } = this.state;
     return (
       <Wrapper name='Add new user'>
         <div className="d-flex flex-column">
@@ -182,10 +184,12 @@ class NewUser extends Component {
             <div className="mt-3">
               <hr />
               <Button text="Create User" bigSize />
+              <button type="button" class="btn btn-link text-danger float-right">Cancel</button>
             </div>
           </form>
         </div>
         <SweetAlert show={alertShow} {...alertProps} />
+        <Loading show={loading} absolute/>
       </Wrapper>
     );
   }

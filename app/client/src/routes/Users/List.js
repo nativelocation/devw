@@ -60,7 +60,7 @@ class Users extends Component {
             )}
           </Fragment>
           :
-          <Loading />
+          <Loading show/>
         }
       </Wrapper>
     );
