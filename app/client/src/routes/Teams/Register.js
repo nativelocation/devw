@@ -99,12 +99,12 @@ class Register extends Component {
   }
 
   render() {
-    const { errors, name, alertProps, alertShow } = this.state;
+    const { errors, name, alertProps, alertShow, id } = this.state;
     const links = [
       { name: 'Team', link: '/team' },
     ];
     return (
-      <Wrapper name='Create a new team' breadcrumb={links}>
+      <Wrapper name={`${!id ? 'Create a new ': 'Edit a '} team`} breadcrumb={links}>
         <div className='d-flex flex-column'>
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="col-md-12">

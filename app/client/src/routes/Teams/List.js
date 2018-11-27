@@ -41,6 +41,11 @@ class Teams extends Component {
     history.push('/team/edit/' + id);
   }
 
+  showTeam(id) {
+    const { history } = this.props;
+    history.push('/team/' + id);
+  }
+
   deleteTeam = id => {
     const { account } = this.props;
     if (id) {
@@ -82,12 +87,12 @@ class Teams extends Component {
     ];
     return (
       <Wrapper name='List of Teams' breadcrumb={links}>
-        <Button text='Add new user' onClick={this.newTeam.bind(this)} />
+        <Button text='Add new team' onClick={this.newTeam.bind(this)} />
         {teams.map(t =>
           <div key={t._id} className="d-flex flex-row mt-3 col-md-6">
             <Profile src="/assets/img/4.jpg" title={t.name} subtitle="Team" orientation noImage>
               <div className="d-flex justify-content-end align-items-center px-3">
-                <IconInfo color="#2C3A41" hover="#777777" icon="eye" />
+                <IconInfo color="#2C3A41" hover="#777777" icon="eye" onClick={this.showTeam.bind(this, t._id)}/>
                 <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" onClick={this.editTeam.bind(this, t._id)} />
                 <IconInfo color="#2C3A41" hover="#777777" icon="trash" onClick={this.alertTeam.bind(this, t._id)} />
               </div>
