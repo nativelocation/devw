@@ -10,3 +10,4 @@ export const GETTEAM = 'team/get';
 export const CREATEUSER = 'user/create';
 export const CREATETEAM = 'team/create';
 export const UPDATETEAM = 'team/update';
+export const DELETETEAM = 'team/delete';
