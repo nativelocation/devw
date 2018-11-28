@@ -9,6 +9,7 @@ import Api from '../../config/api';
 import Error from '../../components/Error';
 import SweetAlert from 'sweetalert-react';
 import { COLORS } from '../../config/constants';
+import Loading from '../../components/Loading';
 
 class Register extends Component {
 
@@ -18,6 +19,9 @@ class Register extends Component {
     id: this.props.match.params.id || '',
     alertProps: { title: 'Alert' },
     alertShow: false,
+    loading: false,
+    errorMessage: '',
+    modified: false
   }
 
   componentDidMount() {
@@ -42,30 +46,40 @@ class Register extends Component {
   }
 
   registerTeam() {
-    this.setState({ errors: {} });
+    this.setState({ errors: {}, loading: true, errorMessage: "" });
     const { account } = this.props;
     const { id } = this.state;
     const data = this.validateForm();
+    const closeProcess = msg => this.setState({ alertShow: false, loading: false, errorMessage: msg || "" });
     // return console.log('entro a registro', data);
     if (data) {
       const register = !id ? Api.CreateTeam(account.tokenAuth, data) : Api.UpdateTeam(account.tokenAuth, { ...data, _id: id });
       //TODO:Add loading stuff
       register.then(res => {
-        if (res.status === 201) { 
-          this.setState({ alertShow: false });
-          this.props.history.push('/team');
-        }
+        if (res.status === 201) {
+          const alertProps = this.getSuccessAlertProps(() => {
+            this.setState({ alertShow: false }, () => this.props.history.push('/team'));
+          });
+          this.setState({ alertProps, loading: false });
+        } else closeProcess(res.message)
         console.log('res :', res);
       }).catch(err => {
         //TODO: show error
         console.log('err :', err);
       });
-    }
+    } else closeProcess();
   }
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
+    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps(), modified: true });
+  }
+
+  onCancel() {
+    if (this.state.modified) {
+      const onClickCancel = () => this.setState({ alertShow: false }, () => this.props.history.push('/team'))
+      this.setState({ alertShow: true, alertProps: this.getCancelAlertProps(onClickCancel) });
+    } else this.props.history.push('/team');
   }
 
   getTeam = () => {
@@ -98,13 +112,36 @@ class Register extends Component {
     };
   }
 
+  getSuccessAlertProps(onClick) {
+    const { id } = this.state;
+    return {
+      title: `${!id ? 'Team Created' : 'Team Edited'}`,
+      text: `The team has been ${!id ? 'created' : 'edited'} successfully`,
+      type: "success",
+      confirmButtonColor: COLORS.Success,
+      onConfirm: onClick.bind(this)
+    };
+  }
+
+  getCancelAlertProps(onClickCancel) {
+    return {
+      title: "Cancel",
+      text: "Are you sure to cancel the new team?",
+      type: "info",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Danger,
+      onConfirm: onClickCancel.bind(this),
+      onCancel: () => this.setState({ alertShow: false })
+    };
+  }
+
   render() {
-    const { errors, name, alertProps, alertShow, id } = this.state;
+    const { errors, name, alertProps, alertShow, id, errorMessage, loading  } = this.state;
     const links = [
       { name: 'Team', link: '/team' },
     ];
     return (
-      <Wrapper name={`${!id ? 'Create a new ': 'Edit a '} team`} breadcrumb={links}>
+      <Wrapper name={`${!id ? 'Create a new ' : 'Edit a '} team`} breadcrumb={links}>
         <div className='d-flex flex-column'>
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="col-md-12">
@@ -114,11 +151,14 @@ class Register extends Component {
             </div>
             <hr />
             <div className='mr-3'>
+            <span className="text-danger">{errorMessage}</span>
               <Button text='Send' bigSize />
+              <Button text="Cancel" bigSize link onClick={this.onCancel.bind(this)} />
             </div>
           </form>
         </div>
         <SweetAlert show={alertShow} {...alertProps} />
+        <Loading show={loading} absolute />
       </Wrapper>
     );
   }

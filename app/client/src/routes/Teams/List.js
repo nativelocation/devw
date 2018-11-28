@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Api from '../../config/api';
 import SweetAlert from 'sweetalert-react';
 import { COLORS } from '../../config/constants';
+import Loading from '../../components/Loading';
 
 class Teams extends Component {
 
@@ -14,6 +15,7 @@ class Teams extends Component {
     teams: [],
     alertProps: { title: 'Alert' },
     alertShow: false,
+    loading: false,
   }
 
   componentWillMount() {
@@ -46,22 +48,33 @@ class Teams extends Component {
     history.push('/team/' + id);
   }
 
+  getSuccessAlertProps(onClick) {
+    return {
+      title: 'Team Deleted',
+      text: 'The team has been deleted successfully',
+      type: "success",
+      confirmButtonColor: COLORS.Success,
+      onConfirm: onClick.bind(this)
+    };
+  }
+
   deleteTeam = id => {
     const { account } = this.props;
     if (id) {
-      Api.DeleteTeam(account.tokenAuth, {_id: id} ).then(res => {
-        if (res.status === 201) { 
-          this.setState({ alertShow: false });
+      Api.DeleteTeam(account.tokenAuth, { _id: id }).then(res => {
+        if (res.status === 201) {
+          const alertProps = this.getSuccessAlertProps(() => {
+            this.setState({ alertShow: false }, () => this.props.history.push('/team'));
+          });
+          this.setState({ alertProps, loading: false });
           this.getTeams();
-        }
-        this.setState({ alertShow: false });
-        console.log('res :', res);
+        } else closeProcess(res.message)
       }).catch(err => {
         //TODO: show error
         console.log('err :', err);
         this.setState({ alertShow: false });
       });
-    }
+    } else closeProcess(res.message)
   }
 
   alertTeam = id => {
@@ -80,7 +93,7 @@ class Teams extends Component {
   }
 
   render() {
-    const { teams, alertProps, alertShow } = this.state;
+    const { teams, alertProps, alertShow, loading } = this.state;
     const links = [
       { name: 'Team', link: '/team' },
       { name: 'New', link: '/team/new' },
@@ -92,7 +105,7 @@ class Teams extends Component {
           <div key={t._id} className="d-flex flex-row mt-3 col-md-6">
             <Profile src="/assets/img/4.jpg" title={t.name} subtitle="Team" orientation noImage>
               <div className="d-flex justify-content-end align-items-center px-3">
-                <IconInfo color="#2C3A41" hover="#777777" icon="eye" onClick={this.showTeam.bind(this, t._id)}/>
+                <IconInfo color="#2C3A41" hover="#777777" icon="eye" onClick={this.showTeam.bind(this, t._id)} />
                 <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" onClick={this.editTeam.bind(this, t._id)} />
                 <IconInfo color="#2C3A41" hover="#777777" icon="trash" onClick={this.alertTeam.bind(this, t._id)} />
               </div>
@@ -100,6 +113,7 @@ class Teams extends Component {
           </div>
         )}
         <SweetAlert show={alertShow} {...alertProps} />
+        <Loading show={loading} absolute />
       </Wrapper>
     );
   }
