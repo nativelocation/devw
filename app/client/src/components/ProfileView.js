@@ -13,7 +13,7 @@ import ProfileImage from '../components/ProfileImage';
  */
 const ProfileView = ({ src, title, subtitle, orientation, children, width, noImage }) => {
     return (
-        <div className={`d-flex mt-2 hoverBox ${orientation ? "flex-row flex-grow-1" : "flex-column justify-content-center align-items-center p-2"}`}>
+        <div className={`d-flex mt-2 hoverBox ${orientation ? "flex-row flex-grow-1" : "flex-column justify-content-center align-items-center p-2 w-40"}`}>
             {!noImage ? <ProfileImage src={src ? src : undefined} width={width ? width : 60} /> : undefined}
             <div className={orientation ? "pl-2 pt-3 flex-grow-1" : "text-center pl-2 pt-3"}>
                 <p className="font-weight-bold m-0 " style={styles.text}>{title}</p>
