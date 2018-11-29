@@ -151,13 +151,13 @@ class RegisterUser extends Component {
   }
 
   render() {
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit, id } = this.state;
     const links = [
       { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
-      { name: 'New User', link: '/user/new' },
+      { name: isEdit ? 'Update User' : 'New User' },
     ];
-    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data } = this.state;
     return (
-      <Wrapper name='Add new user' breadcrumb={links}>
+      <Wrapper name={isEdit ? 'Update current user' : 'Add new user'} breadcrumb={links}>
         <div className="d-flex flex-column">
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="row">
