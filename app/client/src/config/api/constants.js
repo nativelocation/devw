@@ -7,6 +7,7 @@ export const GETUSER = 'user';
 export const GETUSERS = 'user/all';
 export const CREATEUSER = 'user/create';
 export const UPDATEUSER = 'user/update';
+export const DELETEUSER = 'user/delete';
 
 export const GETTEAMS = 'team/all';
 export const GETTEAM = 'team/get';

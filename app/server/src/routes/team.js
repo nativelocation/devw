@@ -18,11 +18,11 @@ router.post('/create', (req, res, next) => {
     model.create(req.body).then(r => generalSuccess(res, "Team created", r)).catch(e => generalError(e, res));
 });
 
-router.post('/update', (req, res, next) => {
+router.put('/update', (req, res, next) => {
     model.update(req.body).then(r => generalSuccess(res, "Team updated", r)).catch(e => generalError(e, res));
 });
 
-router.post('/delete', (req, res, next) => {
+router.delete('/delete', (req, res, next) => {
     model.delete(req.body).then(r => generalSuccess(res, "Team deleted", r)).catch(e => generalError(e, res));
 });
 

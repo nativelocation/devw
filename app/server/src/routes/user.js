@@ -31,11 +31,14 @@ router.post('/create', (req, res) => {
             .catch(e => generalError(e, res))
         , req);
 });
-router.post('/update', (req, res) => {
+router.put('/update', (req, res) => {
     busboy(merge =>
         model.update(merge)
             .then(user => generalSuccess(res, 'Update User Ok', { user }))
             .catch(e => generalError(e, res))
         , req);
+});
+router.delete('/delete', (req, res, next) => {
+    model.delete(req.body).then(r => generalSuccess(res, "User deleted", r)).catch(e => generalError(e, res));
 });
 module.exports = router;

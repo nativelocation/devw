@@ -60,6 +60,8 @@ class Teams extends Component {
 
   deleteTeam = id => {
     const { account } = this.props;
+    const closeProcess = msg => this.setState({ alertShow: false, loading: false, errorMessage: msg || "" });
+
     if (id) {
       Api.DeleteTeam(account.tokenAuth, { _id: id }).then(res => {
         if (res.status === 201) {
