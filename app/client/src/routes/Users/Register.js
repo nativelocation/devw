@@ -14,16 +14,12 @@ import RadioButton from '../../components/RadioButton';
 import Error from '../../components/Error';
 import Loading from '../../components/Loading';
 
-class NewUser extends Component {
-  links = [
-    { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
-    { name: 'New User', link: '/user/new' },
-  ];
-
+class RegisterUser extends Component {
   state = {
     alertProps: { title: 'Alert' },
     alertShow: false,
     loading: false,
+    id: this.props.match.params.id || '',
     name: '',
     email: '',
     phone: '',
@@ -35,6 +31,27 @@ class NewUser extends Component {
     errorMessage: '',
     formData: false,
     modified: false
+  }
+
+  componentDidMount() {
+    this.verifyUser();
+  }
+
+  verifyUser() {
+    const { account, history } = this.props;
+    const { id } = this.state;
+
+    if (id) {
+      this.setState({ loading: true });
+      Api.GetUser(account.tokenAuth, id).then(res => {
+        if (res.status === 201) {
+          this.setState({ loading: false });
+        } else history.push('/user');
+        console.log('res :', res);
+      }).catch(err => {
+        history.push('/user');
+      });
+    }
   }
 
   validateForm() {
@@ -133,26 +150,30 @@ class NewUser extends Component {
   }
 
   render() {
-    const { fileImage, errorMessage, errors, alertProps, alertShow, loading } = this.state;
+    const links = [
+      { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
+      { name: 'New User', link: '/user/new' },
+    ];
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, userType } = this.state;
     return (
-      <Wrapper name='Add new user' breadcrumb={this.links}>
+      <Wrapper name='Add new user' breadcrumb={links}>
         <div className="d-flex flex-column">
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="row">
               <div className="col-md-6">
                 <div className="mt-3">
                   <Label label="Full Name" />
-                  <Input name="name" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
+                  <Input ref="name" name="name" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
                   <Error text={errors.name} />
                 </div>
                 <div className=" mt-3">
                   <Label label="Email Address" />
-                  <Input name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
+                  <Input ref="email" name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
                   <Error text={errors.email} />
                 </div>
                 <div className="mt-3">
                   <Label label="Phone Number" />
-                  <Input name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
+                  <Input ref="phone" name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
                   <Error text={errors.phone} />
                 </div>
                 <div className="col-md-9 pl-0 mt-3">
@@ -176,8 +197,8 @@ class NewUser extends Component {
                 <div className="mt-4">
                   <h4>User Type</h4>
                   <hr />
-                  <RadioButton onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
-                  <RadioButton onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
+                  <RadioButton checked={userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
+                  <RadioButton checked={userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
                   <Error text={errors.userType} />
                 </div>
               </div>
@@ -230,4 +251,4 @@ class NewUser extends Component {
     };
   }
 }
-export default connect(s => ({ account: s.account }))(NewUser)
+export default connect(s => ({ account: s.account }))(RegisterUser)

@@ -4,7 +4,7 @@ import * as c from './constants';
 class ApiModel {
     Login = credentials => FetchRequest(c.LOGIN, 'POST', null, credentials);
     GetUserToken = token => FetchRequest(c.GETCURRENT, 'GET', token);
-    GetUser = (token, id) => FetchRequest(c.GETUSER, 'GET', token);
+    GetUser = (token, _id) => FetchRequest(c.GETUSER, 'POST', token, { _id });
     GetUsers = token => FetchRequest(c.GETUSERS, 'GET', token);
     GetTeam = (token, id) => FetchRequest(`${c.GETTEAM}/${id}`, 'GET', token);
     GetTeams = token => FetchRequest(c.GETTEAMS, 'GET', token);

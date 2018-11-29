@@ -19,11 +19,11 @@ const auth = {
         }).catch(sendToLogin);
     },
 
-    authorize: (Composed, props, store, name) => {
+    authorize: (Composed, props, store) => {
         const { pathname } = props.history.location;
         const { account } = store.getState();
         if (!localStorage.tokenAuth) props.history.push('/login');
-        if (account._id) return <Layout name={name} account={account} ><Composed {...props} /></Layout>;
+        if (account._id) return <Layout account={account} ><Composed {...props} /></Layout>;
         else auth.storeUser(props.history, store, pathname);
         return null;
     },

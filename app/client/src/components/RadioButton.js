@@ -10,11 +10,11 @@ import React, { Component, Fragment } from "react";
  * @param  onChange - onChange method
  */
 
-const RadioButton = ({ text, name, id, inline, onChange, value }) => {
-    id = id ? id : `${name}0${value}`;
+const RadioButton = ({ checked, text, name, inline, onChange, value }) => {
+    const id = `${name}0${value}`;
     return (
         <div className={`custom-control custom-radio ${inline ? "custom-control-inline" : ''}`}>
-            <input type="radio" id={id} name={name} value={value} className="custom-control-input" onChange={onChange} />
+            <input type="radio" id={id} name={name} value={value} className="custom-control-input" onChange={onChange} checked={checked} />
             <label className="custom-control-label form-text text-muted" htmlFor={id}>{text}</label>
         </div>
     )
