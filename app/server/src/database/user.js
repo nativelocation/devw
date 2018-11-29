@@ -3,13 +3,13 @@ const db = require('../config/mongoose');
 module.exports = {
     create: async data => {
         const { teamId, phone, name, email, type, password } = data;
-        const values = { teamId, phone, name, email, type, password };
-        const item = new db.User(values);
+        const item = new db.User({ teamId, phone, name, email, type, password });
         return await item.save();
     },
     update: async (id, data) => {
-        const user = await db.User.findByIdAndUpdate({ _id: id }, data);
-        return await db.User.findById(user._id);
+        const { teamId, phone, name, type, password } = data;
+        await db.User.findByIdAndUpdate(id, { teamId, phone, name, type, password });
+        return await db.User.findById(id);
     },
     delete: async id => {
         return await db.User.findByIdAndRemove(id);

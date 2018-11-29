@@ -31,4 +31,11 @@ router.post('/create', (req, res) => {
             .catch(e => generalError(e, res))
         , req);
 });
+router.post('/update', (req, res) => {
+    busboy(merge =>
+        model.update(merge)
+            .then(user => generalSuccess(res, 'Update User Ok', { user }))
+            .catch(e => generalError(e, res))
+        , req);
+});
 module.exports = router;

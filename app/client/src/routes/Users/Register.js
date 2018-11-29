@@ -17,6 +17,7 @@ import Loading from '../../components/Loading';
 class RegisterUser extends Component {
   state = {
     id: this.props.match.params.id || '',
+    isEdit: this.props.match.params.id ? true : false,
     data: {},
     fileImage: {},
     formData: false,
@@ -41,9 +42,9 @@ class RegisterUser extends Component {
       this.setState({ loading: true });
       Api.GetUser(account.tokenAuth, id).then(res => {
         if (res.status === 201) {
-          this.setState({ loading: false });
+          const { email, name, phone, type } = res.data;
+          this.setState({ loading: false, data: { email, name, phone, userType: type.toString() } });
         } else history.push('/user');
-        console.log('res :', res);
       }).catch(err => {
         history.push('/user');
       });
@@ -54,23 +55,23 @@ class RegisterUser extends Component {
     const byteFileAllowed = 5 * 1000000;
     const validMimetypes = ['image/jpeg', 'image/png', 'image/gif'];
     const formData = new FormData();
-    let { fileImage, errors, data } = this.state;
+    let { fileImage, errors, data, id, isEdit } = this.state;
     let { name, email, phone, password, userType, confirmPassword } = data;
 
     if (_.isEmpty(name)) errors.name = 'Name is required';
     if (_.isEmpty(email)) errors.email = 'Email is required';
     if (_.isEmpty(phone)) errors.phone = 'Phone is required';
-    if (_.isEmpty(password)) errors.password = 'Password is required';
-    if (_.isEmpty(confirmPassword)) errors.confirmPassword = 'Confirm Password is required';
+    if (!isEdit && _.isEmpty(password)) errors.password = 'Password is required';
+    if (!isEdit && _.isEmpty(confirmPassword)) errors.confirmPassword = 'Confirm Password is required';
     if (_.isEmpty(userType)) errors.userType = 'User Type is required';
 
     if (!errors.email && !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i))
       errors.email = `Email format is invalid: ${email}`;
     if (!errors.phone && phone.length < 10)
       errors.phone = 'Phone length must be higher or equal than 10';
-    if (!errors.password && password.length < 6)
+    if (password && !errors.password && password.length < 6)
       errors.password = 'Password length must be higher or equal than 6';
-    if (!errors.confirmPassword && !_.isEqual(password, confirmPassword))
+    if (password && !errors.confirmPassword && !_.isEqual(password, confirmPassword))
       errors.confirmPassword = 'Password confirmation must match with password field';
 
     if (fileImage.type) {
@@ -84,12 +85,13 @@ class RegisterUser extends Component {
     this.setState({ errors });
     if (Object.keys(errors).length > 0) return false;
 
+    formData.append('id', id);
     formData.append('name', name);
     formData.append('email', email);
     formData.append('phone', phone);
-    formData.append('password', password);
     formData.append('type', userType && userType.length > 0 ? Number.parseInt(userType) : 1);
-    formData.append('image', fileImage);
+    if (password) formData.append('password', password);
+    if (fileImage.type) formData.append('image', fileImage);
 
     this.setState({ formData, alertShow: true, alertProps: this.getSaveAlertProps(), modified: true });
   }
@@ -97,11 +99,12 @@ class RegisterUser extends Component {
   createUser() {
     this.setState({ errors: {}, loading: true, errorMessage: "" });
     const { account } = this.props;
-    const { formData } = this.state;
+    const { formData, isEdit } = this.state;
     const closeProcess = msg => this.setState({ formData: false, alertShow: false, loading: false, errorMessage: msg || "" });
 
     if (formData) {
-      Api.CreateUser(account.tokenAuth, formData).then(res => {
+      const request = isEdit ? Api.UpdateUser : Api.CreateUser;
+      request(account.tokenAuth, formData).then(res => {
         if (res.status === 201) {
 
           const alertProps = this.getSuccessAlertProps(() => {
@@ -217,9 +220,10 @@ class RegisterUser extends Component {
   }
 
   getSaveAlertProps() {
+    const { isEdit } = this.state;
     return {
-      title: "Create User",
-      text: "Are you sure to save the user?",
+      title: `${isEdit ? 'Update' : 'Create'} User`,
+      text: `Are you sure to ${isEdit ? 'update' : 'create'} the user?`,
       showCancelButton: true,
       confirmButtonColor: COLORS.Success,
       onConfirm: this.createUser.bind(this),
@@ -228,9 +232,10 @@ class RegisterUser extends Component {
   }
 
   getSuccessAlertProps(onClick) {
+    const { isEdit } = this.state;
     return {
-      title: "User Created",
-      text: "The user has been created successfully",
+      title: `User ${isEdit ? 'Updated' : 'Created'}`,
+      text: `The user has been ${isEdit ? 'updated' : 'created'} successfully`,
       type: "success",
       confirmButtonColor: COLORS.Success,
       onConfirm: onClick.bind(this)
@@ -238,9 +243,10 @@ class RegisterUser extends Component {
   }
 
   getCancelAlertProps(onClickCancel) {
+    const { isEdit } = this.state;
     return {
-      title: "Cancel",
-      text: "Are you sure to cancel the new user?",
+      title: "Cancel request",
+      text: `Are you sure to cancel the ${isEdit ? 'current' : 'new'} user?`,
       type: "info",
       showCancelButton: true,
       confirmButtonColor: COLORS.Danger,
