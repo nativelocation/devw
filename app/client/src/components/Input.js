@@ -18,16 +18,7 @@ import { COLORS } from '../config/constants';
 export default class Input extends Component {
     state = {
         revealPass: false,
-        input: ''
     };
-
-    setValue(value) {
-        this.setState({ input: value });
-    }
-
-    getValue() {
-        return this.state.input;
-    }
 
     onChange(e) {
         const { onChange, beforeSet, disableSpaces } = this.props;
@@ -43,7 +34,7 @@ export default class Input extends Component {
     }
 
     render() {
-        const { name, disableAutoComplete, password, bigSize, placeholder, error, type, max } = this.props;
+        const { name, disableAutoComplete, password, bigSize, placeholder, error, type, max, value } = this.props;
         const { revealPass, input } = this.state;
 
         let ph = placeholder === true ? name : placeholder;
@@ -60,7 +51,7 @@ export default class Input extends Component {
                     </a>
                     : null}
                 <input
-                    value={input}
+                    value={value || ''}
                     type={inputType}
                     name={name}
                     placeholder={ph}

@@ -16,20 +16,16 @@ import Loading from '../../components/Loading';
 
 class RegisterUser extends Component {
   state = {
+    id: this.props.match.params.id || '',
+    data: {},
+    fileImage: {},
+    formData: false,
+
+    errors: {},
+    errorMessage: '',
     alertProps: { title: 'Alert' },
     alertShow: false,
     loading: false,
-    id: this.props.match.params.id || '',
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    userType: '',
-    confirmPassword: '',
-    fileImage: {},
-    errors: {},
-    errorMessage: '',
-    formData: false,
     modified: false
   }
 
@@ -58,7 +54,8 @@ class RegisterUser extends Component {
     const byteFileAllowed = 5 * 1000000;
     const validMimetypes = ['image/jpeg', 'image/png', 'image/gif'];
     const formData = new FormData();
-    let { name, email, phone, password, userType, confirmPassword, fileImage, errors } = this.state;
+    let { fileImage, errors, data } = this.state;
+    let { name, email, phone, password, userType, confirmPassword } = data;
 
     if (_.isEmpty(name)) errors.name = 'Name is required';
     if (_.isEmpty(email)) errors.email = 'Email is required';
@@ -119,9 +116,10 @@ class RegisterUser extends Component {
 
   onChange(e) {
     const { name, value } = e.target;
-    let { errors } = this.state;
+    let { errors, data } = this.state;
     delete errors[name]
-    this.setState({ [name]: value, errors, modified: true });
+    data[name] = value;
+    this.setState({ data, errors, modified: true });
   }
 
   onChangeFileImage(nameField, e) {
@@ -154,7 +152,7 @@ class RegisterUser extends Component {
       { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
       { name: 'New User', link: '/user/new' },
     ];
-    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, userType } = this.state;
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data } = this.state;
     return (
       <Wrapper name='Add new user' breadcrumb={links}>
         <div className="d-flex flex-column">
@@ -163,17 +161,17 @@ class RegisterUser extends Component {
               <div className="col-md-6">
                 <div className="mt-3">
                   <Label label="Full Name" />
-                  <Input ref="name" name="name" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
+                  <Input value={data.name} name="name" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
                   <Error text={errors.name} />
                 </div>
                 <div className=" mt-3">
                   <Label label="Email Address" />
-                  <Input ref="email" name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
+                  <Input value={data.email} name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
                   <Error text={errors.email} />
                 </div>
                 <div className="mt-3">
                   <Label label="Phone Number" />
-                  <Input ref="phone" name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
+                  <Input value={data.phone} name="phone" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.phone)} type="tel" disableSpaces max={13} beforeSet={this.phoneSet} />
                   <Error text={errors.phone} />
                 </div>
                 <div className="col-md-9 pl-0 mt-3">
@@ -186,19 +184,19 @@ class RegisterUser extends Component {
               <div className="col-md-6">
                 <div className="mt-3">
                   <Label label="Password" />
-                  <Input name="password" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.password)} password />
+                  <Input value={data.password} name="password" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.password)} password />
                   <Error text={errors.password} />
                 </div>
                 <div className="mt-3">
                   <Label label="Confirm Password" />
-                  <Input name="confirmPassword" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.confirmPassword)} password />
+                  <Input value={data.confirmPassword} name="confirmPassword" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.confirmPassword)} password />
                   <Error text={errors.confirmPassword} />
                 </div>
                 <div className="mt-4">
                   <h4>User Type</h4>
                   <hr />
-                  <RadioButton checked={userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
-                  <RadioButton checked={userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
+                  <RadioButton checked={data.userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
+                  <RadioButton checked={data.userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
                   <Error text={errors.userType} />
                 </div>
               </div>
