@@ -18,6 +18,7 @@ class RegisterUser extends Component {
   state = {
     id: this.props.match.params.id || '',
     isEdit: this.props.match.params.id ? true : false,
+    isProfile: false,
     data: {},
     fileImage: {},
     formData: false,
@@ -31,7 +32,13 @@ class RegisterUser extends Component {
   }
 
   componentDidMount() {
-    this.verifyUser();
+    if (!this.state.isEdit) {
+      const { match, account } = this.props;
+      const isProfile = match.url.includes('profile');
+
+      if (isProfile)
+        this.setState({ id: account._id, isProfile, isEdit: true }, this.verifyUser);
+    } else this.verifyUser();
   }
 
   verifyUser() {
@@ -151,13 +158,15 @@ class RegisterUser extends Component {
   }
 
   render() {
-    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit } = this.state;
+    const { account } = this.props;
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit, isProfile, id } = this.state;
     const links = [
       { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
-      { name: isEdit ? 'Update User' : 'New User' },
+      { name: isEdit ? isProfile ? 'Update Profile' : 'Update User' : 'New User' },
     ];
+    //TODO: change behavior for profile when cancel(no idea) it can't send to user's list because may be a manager and they don't have access
     return (
-      <Wrapper name={isEdit ? 'Update current user' : 'Add new user'} breadcrumb={links}>
+      <Wrapper name={isEdit ? isProfile ? 'Update profile' : 'Update current user' : 'Add new user'} breadcrumb={links}>
         <div className="d-flex flex-column">
           <form onSubmit={this.onSubmit.bind(this)}>
             <div className="row">
@@ -195,27 +204,29 @@ class RegisterUser extends Component {
                   <Input value={data.confirmPassword} name="confirmPassword" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.confirmPassword)} password />
                   <Error text={errors.confirmPassword} />
                 </div>
-                <div className="mt-4">
-                  <h4>User Type</h4>
-                  <hr />
-                  <RadioButton checked={data.userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
-                  <RadioButton checked={data.userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
-                  <Error text={errors.userType} />
-                </div>
+                {id !== account._id ?
+                  < div className="mt-4">
+                    <h4>User Type</h4>
+                    <hr />
+                    <RadioButton checked={data.userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
+                    <RadioButton checked={data.userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
+                    <Error text={errors.userType} />
+                  </div>
+                  : null}
               </div>
             </div>
 
             <div className="mt-3">
               <hr />
               <span className="text-danger">{errorMessage}</span>
-              <Button text="Create User" bigSize />
+              <Button text={isEdit ? isProfile ? 'Update Profile' : 'Update User' : 'Create User'} bigSize />
               <Button text="Cancel" bigSize link onClick={this.onCancel.bind(this)} />
             </div>
           </form>
         </div>
         <SweetAlert show={alertShow} {...alertProps} />
         <Loading show={loading} absolute />
-      </Wrapper>
+      </Wrapper >
     );
   }
 
