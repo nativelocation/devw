@@ -151,7 +151,7 @@ class RegisterUser extends Component {
   }
 
   render() {
-    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit, id } = this.state;
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit } = this.state;
     const links = [
       { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
       { name: isEdit ? 'Update User' : 'New User' },
@@ -167,9 +167,9 @@ class RegisterUser extends Component {
                   <Input value={data.name} name="name" onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.name)} />
                   <Error text={errors.name} />
                 </div>
-                <div className=" mt-3">
+                <div className="mt-3">
                   <Label label="Email Address" />
-                  <Input value={data.email} name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
+                  <Input value={data.email} disabled={isEdit} name="email" disableSpaces onChange={this.onChange.bind(this)} error={!_.isEmpty(errors.email)} />
                   <Error text={errors.email} />
                 </div>
                 <div className="mt-3">

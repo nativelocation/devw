@@ -43,11 +43,7 @@ class Users extends Component {
 
   render() {
     const { users, loading } = this.state;
-    const links = [
-      { name: 'user', link: '/user' },
-      { name: 'new', link: '/user/new' },
-      { name: 'externo', link: '/user/new', onClick: e => { e.preventDefault(); console.log('entro perro') } },
-    ];
+    const links = [{ name: 'Users' }];
     return (
       <Wrapper name='Users' breadcrumb={links}>
         <Button text='Add new user' onClick={this.newUser.bind(this)} />

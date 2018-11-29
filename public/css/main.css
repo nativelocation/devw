@@ -51,8 +51,6 @@
     src: url("../assets/fonts/Roboto/Roboto-Thin.ttf");
 }
 
-
-
 * {
     font-family: Roboto;
 }
@@ -60,6 +58,14 @@
 html, body {
     height: 100%;
     background-color: #666666;
+}
+
+html {
+    overflow: hidden;
+}
+
+body {
+    overflow: auto;
 }
 
 h1 {
@@ -174,12 +180,10 @@ h4 {
     font-family: Raleway;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
 
-input[type=password]::-ms-reveal,
-input[type=password]::-ms-clear
-{
+input[type=password]::-ms-reveal, input[type=password]::-ms-clear {
     display: none;
 }

@@ -8,7 +8,7 @@ const model = {
         if (!data.password) throw { code: 400, msg: "Password is required" };
 
         let exist = await user.getByEmail(data.email);
-        if (exist && await bcrypt.compare(data.password, exist.password)) return exist;
+        if (exist && exist.password && await bcrypt.compare(data.password, exist.password)) return exist;
         throw { code: 401, msg: "Authentication failed" }
     },
     create: async data => {
