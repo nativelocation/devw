@@ -19,10 +19,10 @@ const model = {
         if (data.type === '2' && !data.teamId) throw { code: 400, msg: "Team is required" };
         if (!data.type) throw { code: 400, msg: "Type is required" };
         if (!data.password) throw { code: 400, msg: "Password is required" };
-
+        
         const existUser = await user.getByEmail(data.email);
         if (existUser) throw { code: 400, msg: "The email already exists" };
-
+        
         data.password = await bcrypt.hash(data.password, 10);
 
         return await user.create(data);

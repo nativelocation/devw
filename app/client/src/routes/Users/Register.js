@@ -116,7 +116,6 @@ class RegisterUser extends Component {
     formData.append('phone', phone);
     formData.append('type', userType && userType.length > 0 ? Number.parseInt(userType) : 1);
     if (userType === '2') formData.append('teamId', teamId);
-    if (userType === '2') console.log(teamId);
     if (password) formData.append('password', password);
     if (fileImage.type) formData.append('image', fileImage);
 
