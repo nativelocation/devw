@@ -10,7 +10,6 @@ import NotFound from './routes/NotFound';
 
 import Edit from './routes/Edit';
 import Client from './routes/Client';
-import UserProfile from './routes/UserProfile';
 
 import Users from './routes/Users/List';
 import RegisterUser from './routes/Users/Register';
@@ -39,7 +38,7 @@ class App extends Component {
               <Route exact path="/edit" component={e => Auth.authorize(Edit, e, store)} />
               <Route exact path="/client" component={e => Auth.authorize(Client, e, store)} />
 
-              <Route exact path="/profile" component={e => Auth.authorize(UserProfile, e, store)} />
+              <Route exact path="/profile" component={e => Auth.authorize(User, e, store)} />
               <Route exact path="/profile/edit" component={e => Auth.authorize(RegisterUser, e, store)} />
 
               <Route exact path="/user/new" component={e => Auth.authorize(RegisterUser, e, store, 1)} />
