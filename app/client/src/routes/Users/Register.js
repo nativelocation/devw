@@ -79,7 +79,7 @@ class RegisterUser extends Component {
     const formData = new FormData();
     let { fileImage, errors, data, id, isEdit } = this.state;
     let { name, email, phone, password, userType, confirmPassword, teamId } = data;
-    console.log(teamId)
+
     if (_.isEmpty(name)) errors.name = 'Name is required';
     if (_.isEmpty(email)) errors.email = 'Email is required';
     if (_.isEmpty(phone)) errors.phone = 'Phone is required';
