@@ -13,6 +13,7 @@ import FileInput from '../../components/FileInput';
 import RadioButton from '../../components/RadioButton';
 import Error from '../../components/Error';
 import Loading from '../../components/Loading';
+import SelectInput from '../../components/SelectInput';
 
 class RegisterUser extends Component {
   state = {
@@ -211,6 +212,7 @@ class RegisterUser extends Component {
                     <RadioButton checked={data.userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
                     <RadioButton checked={data.userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
                     <Error text={errors.userType} />
+                    <SelectInput />
                   </div>
                   : null}
               </div>
