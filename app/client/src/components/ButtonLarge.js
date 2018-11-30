@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { COLORS, FONTS } from '../config/constants.js';
 /**
  * The Button Large Component.
@@ -7,9 +7,14 @@ import { COLORS, FONTS } from '../config/constants.js';
  * @param  text - Add the text
  * @param  onClick - Add method
  */
-const ButtonLarge = ({ text, onClick }) => {
+const ButtonLarge = ({ text, onClick, className }) => {
     return (
-        <button type="submit" onClick={onClick} className="btn btn-lg font-weight-bold float-right text-white" style={styles.large}>{text}</button>
+        <button
+            type="submit"
+            onClick={onClick}
+            className={`btn btn-lg font-weight-bold float-right text-white ${className}`} style={styles.large}>
+            {text}
+        </button>
     )
 };
 

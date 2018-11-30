@@ -14,16 +14,24 @@ export default class ProfileImage extends Component {
     }
 
     handlError = (e) => {
-        console.log('target', e.target.src);
         this.setState({ error: true });
     }
 
     render() {
-        const { src, width } = this.props;
+        const { src, width, position } = this.props;
         const { error } = this.state;
+        const size = width ? parseInt(width) : 60;
         return (
-            <div className="text-center">
-                <img src={!error ? src : undefined} className="border rounded-circle m-1 border-dark" style={{ width: width ? parseInt(width) : 60, padding: error || !src ? 29 : src, backgroundColor: '#DDD' }} onError={this.handlError.bind(this)} />
+            <div className={`text-${position || 'center'}`}>
+                {error ?
+                    <div style={{ width: size, height: size }} className={`border rounded-circle border-secondary bg-light`} /> :
+                    <img
+                        src={src}
+                        className="border rounded-circle border-secondary bg-light"
+                        width={size}
+                        height={size}
+                        onError={this.handlError.bind(this)} />
+                }
             </div>
         )
     }
