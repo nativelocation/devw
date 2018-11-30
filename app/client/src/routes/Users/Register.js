@@ -37,19 +37,18 @@ class RegisterUser extends Component {
     if (!this.state.isEdit) {
       const { match, account } = this.props;
       const isProfile = match.url.includes('profile');
-
+      
       if (isProfile)
-        this.setState({ id: account._id, isProfile, isEdit: true }, this.verifyUser);
-      this.getTeams();
+      this.setState({ id: account._id, isProfile, isEdit: true }, this.verifyUser);
     } else this.verifyUser();
   }
 
   getTeams = () => {
     const { account } = this.props;
-    let { data } = this.state;
+    let { data, isEdit } = this.state;
     Api.GetTeams(account.tokenAuth).then(res => {
       if (res.status === 201) {
-        data.teamId = '-1'
+        if(!isEdit) data.teamId = '-1'
         this.setState({ teams: res.data, data });
       }
     }).catch(err => {
@@ -65,8 +64,9 @@ class RegisterUser extends Component {
       this.setState({ loading: true });
       Api.GetUser(account.tokenAuth, id).then(res => {
         if (res.status === 201) {
-          const { email, name, phone, type } = res.data;
-          this.setState({ loading: false, data: { email, name, phone, userType: type.toString() } });
+          const { email, name, phone, type, teamId } = res.data;
+          this.setState({ loading: false, data: { email, name, phone, userType: type.toString(), teamId: teamId || '-1' } });
+          this.getTeams();
         } else history.push('/user');
       }).catch(err => {
         history.push('/user');
@@ -80,7 +80,7 @@ class RegisterUser extends Component {
     const formData = new FormData();
     let { fileImage, errors, data, id, isEdit } = this.state;
     let { name, email, phone, password, userType, confirmPassword, teamId } = data;
-    
+    console.log(teamId)
     if (_.isEmpty(name)) errors.name = 'Name is required';
     if (_.isEmpty(email)) errors.email = 'Email is required';
     if (_.isEmpty(phone)) errors.phone = 'Phone is required';
@@ -232,7 +232,7 @@ class RegisterUser extends Component {
                     <RadioButton checked={data.userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
                     <Error text={errors.userType} />
                     <div className={`${data.userType === '2' ? 'visible' : 'invisible'} mt-3`}>
-                      <SelectInput name="teamId" items={items} placeholder onChange={this.onChange.bind(this)} />
+                      <SelectInput name="teamId" value={data.teamId} items={items} placeholder onChange={this.onChange.bind(this)} />
                       <Error text={errors.teamId} />
                     </div>
                   </div>

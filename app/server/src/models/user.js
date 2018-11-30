@@ -32,13 +32,14 @@ const model = {
         if (!data.id) throw { code: 400, msg: "Id is required" };
         if (!data.name) throw { code: 400, msg: "Name is required" };
         if (!data.phone) throw { code: 400, msg: "Phone is required" };
-        if (data.teamId && !Number.isInteger(data.teamId)) throw { code: 400, msg: "Id Team must be numeric" };
         if (!data.type) throw { code: 400, msg: "Type is required" };
+        if (data.type === '2' && !data.teamId) throw { code: 400, msg: "Team is required" };
 
         const existUser = await user.getById(data.id);
         if (!existUser) throw { code: 400, msg: "The user doesn't exists" };
 
         if (data.password) data.password = await bcrypt.hash(data.password, 10);
+        else data.password = existUser.password
 
         return await user.update(data.id, data);
     },

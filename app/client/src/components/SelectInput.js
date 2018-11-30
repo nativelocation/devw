@@ -17,21 +17,20 @@ export default class SelectInput extends Component {
     }
 
     render() {
-        const { items, onChange, name, selected, placeholder } = this.props;
+        const { items, onChange, name, value, placeholder } = this.props;
         const content = typeof (placeholder);
         let defaultText = 'Select Item';
-
         if (content === 'string') {
             defaultText = placeholder;
         }
 
         return (
             <div className="input-group">
-                <select id={name} name={name} className="custom-select noBorder" onChange={onChange}>
+                <select id={name} name={name} className="custom-select noBorder" onChange={onChange} value={value}>
                     {placeholder ? <option value='-1'>{defaultText}</option> : null}
                     {items ?
                         items.map(r =>
-                            <option selected={placeholder === false ? selected === r.value ? 'selected' : undefined : undefined} key={r.value} value={r.value}>{r.name}</option>
+                            <option key={r.value} value={r.value}>{r.name}</option>
                         ) : undefined}
                 </select>
             </div>
