@@ -37,9 +37,9 @@ class RegisterUser extends Component {
     if (!this.state.isEdit) {
       const { match, account } = this.props;
       const isProfile = match.url.includes('profile');
-      
-      if (isProfile)
-      this.setState({ id: account._id, isProfile, isEdit: true }, this.verifyUser);
+
+      if (isProfile) this.setState({ id: account._id, isProfile, isEdit: true }, this.verifyUser);
+      else this.getTeams();
     } else this.verifyUser();
   }
 
@@ -48,11 +48,11 @@ class RegisterUser extends Component {
     let { data, isEdit } = this.state;
     Api.GetTeams(account.tokenAuth).then(res => {
       if (res.status === 201) {
-        if(!isEdit) data.teamId = '-1'
+        if (!isEdit) data.teamId = '-1'
         this.setState({ teams: res.data, data });
       }
     }).catch(err => {
-
+      this.setState({ errorMessage: 'Error: ' + err.message });
     });
   }
 
@@ -65,8 +65,7 @@ class RegisterUser extends Component {
       Api.GetUser(account.tokenAuth, id).then(res => {
         if (res.status === 201) {
           const { email, name, phone, type, teamId } = res.data;
-          this.setState({ loading: false, data: { email, name, phone, userType: type.toString(), teamId: teamId || '-1' } });
-          this.getTeams();
+          this.setState({ loading: false, data: { email, name, phone, userType: type.toString(), teamId } }, this.getTeams);
         } else history.push('/user');
       }).catch(err => {
         history.push('/user');
@@ -87,7 +86,7 @@ class RegisterUser extends Component {
     if (!isEdit && _.isEmpty(password)) errors.password = 'Password is required';
     if (!isEdit && _.isEmpty(confirmPassword)) errors.confirmPassword = 'Confirm Password is required';
     if (_.isEmpty(userType)) errors.userType = 'User Type is required';
-    if(userType === '2' && teamId === '-1') errors.teamId = "Team is required";
+    if (userType === '2' && teamId === '-1') errors.teamId = "Team is required";
     else delete errors.teamId;
 
     if (!errors.email && !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i))
