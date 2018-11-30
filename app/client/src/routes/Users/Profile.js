@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { ROLES } from '../../config/constants';
 
 import Wrapper from '../../components/Wrapper';
-import Profile from '../../components/ProfileImage';
+import ProfileImage from '../../components/ProfileImage';
 import ButtonLarge from '../../components/ButtonLarge';
 import Label from '../../components/Label';
 
-class User extends Component {
+class Profile extends Component {
   state = {
     data: {}
   };
@@ -26,8 +26,8 @@ class User extends Component {
         <div className="d-flex flex-column">
           <div className="col-md-12"><ButtonLarge text="Edit" /></div>
           <div className="col-md-12 d-flex flex-row">
-            <div className="col-md-2 mt-2">
-              <Profile src="/assets/img/4.jpg" width='150' />
+            <div className="col-md-2">
+              <ProfileImage src={"https://picsum.photos/200/200?" + data._id} width='150' />
             </div>
             <div className="col-md-10 d-flex flex-column">
               <Label label="Full name" labelClass="form-text text-muted mb-1" />
@@ -46,4 +46,4 @@ class User extends Component {
   }
 }
 
-export default connect(s => ({ account: s.account }))(User)
+export default connect(s => ({ account: s.account }))(Profile)
