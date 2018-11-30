@@ -3,7 +3,7 @@ module.exports = (Schema) => {
         name: String,
         email: String,
         password: String,
-        teamId: Number,
+        teamId: String,
         phone: String,
         type: Number,
         image: String,
