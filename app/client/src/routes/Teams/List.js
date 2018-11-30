@@ -3,7 +3,7 @@ import Wrapper from '../../components/Wrapper';
 import Button from '../../components/Button';
 import IconInfo from '../../components/IconInfo';
 import Profile from '../../components/ProfileView';
-import Select from '../../components/SelectInput';
+import ToggleButton from '../../components/ToggleButton';
 import { connect } from 'react-redux';
 import Api from '../../config/api';
 import SweetAlert from 'sweetalert-react';
@@ -18,6 +18,7 @@ class Teams extends Component {
     alertShow: false,
     loading: false,
     errors: false,
+    wrapperType: true
   }
 
   componentWillMount() {
@@ -94,35 +95,37 @@ class Teams extends Component {
       onConfirm: this.deleteTeam.bind(this, id),
       onCancel: () => this.setState({ alertShow: false })
     };
-  } 
+  }
 
-  onChange(e) {
-    const { name, value } = e.target;
-    console.log('onchange ', e.target.name, e.target.value)
-}
+  changeList = type => {
+    this.setState({ wrapperType: type });
+  }
+
 
   render() {
-    const { teams, alertProps, alertShow, loading } = this.state;
-    const items = teams.map(r => ({name: r.name, value:r._id}));
+    const { teams, alertProps, alertShow, loading, wrapperType } = this.state;
+    console.log('type', wrapperType)
     const links = [
       { name: 'Team', link: '/team' },
       { name: 'New', link: '/team/new' },
     ];
     return (
       <Wrapper name='List of Teams' breadcrumb={links}>
-        <Select name='ejemplo' items={items} onChange={this.onChange.bind(this)} selected='5c0058fe08daa40f260fc613' placeholder={true}/> {/* id: 5c0058fe08daa40f260fc613 */}
         <Button text='Add new team' onClick={this.newTeam.bind(this)} />
-        {teams.map(t =>
-          <div key={t._id} className="d-flex flex-row mt-3 col-md-6">
-            <Profile src="/assets/img/4.jpg" title={t.name} subtitle="Team" orientation noImage>
-              <div className="d-flex justify-content-end align-items-center px-3">
-                <IconInfo color="#2C3A41" hover="#777777" icon="eye" onClick={this.showTeam.bind(this, t._id)} />
-                <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" onClick={this.editTeam.bind(this, t._id)} />
-                <IconInfo color="#2C3A41" hover="#777777" icon="trash" onClick={this.alertTeam.bind(this, t._id)} />
-              </div>
-            </Profile>
-          </div>
-        )}
+        <ToggleButton onChange={this.changeList.bind(this)} />
+        <div className='d-flex mt-3 col-md-12 flex-row flex-wrap'>
+          {teams.map(t =>
+            <div key={t._id} className={wrapperType ? 'col-md-3' : 'col-md-6'}>
+              <Profile src="/assets/img/4.jpg" noImage title={t.name} subtitle="" orientation={wrapperType ? false : true} >
+                <div className={!wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""}>
+                  <IconInfo color="#2C3A41" hover="#777777" icon="eye" onClick={this.showTeam.bind(this, t._id)} />
+                  <IconInfo color="#2C3A41" hover="#777777" icon="eyedropper px-1" onClick={this.editTeam.bind(this, t._id)} />
+                  <IconInfo color="#2C3A41" hover="#777777" icon="trash" onClick={this.alertTeam.bind(this, t._id)} />
+                </div>
+              </Profile>
+            </div>
+          )}
+        </div>
         <SweetAlert show={alertShow} {...alertProps} />
         <Loading show={loading} absolute />
       </Wrapper>

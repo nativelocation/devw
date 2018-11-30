@@ -26,7 +26,7 @@ const ProfileView = ({ src, title, subtitle, orientation, children, width, noIma
 
 const styles = {
     text: {
-        fontSize: 13,
+        fontSize: 18,
         fontFamily: FONTS.RobotoLight,
         color: COLORS.LightBlack,
     },

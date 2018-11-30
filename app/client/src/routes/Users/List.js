@@ -9,6 +9,7 @@ import Loading from '../../components/Loading';
 import Button from '../../components/Button';
 import IconInfo from '../../components/IconInfo';
 import Profile from '../../components/ProfileView';
+import ToggleButton from '../../components/ToggleButton';
 
 class Users extends Component {
 
@@ -17,7 +18,8 @@ class Users extends Component {
     users: [],
     alertProps: { title: 'Alert' },
     alertShow: false,
-    errorMessage: ''
+    errorMessage: '',
+    wrapperType: true
   };
 
   componentWillMount() {
@@ -90,15 +92,23 @@ class Users extends Component {
     };
   }
 
+  changeList = type => {
+    this.setState({ wrapperType: type });
+  }
+
   render() {
-    const { users, loading, alertShow, alertProps, errorMessage } = this.state;
+    const { users, loading, alertShow, alertProps, errorMessage, wrapperType } = this.state;
     const { account } = this.props;
 
     const userList = users.map((u, i) =>
-      <div key={i} className="d-flex flex-row mt-3 col-md-6">
-        <Profile src={"https://picsum.photos/200/200?" + u._id} title={u.name} subtitle={ROLES[u.type]} orientation>
-          <div className="d-flex justify-content-end align-items-center px-3">
-            <IconInfo icon="eye" hover={COLORS.MediumOrange} />
+      <div key={i} className={wrapperType ? 'col-md-3' : 'col-md-6'}>
+        <Profile src={"https://picsum.photos/200/200?" + u._id} title={u.name} subtitle={ROLES[u.type]} orientation={wrapperType ? false : true} >
+          <div className={!wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""}>
+            <IconInfo icon="eye" hover={COLORS.MediumOrange}>
+              <div className='col-md-3'>
+                <p>Holi</p>
+              </div>
+            </IconInfo>
             <IconInfo icon="eyedropper px-1" hover={COLORS.Blue} onClick={this.editUser.bind(this, u._id)} />
             <IconInfo icon="trash" hover={COLORS.Danger} onClick={this.showDeleteUserAlert.bind(this, u._id)} hide={u._id === account._id} />
           </div>
@@ -110,7 +120,10 @@ class Users extends Component {
       <Wrapper name='Users' breadcrumb={[{ name: 'Users' }]}>
         <span className="text-danger">{errorMessage}</span>
         <Button text='Add new user' onClick={this.newUser.bind(this)} />
-        {userList}
+        <ToggleButton onChange={this.changeList.bind(this)} />
+        <div className='d-flex mt-3 col-md-12 flex-row flex-wrap'>
+          {userList}
+        </div>
         <SweetAlert show={alertShow} {...alertProps} />
         <Loading show={loading} absolute />
       </Wrapper>
