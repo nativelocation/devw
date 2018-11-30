@@ -1,6 +1,7 @@
 import React from 'react';
 import { setAccount } from '../redux/actions/account';
 import Api from './api';
+import ErrorCatch from '../components/ErrorCatch';
 import Layout from '../components/Layout';
 
 const auth = {
@@ -10,7 +11,7 @@ const auth = {
             if (!err) localStorage.removeItem('tokenAuth');
             history.push('/login');
         }
-
+        
         Api.GetUserToken(tokenAuth).then(res => {
             if (res.status === 201) {
                 store.dispatch(setAccount({ ...res.data, tokenAuth }));
@@ -30,7 +31,7 @@ const auth = {
 
     validate: (Composed, props, store) => {
         const { account } = store.getState();
-        if (!localStorage.tokenAuth) return <Composed {...props} />;
+        if (!localStorage.tokenAuth) return <ErrorCatch><Composed {...props} /></ErrorCatch>;
         if (!account._id) auth.storeUser(props.history, store);
         return null;
     }

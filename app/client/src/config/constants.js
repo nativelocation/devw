@@ -3,6 +3,12 @@ export const FONTS = {
     Raleway: 'Raleway'
 }
 
+export const ROLES = {
+    1: "Administrator",
+    2: "Manager",
+    3: "Athlete"
+}
+
 export const COLORS = {
     White: '#FFFFFF',
     Black: '#253238',

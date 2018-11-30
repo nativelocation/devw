@@ -7,18 +7,15 @@ import React from "react";
  * @param  type - Add primary|secondary|success|danger|warning|info|light|dark
  * @param  classes - Add the classes 
  */
-const Alert = ({ children, classes, type }) => {
+const Alert = ({ children, className, type, hide, onClose }) => {
+    if (hide) return null;
     return (
-        // <div className={`alert alert-${type ? type : 'primary'} ${classes ? classes : ''} alert-dismissible fade show`} role="alert">{children}
-        //     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        //         <span aria-hidden="true">&times;</span>
-        //     </button>
-        // </div>
-        <div className={`alert alert-${type ? type : 'primary'} ${classes ? classes : ''} alert-dismissible fade show`} role="alert">
+        <div className={`alert alert-${type ? type : 'primary'} ${className || ''}`}>
             {children}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            {onClose ?
+                <button type="button" className="close" onClick={onClose}>
+                    <span aria-hidden="true">&times;</span>
+                </button> : null}
         </div>
     )
 };

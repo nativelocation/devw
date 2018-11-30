@@ -9,7 +9,7 @@ import ReactDOMServer from 'react-dom/server';
  */
 export default class IconInfo extends Component {
     state = {
-        colorIcon: this.props.color || '#ccc',
+        colorIcon: this.props.color || '#2C3A41',
     }
 
     handleHover = colorIcon => {
@@ -18,17 +18,23 @@ export default class IconInfo extends Component {
     }
 
     render() {
-        const { icon, children, hover, color, onClick } = this.props;
+        const { icon, children, hover, color, onClick, hide } = this.props;
+        if (hide) return null;
         const { colorIcon } = this.state;
         const htmlChildren = ReactDOMServer.renderToString(children);
         return (
-            <span className={`${hover ? "cursor-pointer" : ""} jam jam-${icon} noBorder`}
-                tabIndex="0"
+            <span
+                tabIndex="-1"
+                className={`jam jam-${icon} noBorder ${hover ? "cursor-pointer" : ""}`}
                 role="button"
                 data-toggle="popover"
                 data-trigger="focus"
                 data-placement="bottom"
-                data-content={htmlChildren} style={{ color: colorIcon, fontSize: 16 }} onMouseEnter={this.handleHover.bind(this, hover)} onMouseLeave={this.handleHover.bind(this, color) }onClick={onClick}></span>
+                data-content={htmlChildren}
+                style={{ color: colorIcon, fontSize: 16 }}
+                onMouseEnter={this.handleHover.bind(this, hover || '#777777')}
+                onMouseLeave={this.handleHover.bind(this, color || '#2C3A41')}
+                onClick={onClick} />
         );
     }
 }

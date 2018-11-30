@@ -6,14 +6,15 @@ import { COLORS } from '../config/constants';
  * @version 1
  * @param  textColor - Color of text, default is gray
  */
-const Loading = ({ show, textColor, absolute }) => {
-    const classAbsolute = absolute ? "position-absolute fixed-top fixed-bottom bg-white" : "";
+const Loading = ({ show, textColor, absolute, text, backgroundClass }) => {
+    let classValues = absolute ? "position-absolute fixed-top fixed-bottom " : "";
+    classValues += backgroundClass || "bg-white";
     if (!show) return null;
     return (
-        <div className={`h-100 d-flex align-items-center justify-content-center ${classAbsolute}`}>
+        <div className={`h-100 d-flex align-items-center justify-content-center ${classValues}`}>
             <div className="d-flex flex-column col-md-3">
                 <object data="/assets/img/loading.svg" />
-                <span className='text-lg-left mx-auto font-weight-light' style={{ color: textColor || COLORS.LightGray, fontSize: 40 }}>LOADING..</span>
+                <span className='text-lg-left mx-auto font-weight-light' style={{ color: textColor || COLORS.LightGray, fontSize: 40 }}>{text || "LOADING.."}</span>
             </div>
         </div>
     )
