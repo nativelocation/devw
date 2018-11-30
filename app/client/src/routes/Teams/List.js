@@ -3,6 +3,7 @@ import Wrapper from '../../components/Wrapper';
 import Button from '../../components/Button';
 import IconInfo from '../../components/IconInfo';
 import Profile from '../../components/ProfileView';
+import Select from '../../components/SelectInput';
 import { connect } from 'react-redux';
 import Api from '../../config/api';
 import SweetAlert from 'sweetalert-react';
@@ -16,6 +17,7 @@ class Teams extends Component {
     alertProps: { title: 'Alert' },
     alertShow: false,
     loading: false,
+    errors: false,
   }
 
   componentWillMount() {
@@ -90,16 +92,23 @@ class Teams extends Component {
       onConfirm: this.deleteTeam.bind(this, id),
       onCancel: () => this.setState({ alertShow: false })
     };
-  }
+  } 
+
+  onChange(e) {
+    const { name, value } = e.target;
+    console.log('onchange ', e.target.name, e.target.value)
+}
 
   render() {
     const { teams, alertProps, alertShow, loading } = this.state;
+    const items = teams.map(r => ({name: r.name, value:r._id}));
     const links = [
       { name: 'Team', link: '/team' },
       { name: 'New', link: '/team/new' },
     ];
     return (
       <Wrapper name='List of Teams' breadcrumb={links}>
+        <Select name='ejemplo' items={items} onChange={this.onChange.bind(this)} selected='5c0058fe08daa40f260fc613' placeholder={true}/> {/* id: 5c0058fe08daa40f260fc613 */}
         <Button text='Add new team' onClick={this.newTeam.bind(this)} />
         {teams.map(t =>
           <div key={t._id} className="d-flex flex-row mt-3 col-md-6">
