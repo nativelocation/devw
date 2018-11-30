@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Api from '../../config/api';
 import { COLORS, ROLES } from '../../config/constants';
@@ -8,7 +8,8 @@ import Wrapper from '../../components/Wrapper';
 import Loading from '../../components/Loading';
 import Button from '../../components/Button';
 import IconInfo from '../../components/IconInfo';
-import Profile from '../../components/ProfileView';
+import ProfileView from '../../components/ProfileView';
+import ProfileImage from '../../components/ProfileImage';
 import ToggleButton from '../../components/ToggleButton';
 
 class Users extends Component {
@@ -102,7 +103,7 @@ class Users extends Component {
 
     const userList = users.map((u, i) =>
       <div key={i} className={wrapperType ? 'col-md-3' : 'col-md-6'}>
-        <Profile src={"https://picsum.photos/200/200?" + u._id} title={u.name} subtitle={ROLES[u.type]} orientation={wrapperType ? false : true} >
+        <ProfileView src={"https://picsum.photos/200/200?" + u._id} title={u.name} subtitle={ROLES[u.type]} orientation={wrapperType ? false : true} >
           <div className={!wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""}>
             <IconInfo icon="eye" hover={COLORS.MediumOrange}>
               <div className='col-md-3'>
@@ -112,7 +113,7 @@ class Users extends Component {
             <IconInfo icon="eyedropper px-1" hover={COLORS.Blue} onClick={this.editUser.bind(this, u._id)} />
             <IconInfo icon="trash" hover={COLORS.Danger} onClick={this.showDeleteUserAlert.bind(this, u._id)} hide={u._id === account._id} />
           </div>
-        </Profile>
+        </ProfileView>
       </div>
     );
 
