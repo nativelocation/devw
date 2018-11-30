@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Navbar extends Component {
     onLogout() {
@@ -19,9 +20,9 @@ export default class Navbar extends Component {
                                 <span className='text-white'>{account.name}</span>
                             </button>
                             <div className="dropdown-menu">
-                                <a className="dropdown-item" href="#">Profile</a>
-                                <hr />
-                                <a className="dropdown-item" href="javascript:;" onClick={this.onLogout}>Loguot</a>
+                                <Link to="/profile" className="dropdown-item">Profile</Link>
+                                <div className="dropdown-divider" />
+                                <button className="dropdown-item" onClick={this.onLogout}>Loguot</button>
                             </div>
                         </div>
                     </ul>
