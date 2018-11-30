@@ -79,7 +79,7 @@ class RegisterUser extends Component {
     const formData = new FormData();
     let { fileImage, errors, data, id, isEdit } = this.state;
     let { name, email, phone, password, userType, confirmPassword, teamId } = data;
-    console.log(teamId)
+
     if (_.isEmpty(name)) errors.name = 'Name is required';
     if (_.isEmpty(email)) errors.email = 'Email is required';
     if (_.isEmpty(phone)) errors.phone = 'Phone is required';
@@ -169,10 +169,13 @@ class RegisterUser extends Component {
   }
 
   onCancel() {
-    if (this.state.modified) {
-      const onClickCancel = () => this.setState({ alertShow: false }, () => this.props.history.push('/user'))
+    const { modified, isProfile } = this.state
+    const redirect = isProfile ? "/profile" : "/user";
+    
+    if (modified) {
+      const onClickCancel = () => this.setState({ alertShow: false }, () => this.props.history.push(redirect))
       this.setState({ alertShow: true, alertProps: this.getCancelAlertProps(onClickCancel) });
-    } else this.props.history.push('/user');
+    } else this.props.history.push(redirect);
   }
 
   render() {
@@ -183,7 +186,6 @@ class RegisterUser extends Component {
       { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
       { name: isEdit ? isProfile ? 'Update Profile' : 'Update User' : 'New User' },
     ];
-    //TODO: change behavior for profile when cancel(no idea) it can't send to user's list because may be a manager and they don't have access
     return (
       <Wrapper name={isEdit ? isProfile ? 'Update profile' : 'Update current user' : 'Add new user'} breadcrumb={links}>
         <div className="d-flex flex-column">

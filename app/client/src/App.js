@@ -8,12 +8,9 @@ import Login from './routes/Login';
 import Home from './routes/Home';
 import NotFound from './routes/NotFound';
 
-import Edit from './routes/Edit';
-import Client from './routes/Client';
-
 import Users from './routes/Users/List';
 import RegisterUser from './routes/Users/Register';
-import User from './routes/Users/Info';
+import Profile from './routes/Users/Profile';
 
 import Teams from './routes/Teams/List';
 import RegisterTeam from './routes/Teams/Register';
@@ -35,10 +32,8 @@ class App extends Component {
               <Route exact path="/login" component={e => Auth.validate(Login, e, store)} />
 
               <Route exact path="/" component={e => Auth.authorize(Home, e, store)} />
-              <Route exact path="/edit" component={e => Auth.authorize(Edit, e, store)} />
-              <Route exact path="/client" component={e => Auth.authorize(Client, e, store)} />
 
-              <Route exact path="/profile" component={e => Auth.authorize(User, e, store)} />
+              <Route exact path="/profile" component={e => Auth.authorize(Profile, e, store)} />
               <Route exact path="/profile/edit" component={e => Auth.authorize(RegisterUser, e, store)} />
 
               <Route exact path="/user/new" component={e => Auth.authorize(RegisterUser, e, store, 1)} />
