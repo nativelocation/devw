@@ -42,15 +42,15 @@ class App extends Component {
               <Route exact path="/profile" component={e => Auth.authorize(UserProfile, e, store)} />
               <Route exact path="/profile/edit" component={e => Auth.authorize(RegisterUser, e, store)} />
 
-              <Route exact path="/user/new" component={e => Auth.authorize(RegisterUser, e, store)} />
-              <Route exact path="/user/edit/:id" component={e => Auth.authorize(RegisterUser, e, store)} />
-              <Route exact path="/user/:id" component={e => Auth.authorize(User, e, store)} />
-              <Route exact path="/user" component={e => Auth.authorize(Users, e, store)} />
+              <Route exact path="/user/new" component={e => Auth.authorize(RegisterUser, e, store, 1)} />
+              <Route exact path="/user/edit/:id" component={e => Auth.authorize(RegisterUser, e, store, 1)} />
+              <Route exact path="/user/:id" component={e => Auth.authorize(User, e, store, 1)} />
+              <Route exact path="/user" component={e => Auth.authorize(Users, e, store, 1)} />
 
-              <Route exact path="/team/new" component={e => Auth.authorize(RegisterTeam, e, store)} />
-              <Route exact path="/team/edit/:id" component={e => Auth.authorize(RegisterTeam, e, store)} />
-              <Route exact path="/team/:id" component={e => Auth.authorize(Team, e, store)} />
-              <Route exact path="/team" component={e => Auth.authorize(Teams, e, store)} />
+              <Route exact path="/team/new" component={e => Auth.authorize(RegisterTeam, e, store, 1)} />
+              <Route exact path="/team/edit/:id" component={e => Auth.authorize(RegisterTeam, e, store, 1)} />
+              <Route exact path="/team/:id" component={e => Auth.authorize(Team, e, store, 1)} />
+              <Route exact path="/team" component={e => Auth.authorize(Teams, e, store, 1)} />
 
               <Route exact path="/contract/new" component={e => Auth.authorize(NewContract, e, store)} />
               <Route exact path="/contract/edit/:id" component={e => Auth.authorize(EditContract, e, store)} />
