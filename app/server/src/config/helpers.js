@@ -2,7 +2,7 @@ const methods = {
     generalError: (err, res) => {
         const data = err.code ? undefined : err.message;
         const code = err.code || 500;
-        return res.status(code).json({
+        return res.status(201).json({
             status: code,
             message: err.msg || "An error has ocurred, try again",
             data
