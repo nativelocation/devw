@@ -16,7 +16,7 @@ const model = {
         if (!data.name) throw { code: 400, msg: "Name is required" };
         if (!data.email) throw { code: 400, msg: "Email is required" };
         if (!data.phone) throw { code: 400, msg: "Phone is required" };
-        if (data.teamId && !Number.isInteger(data.teamId)) throw { code: 400, msg: "Id Team must be numeric" };
+        if (data.type === '2' && !data.teamId) throw { code: 400, msg: "Team is required" };
         if (!data.type) throw { code: 400, msg: "Type is required" };
         if (!data.password) throw { code: 400, msg: "Password is required" };
 
