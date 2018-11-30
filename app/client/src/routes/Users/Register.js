@@ -23,6 +23,7 @@ class RegisterUser extends Component {
     data: {},
     fileImage: {},
     formData: false,
+    teams: [],
 
     errors: {},
     errorMessage: '',
@@ -39,7 +40,21 @@ class RegisterUser extends Component {
 
       if (isProfile)
         this.setState({ id: account._id, isProfile, isEdit: true }, this.verifyUser);
+      this.getTeams();
     } else this.verifyUser();
+  }
+
+  getTeams = () => {
+    const { account } = this.props;
+    let { data } = this.state;
+    Api.GetTeams(account.tokenAuth).then(res => {
+      if (res.status === 201) {
+        data.teamId = '-1'
+        this.setState({ teams: res.data, data });
+      }
+    }).catch(err => {
+
+    });
   }
 
   verifyUser() {
@@ -64,14 +79,16 @@ class RegisterUser extends Component {
     const validMimetypes = ['image/jpeg', 'image/png', 'image/gif'];
     const formData = new FormData();
     let { fileImage, errors, data, id, isEdit } = this.state;
-    let { name, email, phone, password, userType, confirmPassword } = data;
-
+    let { name, email, phone, password, userType, confirmPassword, teamId } = data;
+    
     if (_.isEmpty(name)) errors.name = 'Name is required';
     if (_.isEmpty(email)) errors.email = 'Email is required';
     if (_.isEmpty(phone)) errors.phone = 'Phone is required';
     if (!isEdit && _.isEmpty(password)) errors.password = 'Password is required';
     if (!isEdit && _.isEmpty(confirmPassword)) errors.confirmPassword = 'Confirm Password is required';
     if (_.isEmpty(userType)) errors.userType = 'User Type is required';
+    if(userType === '2' && teamId === '-1') errors.teamId = "Team is required";
+    else delete errors.teamId;
 
     if (!errors.email && !email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i))
       errors.email = `Email format is invalid: ${email}`;
@@ -98,6 +115,8 @@ class RegisterUser extends Component {
     formData.append('email', email);
     formData.append('phone', phone);
     formData.append('type', userType && userType.length > 0 ? Number.parseInt(userType) : 1);
+    if (userType === '2') formData.append('teamId', teamId);
+    if (userType === '2') console.log(teamId);
     if (password) formData.append('password', password);
     if (fileImage.type) formData.append('image', fileImage);
 
@@ -160,7 +179,8 @@ class RegisterUser extends Component {
 
   render() {
     const { account } = this.props;
-    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit, isProfile, id } = this.state;
+    const { fileImage, errorMessage, errors, alertProps, alertShow, loading, data, isEdit, isProfile, id, teams } = this.state;
+    const items = teams.map(r => ({ name: r.name, value: r._id }));
     const links = [
       { name: 'Users', link: '/user', onClick: this.onCancel.bind(this) },
       { name: isEdit ? isProfile ? 'Update Profile' : 'Update User' : 'New User' },
@@ -212,7 +232,10 @@ class RegisterUser extends Component {
                     <RadioButton checked={data.userType === '1'} onChange={this.onChange.bind(this)} value='1' name="userType" text="Administrator" />
                     <RadioButton checked={data.userType === '2'} onChange={this.onChange.bind(this)} value='2' name="userType" text="Manager" />
                     <Error text={errors.userType} />
-                    <SelectInput />
+                    <div className={`${data.userType === '2' ? 'visible' : 'invisible'} mt-3`}>
+                      <SelectInput name="teamId" items={items} placeholder onChange={this.onChange.bind(this)} />
+                      <Error text={errors.teamId} />
+                    </div>
                   </div>
                   : null}
               </div>

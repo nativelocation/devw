@@ -26,13 +26,13 @@ export default class SelectInput extends Component {
         }
 
         return (
-            <div className="input-group mb-3">
+            <div className="input-group">
                 <select id={name} name={name} className="custom-select noBorder" onChange={onChange}>
                     {placeholder ? <option value='-1'>{defaultText}</option> : null}
-                    {items ? 
+                    {items ?
                         items.map(r =>
-                        <option selected={placeholder === false ? selected === r.value ? 'selected' : undefined : undefined} key={r.value} value={r.value}>{r.name}</option>
-                    ): undefined}
+                            <option selected={placeholder === false ? selected === r.value ? 'selected' : undefined : undefined} key={r.value} value={r.value}>{r.name}</option>
+                        ) : undefined}
                 </select>
             </div>
         )
