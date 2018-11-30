@@ -9,8 +9,8 @@ import Loading from '../../components/Loading';
 import Button from '../../components/Button';
 import IconInfo from '../../components/IconInfo';
 import ProfileView from '../../components/ProfileView';
-import ProfileImage from '../../components/ProfileImage';
 import ToggleButton from '../../components/ToggleButton';
+import Label from '../../components/Label';
 
 class Users extends Component {
 
@@ -106,9 +106,10 @@ class Users extends Component {
         <ProfileView src={"https://picsum.photos/200/200?" + u._id} title={u.name} subtitle={ROLES[u.type]} orientation={wrapperType ? false : true} >
           <div className={!wrapperType ? "d-flex justify-content-end px-3 pt-3" : ""}>
             <IconInfo icon="eye" hover={COLORS.MediumOrange}>
-              <div className='col-md-3'>
-                <p>Holi</p>
-              </div>
+              <Label label='EMAIL ADDRESS'/>
+              <p>{u.email}</p>
+              <Label label='PHONE NUMBER'/>
+              <p>{u.phone}</p>
             </IconInfo>
             <IconInfo icon="eyedropper px-1" hover={COLORS.Blue} onClick={this.editUser.bind(this, u._id)} />
             <IconInfo icon="trash" hover={COLORS.Danger} onClick={this.showDeleteUserAlert.bind(this, u._id)} hide={u._id === account._id} />
