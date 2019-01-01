@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Login from "./routes/Login";
+import Dashboard from "./routes/Dashboard";
 
 class App extends Component {
   render() {
@@ -9,7 +10,8 @@ class App extends Component {
       <BrowserRouter>
         <Fragment>
           <Switch>
-            <Route path="/" component={Login} />
+            <Route exact path="/" component={Login} />
+            <Route exact path="/dashboard" component={Dashboard} />
           </Switch>
         </Fragment>
       </BrowserRouter>
