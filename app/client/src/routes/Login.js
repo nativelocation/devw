@@ -17,7 +17,7 @@ export default class Login extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.history.push('/dashboard');
+    this.props.history.push('/');
   }
 
   render() {
