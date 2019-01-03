@@ -39,4 +39,21 @@ app.use((err, req, res, next) => {
   });
 });
 
+const tw = require("teamwork-api")(
+  "twp_GyX8Zgke05Wd4hHigpr6BN32ckvp",
+  "serpicodev.teamwork.com"
+);
+
+tw.projects
+  .get({
+    status: "ALL"
+  })
+  .then(res => {
+    console.log("Projects ", res);
+    this.setState({ projects: res });
+  })
+  .catch(err => {
+    console.log("Error ", err);
+  });
+
 app.listen(port, _ => console.log(`The server is listening on port ${port}`));
