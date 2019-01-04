@@ -6,9 +6,11 @@ const path = require("path");
 const busboy = require("connect-busboy");
 const busboyBodyParser = require("busboy-body-parser");
 const app = express();
+const helpers = require('./src/config/helpers');
 
 //Route Name
-// const dashboardRouter = require('./src/routes/index');
+const projectRouter = require('./src/routes/project');
+const userRouter = require('./src/routes/user');
 
 const port = process.env.PORT || 8000;
 const publicPath = path.join(__dirname, "../../public");
@@ -21,7 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(busboyBodyParser());
 
 //Routes
-// app.use('/dashboard', dashboardRouter);
+app.use('/projects', projectRouter);
+app.use('/user', userRouter);
 
 app.get("*", (req, res, next) => {
   if (req.url.includes("api")) return next();
@@ -39,21 +42,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-const tw = require("teamwork-api")(
-  "twp_GyX8Zgke05Wd4hHigpr6BN32ckvp",
-  "serpicodev.teamwork.com"
-);
-
-tw.projects
-  .get({
-    status: "ALL"
-  })
-  .then(res => {
-    console.log("Projects ", res);
-    this.setState({ projects: res });
-  })
-  .catch(err => {
-    console.log("Error ", err);
-  });
+helpers.initApp();
 
 app.listen(port, _ => console.log(`The server is listening on port ${port}`));

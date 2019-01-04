@@ -1,41 +1,27 @@
 import React, { Component } from "react";
-import Sidebar from "../components/sidebar";
-const tw = require("teamwork-api")(
-  "twp_GyX8Zgke05Wd4hHigpr6BN32ckvp",
-  "https://serpicodev.teamwork.com"
-);
+import { connect } from 'react-redux';
+import Api from '../config/api';
+import UnderConstruction from '../components/UnderConstruction';
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   state = {
     projects: []
   };
 
-  async componentDidMount() {
-    await this.getAllProjects();
+  componentWillMount(){
+      this.getProjects();
   }
 
-  async getAllProjects(){
-    await tw.projects
-      .get({
-        status: "ALL"
-      })
-      .then(res => {
-        console.log("Projects ", res);
-        this.setState({ projects: res });
-      })
-      .catch(err => {
-        console.log("Error ", err);
-      });
-  };
+  getProjects = () => {
+    Api.GetProjects().then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.error(err);
+    })
+  }
+
   render() {
-    console.log(this.state.projects);
-    return (
-      <Sidebar />
-      // <div>
-      //     {this.state.projects.each(r => {
-      //         <p>r</p>
-      //     })}
-      // </div>
-    );
+    return (<UnderConstruction />);
   }
 }
+export default connect(s => ({ account: s.account }))(Dashboard)

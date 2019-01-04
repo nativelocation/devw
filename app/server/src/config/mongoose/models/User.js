@@ -1,12 +1,9 @@
 module.exports = (Schema) => {
     return new Schema({
-        name: String,
-        role: Number,
+        firstName: String,
+        lastName: String,
+        role: Number,//1 = Super Admin, 2 = Admin
         email: String,
         password: String,
-        title: String,
-        phoneNumber: String,
-        address: String,
-        idProject: Number
     });
 };
