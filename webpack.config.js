@@ -27,11 +27,6 @@ const config = {
         loader: 'svg-react-loader'
       }
     ]
-  },
-  node: {
-    fs: 'empty',
-    net: 'empty',
-    // tls: 'empty'
   }
 }
 

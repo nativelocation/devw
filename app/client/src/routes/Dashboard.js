@@ -13,8 +13,11 @@ class Dashboard extends Component {
   }
 
   getProjects = () => {
-    Api.GetProjects().then(res => {
-        console.log(res);
+    const { account } = this.props;
+    console.log('metodo')
+    Api.GetProjects(account.tokenAuth).then(res => {
+      console.log('Respuesta')
+      console.log(res);
     }).catch(err => {
         console.error(err);
     })

@@ -85,3 +85,14 @@ hr {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.custom-select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.noBorder:focus, .form-control:focus, .form-control:active, .dropdown-item {
+    outline: none !important;
+    -webkit-box-shadow: none;
+}

@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(busboyBodyParser());
 
 //Routes
-app.use('/projects', projectRouter);
+app.use('/project', projectRouter);
 app.use('/user', userRouter);
 
 app.get("*", (req, res, next) => {
