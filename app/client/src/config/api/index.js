@@ -5,6 +5,7 @@ class ApiModel {
     Login = credentials => FetchRequest(c.LOGIN, 'POST', null, credentials);
     GetUserToken = token => FetchRequest(c.GETCURRENT, 'GET', token);
     GetProjects = token => FetchRequest(c.GETPROJECT, 'GET', token);
+    GetPeople = token => FetchRequest(c.GETPEOPLE, 'GET', token);
     
 }
 
