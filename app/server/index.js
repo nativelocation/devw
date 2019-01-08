@@ -63,7 +63,7 @@ app.use((req, res, next) => {
   next(createError(404));
 });
 app.use((err, req, res, next) => {
-  console.log("err.status :", err.status);
+  console.log("err.status :", err.status, err);
   res.status(err.status || 500).json({
     message: "An error has ocurred.",
     data: req.app.get("env") === "development" ? err : null
