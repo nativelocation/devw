@@ -17,11 +17,11 @@ alexaApp.express({
   // verifies requests come from amazon alexa. Must be enabled for production.
   // You can disable this if you're running a dev environment and want to POST
   // things to test behavior. enabled by default.
-  checkCert: false,
+  // checkCert: false,
 
   // sets up a GET route when set to true. This is handy for testing in
   // development, but not recommended for production. disabled by default
-  debug: true
+  // debug: true
 });
 alexaApp.launch(function(request, response) {
   response.say("You launched the app!");
@@ -29,7 +29,7 @@ alexaApp.launch(function(request, response) {
 
 alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
 
-alexaApp.intent("nameIntent", {
+alexaApp.intent("ProjectIntent", {
     "slots": { "NAME": "LITERAL" },
     "utterances": [
       "my {name is|name's} {names|NAME}", "set my name to {names|NAME}"
