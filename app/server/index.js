@@ -34,6 +34,9 @@ alexaApp.express({
   // development, but not recommended for production. disabled by default
   // debug: true
 });
+alexaApp.pre = function(request, response, type) {
+  console.log('ALEXA PRE Open :', request);
+};
 
 
 alexaApp.error = function (exception, request, response) {
