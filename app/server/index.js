@@ -9,7 +9,18 @@ const app = express();
 const helpers = require('./src/config/helpers');
 
 const alexa = require("alexa-app");
-const alexaApp = new alexa.app();
+const alexaApp = new alexa.app("clearview");
+
+alexaApp.intent("ProjectIntent", {
+  "slots": { "number": "AMAZON.NUMBER" },
+  "utterances": ["say the number {-|number}"]
+},
+  function (request, response) {
+    console.log('ALEXA TEST');
+    response.say("Success!");
+  }
+);
+
 alexaApp.express({
   expressApp: app,
   //router: express.Router(),
@@ -23,23 +34,6 @@ alexaApp.express({
   // development, but not recommended for production. disabled by default
   // debug: true
 });
-alexaApp.launch(function(request, response) {
-  response.say("You launched the app!");
-});
-
-alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
-
-alexaApp.intent("ProjectIntent", {
-    "slots": { "NAME": "LITERAL" },
-    "utterances": [
-      "my {name is|name's} {names|NAME}", "set my name to {names|NAME}"
-    ]
-  },
-  function(request, response) {
-    response.say("Success!");
-  }
-);
-
 
 //Route Name
 const projectRouter = require('./src/routes/project');
