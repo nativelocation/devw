@@ -9,11 +9,11 @@ const app = express();
 const helpers = require('./src/config/helpers');
 
 const alexa = require("alexa-app");
-const alexaApp = new alexa.app("clearview");
+let alexaApp = new alexa.app("clearview");
 
 alexaApp.intent("ProjectIntent", {
-  "slots": { "number": "AMAZON.NUMBER" },
-  "utterances": ["say the number {-|number}"]
+  "slots": {},
+  "utterances": []
 },
   function (request, response) {
     console.log('ALEXA TEST');
