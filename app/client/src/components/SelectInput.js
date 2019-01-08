@@ -33,7 +33,6 @@ export default class SelectInput extends Component {
                     <option>last month</option>
                     <option>this year</option>
                     <option>last year</option>
-                    <hr />
                     <option>custom</option>
                 </select>
             </div>

@@ -12,5 +12,8 @@ router.get('/all', (req, res, next) => {
 router.get('/people', (req, res, next) => {
     model.getPeople().then(r => generalSuccess(res, "Get people list", r)).catch(e => generalError(e, res));
 });
+router.post('/timebyuser', (req, res, next) => {
+    model.getTimeByUser(req.body).then(r => generalSuccess(res, "Get time list", r)).catch(e => generalError(e, res));
+});
 
 module.exports = router;

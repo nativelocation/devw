@@ -21,6 +21,6 @@ export default function FetchRequest(endpoint, method, token, data, customBase) 
     const headers = Headers(token, customBase);
     const dataParse = data instanceof FormData ? data : JSON.stringify(data);
     const body = method !== 'GET' ? dataParse : null;
-
+    
     return Request(url, { method, headers, body });
 }

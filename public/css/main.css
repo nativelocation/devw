@@ -96,3 +96,19 @@ hr {
     outline: none !important;
     -webkit-box-shadow: none;
 }
+
+#scrollWrapper {
+    height: auto;
+    overflow-x: hidden;
+}
+
+.tableProjects table th{
+    width: 80px
+}
+
+.tableProjects table td{
+    width: 0px
+}
+.tableProjects .peopleName{
+    font-size: 14px;
+}
