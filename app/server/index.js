@@ -8,6 +8,39 @@ const busboyBodyParser = require("busboy-body-parser");
 const app = express();
 const helpers = require('./src/config/helpers');
 
+const alexa = require("alexa-app");
+const alexaApp = new alexa.app();
+alexaApp.express({
+  expressApp: app,
+  //router: express.Router(),
+
+  // verifies requests come from amazon alexa. Must be enabled for production.
+  // You can disable this if you're running a dev environment and want to POST
+  // things to test behavior. enabled by default.
+  checkCert: false,
+
+  // sets up a GET route when set to true. This is handy for testing in
+  // development, but not recommended for production. disabled by default
+  debug: true
+});
+alexaApp.launch(function(request, response) {
+  response.say("You launched the app!");
+});
+
+alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
+
+alexaApp.intent("nameIntent", {
+    "slots": { "NAME": "LITERAL" },
+    "utterances": [
+      "my {name is|name's} {names|NAME}", "set my name to {names|NAME}"
+    ]
+  },
+  function(request, response) {
+    response.say("Success!");
+  }
+);
+
+
 //Route Name
 const projectRouter = require('./src/routes/project');
 const userRouter = require('./src/routes/user');

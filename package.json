@@ -12,6 +12,7 @@
   "author": "Author of Devview",
   "license": "MIT",
   "dependencies": {
+    "alexa-app": "^4.2.3",
     "bcryptjs": "^2.4.3",
     "busboy": "^0.2.14",
     "busboy-body-parser": "^0.3.2",
