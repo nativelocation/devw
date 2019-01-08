@@ -35,6 +35,36 @@ alexaApp.express({
   // debug: true
 });
 
+
+alexa.error = function (exception, request, response) {
+  console.log('ALEXA Error :');
+  response.say("Sorry, something is wrong on interactive sports services, Try again");
+};
+
+alexa.launch(function (request, response) {
+  response.say('Welcome to Clearview');
+});
+
+alexa.intent("AMAZON.HelpIntent", {
+  "slots": {},
+  "utterances": []
+},
+  function (request, response) {
+    var helpOutput = "You can say 'some statement' or ask 'some question'. You can also say stop or exit to quit.";
+    var reprompt = "What would you like to do?";
+    // AMAZON.HelpIntent must leave session open -> .shouldEndSession(false)
+    response.say(helpOutput).reprompt(reprompt).shouldEndSession(false);
+  }
+);
+
+
+
+
+
+
+
+
+
 //Route Name
 // const projectRouter = require('./src/routes/project');
 // const userRouter = require('./src/routes/user');
