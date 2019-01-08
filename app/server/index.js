@@ -54,6 +54,7 @@ app.use('/project', projectRouter);
 app.use('/user', userRouter);
 
 app.get("*", (req, res, next) => {
+  console.log('alexa entro')
   if (req.url.includes("api")) return next();
   res.sendFile(path.resolve(publicPath, "index.html"));
 });

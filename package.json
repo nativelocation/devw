@@ -7,7 +7,8 @@
     "start": "node ./app/server/index.js",
     "build": "gulp && webpack --mode production",
     "client": "gulp && opn http://localhost:8000 && webpack --mode development --watch",
-    "server": "nodemon ./app/server/index.js"
+    "server": "nodemon ./app/server/index.js",
+    "serverlogs": "heroku logs --tail"
   },
   "author": "Author of Devview",
   "license": "MIT",
