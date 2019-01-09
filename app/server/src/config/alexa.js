@@ -22,7 +22,7 @@ module.exports = {
             debug: DEBUG ? true : false
         });
 
-        alexaApp.launch((req, res) => res.say(texts.welcome));
+        alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
             console.log('ALEXA TOTALHOURS res :', res);
