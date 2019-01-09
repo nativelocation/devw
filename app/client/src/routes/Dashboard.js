@@ -19,6 +19,11 @@ class Dashboard extends Component {
     else console.log("Error getting data");
   }
 
+  onLogout() {
+    localStorage.removeItem("tokenAuth");
+    window.location.reload();
+  }
+
   getTimeByUser = async (projects, people) => {
     const { account } = this.props;
     let data = {
@@ -102,10 +107,14 @@ class Dashboard extends Component {
         let proj = v.find(p => p.id === pj.id);
         if (proj) total += parseFloat(proj.time);
       });
-      return <td className="border-right text-center">{total.toFixed(2)}</td>;
+      return (
+        <td key={i} className="border-right text-center">
+          {total.toFixed(2)}
+        </td>
+      );
     });
     return (
-      <Wrapper name="Show:">
+      <Wrapper name="Show:" onClick={this.onLogout}>
         <div className="d-flex flex-row table-responsive tableProjects">
           <table className="table table-striped table-hover table-borderless">
             <thead>
