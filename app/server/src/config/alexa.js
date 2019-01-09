@@ -3,7 +3,7 @@ const { DEBUG } = process.env;
 
 const texts = {
     welcome: "Welcome to clearview for SerpicoDev, please ask anything you need.",
-    totalHoursResult: "Your total hours for DevView Project is 125hours.",
+    totalHoursResult: "Your total hours for DevView Project is 65.08 hours.",
     statusUpdateResult: 'Your status update for DevView is "Doing progress on filter data".'
 }
 
