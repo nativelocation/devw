@@ -77,7 +77,7 @@ class Dashboard extends Component {
           times[pp.id].map(v => {
             total += parseFloat(v.time);
           });
-          return total;
+          return total.toFixed(2);
         }
         return "-";
       };
@@ -102,7 +102,7 @@ class Dashboard extends Component {
         let proj = v.find(p => p.id === pj.id);
         if (proj) total += parseFloat(proj.time);
       });
-      return <td className="border-right text-center">{total}</td>;
+      return <td className="border-right text-center">{total.toFixed(2)}</td>;
     });
     return (
       <Wrapper name="Show:">
