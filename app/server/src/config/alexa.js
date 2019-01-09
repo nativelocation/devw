@@ -35,7 +35,7 @@ module.exports = {
         });
 
 
-        alexaApp.messages.NO_INTENT_FOUND = "Why you called dat intent? I don't know about dat";
+        alexaApp.messages.NO_INTENT_FOUND = "CleaView Can't process that request right now, you can ask for your status update or total hours right now";
         // alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
         // alexaApp.intent("TeamworkHoursIntent", {
         //     "slots": { "NAME": "LITERAL" },
