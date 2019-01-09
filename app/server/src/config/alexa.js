@@ -28,12 +28,14 @@ module.exports = {
             console.log('ALEXA TOTALHOURS res :', res);
             res.say(texts.totalHoursResult);
         });
-        
+
         alexaApp.intent("StatusUpdateIntent", defaultValues, (req, res) => {
             console.log('ALEXA STATUSUPDATE res :', res);
             res.say(texts.statusUpdateResult);
         });
 
+
+        alexaApp.messages.NO_INTENT_FOUND = "Why you called dat intent? I don't know about dat";
         // alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
         // alexaApp.intent("TeamworkHoursIntent", {
         //     "slots": { "NAME": "LITERAL" },
