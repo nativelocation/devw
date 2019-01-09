@@ -8,7 +8,7 @@ import React, { Fragment } from "react";
  * @param  children - Add more components
  */
 
-const Wrapper = ({ children, name }) => {
+const Wrapper = ({ children, name, onClick }) => {
   return (
     <Fragment>
       <div
@@ -18,6 +18,7 @@ const Wrapper = ({ children, name }) => {
       >
         <div className="col-md-12 col-lg-12 m-0">
           <h6 className="font-weight-light pl-2 m-0">{name}</h6>
+          <button className="dropdown-item" onClick={onClick}>Loguot</button>
           <div className="form-check form-check-inline mt-2 ml-2">
             <input
             style={styles.checkBoxWidth}
