@@ -25,10 +25,12 @@ module.exports = {
         alexaApp.launch((req, res) => res.say(texts.welcome));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
+            console.log('ALEXA TOTALHOURS res :', res);
             res.say(texts.totalHoursResult);
         });
-
+        
         alexaApp.intent("StatusUpdateIntent", defaultValues, (req, res) => {
+            console.log('ALEXA STATUSUPDATE res :', res);
             res.say(texts.statusUpdateResult);
         });
 
