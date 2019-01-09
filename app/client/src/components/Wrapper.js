@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 /**
  * The Wrapper Component.
@@ -10,7 +10,7 @@ import React, { Fragment } from "react";
 
 const Wrapper = ({ children, name, onClick }) => {
   return (
-    <Fragment>
+    <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
       <div
         id="scrollWrapper"
         className="col-md-12 col-lg-12 p-3"
@@ -18,35 +18,49 @@ const Wrapper = ({ children, name, onClick }) => {
       >
         <div className="col-md-12 col-lg-12 m-0">
           <h6 className="font-weight-light pl-2 m-0">{name}</h6>
-          <button type="button" className="btn btn-link col-md-2 text-muted float-right btnLogout nounderline" onClick={onClick}>Loguot</button>
+          <button
+            type="button"
+            className="btn btn-link col-md-2 text-muted float-right btnLogout nounderline"
+            onClick={onClick}
+          >
+            Loguot
+          </button>
           <div className="form-check form-check-inline mt-2 ml-2">
             <input
-            style={styles.checkBoxWidth}
+              style={styles.checkBoxWidth}
               className="form-check-input mt-1"
               type="checkbox"
               id="inlineCheckbox1"
               value="option1"
             />
-            <label className="form-check-label" htmlFor="inlineCheckbox1" style={styles.checkBoxSize}>
+            <label
+              className="form-check-label"
+              htmlFor="inlineCheckbox1"
+              style={styles.checkBoxSize}
+            >
               full-time
             </label>
           </div>
           <div className="form-check form-check-inline">
             <input
-            style={styles.checkBoxWidth}
+              style={styles.checkBoxWidth}
               className="form-check-input mb-1"
               type="checkbox"
               id="inlineCheckbox2"
               value="option2"
             />
-            <label className="form-check-label" htmlFor="inlineCheckbox2" style={{marginTop: -10, fontSize: 12 }}>
+            <label
+              className="form-check-label"
+              htmlFor="inlineCheckbox2"
+              style={{ marginTop: -10, fontSize: 12 }}
+            >
               part-time
             </label>
           </div>
         </div>
         <div className="col-md-12 col-lg-12 bg-white p-2">{children}</div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 
@@ -58,7 +72,7 @@ const styles = {
     width: 10
   },
   checkBoxSize: {
-      fontSize: 12
+    fontSize: 12
   }
 };
 

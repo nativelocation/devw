@@ -16,10 +16,6 @@ export default class SelectInput extends Component {
         items: {},
     }
 
-    onChange(e){
-        this.setState({value: e.target.value});
-      }
-
     render() {
         const { items, onChange, name, value, placeholder } = this.props;
         const content = typeof (placeholder);
@@ -30,7 +26,7 @@ export default class SelectInput extends Component {
 
         return (
             <div className="input-group">
-                <select id={name} name={name} className="custom-select noBorder bg-secondary text-white" onChange={this.onChange.bind(this)} value={value}>
+                <select id={name} name={name} className="custom-select noBorder bg-secondary text-white" onChange={onChange} value={value}>
                     <option>today</option>
                     <option>yesterday</option>
                     <option>this month</option>
