@@ -7,6 +7,7 @@ const busboy = require("connect-busboy");
 const busboyBodyParser = require("busboy-body-parser");
 const app = express();
 const helpers = require('./src/config/helpers');
+const alexa = require('./src/config/alexa');
 
 //Route Name
 const projectRouter = require('./src/routes/project');
@@ -21,11 +22,13 @@ app.use(express.json());
 app.use(express.static(publicPath));
 app.use(express.urlencoded({ extended: false }));
 app.use(busboyBodyParser());
+app.set("view engine", "ejs");
 
 //Routes
 app.use('/project', projectRouter);
 app.use('/user', userRouter);
 
+alexa.init(app);
 app.get("*", (req, res, next) => {
   if (req.url.includes("api")) return next();
   res.sendFile(path.resolve(publicPath, "index.html"));
@@ -38,7 +41,7 @@ app.use((err, req, res, next) => {
   console.log("err.status :", err.status);
   res.status(err.status || 500).json({
     message: "An error has ocurred.",
-    data: req.app.get("env") === "development" ? err : null
+    data: process.env.DEBUG ? err : undefined
   });
 });
 
