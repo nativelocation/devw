@@ -1,7 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
+import Sidebar from "../components/Sidebar";
+
+const month = new Array();
+month[0] = "01";
+month[1] = "02";
+month[2] = "03";
+month[3] = "04";
+month[4] = "05";
+month[5] = "06";
+month[6] = "07";
+month[7] = "08";
+month[8] = "09";
+month[9] = "10";
+month[10] = "11";
+month[11] = "12";
 
 class Dashboard extends Component {
   state = {
@@ -26,9 +41,15 @@ class Dashboard extends Component {
 
   getTimeByUser = async (projects, people) => {
     const { account } = this.props;
+    const d = new Date();
+    const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+    const mon = month[d.getMonth()];
+    const year = d.getFullYear();
+    const today = `${year}${mon}${day}`;
+
     let data = {
-      fromDate: "20180101",
-      toDate: "20181231",
+      fromDate: today,
+      toDate: today,
       fromTime: "00:00",
       toTime: "23:59"
     };
@@ -114,27 +135,30 @@ class Dashboard extends Component {
       );
     });
     return (
-      <Wrapper name="Show:" onClick={this.onLogout}>
-        <div className="d-flex flex-row table-responsive tableProjects">
-          <table className="table table-striped table-hover table-borderless">
-            <thead>
-              <tr>
-                <th />
-                {projectsName}
-                <th>TOTAL</th>
-              </tr>
-            </thead>
-            <tbody>
-              {peoplesName}
-              <tr>
-                <td className="border-right peopleName">TOTAL</td>
-                {totalProjects}
-                <td />
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </Wrapper>
+      <Fragment>
+        <Sidebar onSubmit={(r) => console.log(r)} projects={projects} people={people}/>
+        <Wrapper name="Show:" onClick={this.onLogout}>
+          <div className="d-flex flex-row table-responsive tableProjects">
+            <table className="table table-striped table-hover table-borderless">
+              <thead>
+                <tr>
+                  <th />
+                  {projectsName}
+                  <th>TOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {peoplesName}
+                <tr>
+                  <td className="border-right peopleName">TOTAL</td>
+                  {totalProjects}
+                  <td />
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Wrapper>
+      </Fragment>
     );
   }
 }

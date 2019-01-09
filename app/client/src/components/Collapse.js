@@ -3,31 +3,25 @@ import { FONTS } from "../config/constants";
 import SelectInput from "./SelectInput";
 import Button from "./Button";
 import { connect } from "react-redux";
-import Api from "../config/api";
 
 class Collapse extends Component {
   state = {
-    value: '',
-
-  }
-
-  async componentWillMount() {
-    const { account } = this.props;
-    const resProj = await Api.GetProjects(account.tokenAuth);
-    const resPeople = await Api.GetPeople(account.tokenAuth);
-    console.log(resPeople, resProj);
-  }
+    value: "today"
+  };
 
   onSubmit(e) {
     e.preventDefault();
-    console.log('State ',this.state.value)
-
+    console.log("State ", this.state.value);
+    const { onSubmit } = this.props;
+    if(onSubmit) onSubmit('holitas');
   }
 
-  onChange(e){
-    this.setState({value: e.target.value});
+  onChange(e) {
+    this.setState({ value: e.target.value });
   }
+
   render() {
+    const {projects, people} = this.props
     return (
       <Fragment>
         <form onSubmit={this.onSubmit.bind(this)}>
@@ -35,18 +29,7 @@ class Collapse extends Component {
             Dates:
           </p>
           <div className="col-md-7 d-flex align-items-center ml-2">
-            {/* <SelectInput onChange={this.handleChange} /> */}
-            <div className="input-group">
-                <select className="custom-select noBorder bg-secondary text-white" onChange={this.onChange.bind(this)}>
-                    <option>today</option>
-                    <option>yesterday</option>
-                    <option>this month</option>
-                    <option>last month</option>
-                    <option>this year</option>
-                    <option>last year</option>
-                    <option>custom</option>
-                </select>
-            </div>
+            <SelectInput onChange={this.onChange.bind(this)} value={this.state.value}/>
           </div>
           <hr />
           <p className="text-white ml-2" style={styles.titleDate}>

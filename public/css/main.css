@@ -112,3 +112,13 @@ hr {
 .tableProjects .peopleName{
     font-size: 14px;
 }
+
+.btnLogout{
+    font-size: 13px;
+    margin-top: -20px;
+    margin-right: -30px;
+}
+
+.nounderline {
+    text-decoration: none !important
+  }
