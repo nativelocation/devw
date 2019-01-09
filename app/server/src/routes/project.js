@@ -15,5 +15,11 @@ router.get('/people', (req, res, next) => {
 router.post('/timebyuser', (req, res, next) => {
     model.getTimeByUser(req.body).then(r => generalSuccess(res, "Get time list", r)).catch(e => generalError(e, res));
 });
+router.post('/timeall', (req, res, next) => {
+    model.getTimeAll(req.body).then(r => generalSuccess(res, "Get all time list", r)).catch(e => generalError(e, res));
+});
+router.post('/timebydate', (req, res, next) => {
+    model.getTotalTimeByDate(req.body).then(r => generalSuccess(res, "Get all time list", r)).catch(e => generalError(e, res));
+});
 
 module.exports = router;

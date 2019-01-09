@@ -7,7 +7,8 @@ class ApiModel {
     GetProjects = token => FetchRequest(c.GETPROJECT, 'GET', token);
     GetPeople = token => FetchRequest(c.GETPEOPLE, 'GET', token);
     GetTimeByUser = (token, data) => FetchRequest(c.GETTIMEBYUSER, 'POST', token, data);
-    
+    GetTimeAll = (token, data) => FetchRequest(c.GETTIMEALL, 'POST', token, data);
+    GetTotalTimeByDate = (token, data) => FetchRequest(c.GETTOTALTIMEBYDATE, 'POST', token, data);
 }
 
 export default new ApiModel();

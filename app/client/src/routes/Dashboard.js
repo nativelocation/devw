@@ -1,93 +1,111 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Api from "../config/api";
-import UnderConstruction from "../components/UnderConstruction";
 import Wrapper from "../components/Wrapper";
 
 class Dashboard extends Component {
   state = {
     projects: [],
     people: [],
-    times: [],
+    times: []
   };
 
-  componentDidMount() {
-    this.getProjects();
-    this.getPeople();
-    this.getTimeByUser();
+  async componentWillMount() {
+    const { account } = this.props;
+    const resProj = await Api.GetProjects(account.tokenAuth);
+    const resPeople = await Api.GetPeople(account.tokenAuth);
+    if (resProj && resProj.data && resPeople && resPeople.data)
+      this.getTimeByUser(resProj.data.projects, resPeople.data.people);
+    else console.log("Error getting data");
   }
 
-  getProjects = () => {
+  getTimeByUser = async (projects, people) => {
     const { account } = this.props;
-    Api.GetProjects(account.tokenAuth)
-      .then(res => {
-        console.log("Project", res);
-        const response = res.data;
-        this.setState({ projects: response.projects });
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
+    let data = {
+      fromDate: "20180101",
+      toDate: "20181231",
+      fromTime: "00:00",
+      toTime: "23:59"
+    };
 
-  getPeople = () => {
-    const { account } = this.props;
-    Api.GetPeople(account.tokenAuth)
-      .then(res => {
-        console.log("PEOPLE ", res);
-        const response = res.data;
-        this.setState({ people: response.people });
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
+    people.forEach(pp => {
+      data.userId = pp.id;
 
-  getTimeByUser = () => {
-    const { account } = this.props;
-    const { projects, people } = this.state;
-    // project = 307267 | 302263
-    // user = 143938 | 165366
-    projects.map((r, i) => {
-      people.map((value, index) => {
-        let data = {
-          projectId: r.id,
-          userId: value.id
-        }
-        Api.GetTimeByUser(account.tokenAuth, data)
-          .then(res => {
-            console.log("Time ", res);
-            // const response = res.data;
-            // this.setState({ times: response.people });
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
-    })
-    // return times;
+      Api.GetTotalTimeByDate(account.tokenAuth, data)
+        .then(res => {
+          if (res.data) {
+            this.setState(oldState => {
+              let { times } = oldState;
+              times[pp.id] = res.data.projects.map(v => ({
+                id: v.id,
+                time: v.totalHours
+              }));
+              return { times };
+            });
+          }
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    });
+
+    this.setState({ projects, people });
   };
 
   render() {
-    const { projects, people } = this.state;
+    const { projects, people, times } = this.state;
     let projectsName = projects.map((r, i) => {
-      return <th key={i} className='text-center peopleName'>{r.name}</th>;
+      return (
+        <th key={i} className="text-center peopleName">
+          {r.name}
+        </th>
+      );
     });
-    let peoplesName = people.map((r, i) => {
+    let peoplesName = people.map((pp, i) => {
+      const getTime = id => {
+        if (times[pp.id] && times[pp.id].length > 0) {
+          const p = times[pp.id].find(v => v.id === id);
+          if (p) return p.time;
+          else return "-";
+        }
+        return "-";
+      };
+
+      const getTotalPeople = () => {
+        if (times[pp.id] && times[pp.id].length > 0) {
+          let total = 0;
+          times[pp.id].map(v => {
+            total += parseFloat(v.time);
+          });
+          return total;
+        }
+        return "-";
+      };
+
       return (
         <tr key={i} className="">
-          <td className='border-right peopleName'>
-            {r["first-name"]} {r["last-name"]}
+          <td className="border-right peopleName">
+            {pp["first-name"]} {pp["last-name"]}
           </td>
-          {projects.map((r, i) => (
-            <td className='border-right text-center'>2</td>
+          {projects.map((pj, ii) => (
+            <td key={ii} className="border-right text-center">
+              {getTime(pj.id)}
+            </td>
           ))}
-          <td className='text-center'>50</td>
+          <td className="text-center">{getTotalPeople()}</td>
         </tr>
       );
     });
+    let totalProjects = projects.map((pj, i) => {
+      let total = 0;
+      times.map(v => {
+        let proj = v.find(p => p.id === pj.id);
+        if (proj) total += parseFloat(proj.time);
+      });
+      return <td className="border-right text-center">{total}</td>;
+    });
     return (
-      <Wrapper name='Show:'>
+      <Wrapper name="Show:">
         <div className="d-flex flex-row table-responsive tableProjects">
           <table className="table table-striped table-hover table-borderless">
             <thead>
@@ -97,7 +115,14 @@ class Dashboard extends Component {
                 <th>TOTAL</th>
               </tr>
             </thead>
-            <tbody>{peoplesName}</tbody>
+            <tbody>
+              {peoplesName}
+              <tr>
+                <td className="border-right peopleName">TOTAL</td>
+                {totalProjects}
+                <td />
+              </tr>
+            </tbody>
           </table>
         </div>
       </Wrapper>
