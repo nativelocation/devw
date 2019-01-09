@@ -3,6 +3,20 @@ import { connect } from "react-redux";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 
+const month = new Array();
+month[0] = "01";
+month[1] = "02";
+month[2] = "03";
+month[3] = "04";
+month[4] = "05";
+month[5] = "06";
+month[6] = "07";
+month[7] = "08";
+month[8] = "09";
+month[9] = "10";
+month[10] = "11";
+month[11] = "12";
+
 class Dashboard extends Component {
   state = {
     projects: [],
@@ -26,9 +40,16 @@ class Dashboard extends Component {
 
   getTimeByUser = async (projects, people) => {
     const { account } = this.props;
+    const d = new Date();
+    const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+    const mon = month[d.getMonth()];
+    const year = d.getFullYear();
+    const today = `${year}${mon}${day}`;
+    console.log(`${year}${mon}${day}`);
+    // console.log(`${month[d.getMonth()]}-${d.getDate()}-${d.getFullYear()}`);
     let data = {
-      fromDate: "20180101",
-      toDate: "20181231",
+      fromDate: today,
+      toDate: today,
       fromTime: "00:00",
       toTime: "23:59"
     };

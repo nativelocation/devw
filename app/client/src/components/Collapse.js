@@ -15,7 +15,6 @@ class Collapse extends Component {
     const { account } = this.props;
     const resProj = await Api.GetProjects(account.tokenAuth);
     const resPeople = await Api.GetPeople(account.tokenAuth);
-    console.log(resPeople, resProj);
   }
 
   onSubmit(e) {

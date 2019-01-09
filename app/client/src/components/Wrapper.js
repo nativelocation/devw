@@ -18,7 +18,7 @@ const Wrapper = ({ children, name, onClick }) => {
       >
         <div className="col-md-12 col-lg-12 m-0">
           <h6 className="font-weight-light pl-2 m-0">{name}</h6>
-          <button className="dropdown-item" onClick={onClick}>Loguot</button>
+          <button type="button" className="btn btn-link col-md-2 text-muted float-right btnLogout nounderline" onClick={onClick}>Loguot</button>
           <div className="form-check form-check-inline mt-2 ml-2">
             <input
             style={styles.checkBoxWidth}
