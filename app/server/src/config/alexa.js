@@ -43,7 +43,7 @@ module.exports = {
         });
 
         alexaApp.intent("StatusUpdateIntent", defaultValues, (req, res) => {
-            console.log('ALEXA STATUSUPDATE res :', res);
+            console.log('ALEXA STATUSUPDATE');
             const projectId = 302263;
             return model.getStatusUpdate(projectId)
                 .then(h => {
