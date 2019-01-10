@@ -55,7 +55,7 @@ class Dashboard extends Component {
       Api.GetTotalTimeByDate(account.tokenAuth, data)
         .then(res => {
           if (res.data) {
-            console.log('Entro ',res.data)
+            // console.log('Entro ',res.data)
             this.setState(oldState => {
               let { times } = oldState;
               times[pp.id] = res.data.projects.map(v => ({

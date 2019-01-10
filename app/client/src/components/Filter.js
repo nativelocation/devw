@@ -3,15 +3,18 @@ import { FONTS } from "../config/constants";
 import SelectInput from "./SelectInput";
 import Button from "./Button";
 import { connect } from "react-redux";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 var moment = require("moment");
 
 class Collapse extends Component {
   state = {
     value: "today",
-    from: undefined,
-    to: undefined,
+    from: new Date(),
+    to: new Date(),
     dates: [],
-    showCustom: false
+    showCustom: true
   };
 
   onSubmit(e) {
@@ -20,7 +23,7 @@ class Collapse extends Component {
       fromTime: "00:00",
       toTime: "23:59"
     };
-    console.log('Select', this.state.value);
+    console.log("Select", this.state.value);
     switch (this.state.value) {
       case "today": {
         const today = moment().format("YYYYMMDD");
@@ -87,14 +90,15 @@ class Collapse extends Component {
           .subtract(1, "year")
           .startOf("year")
           .format("YYYYMMDD");
-          data.toDate = moment()
+        data.toDate = moment()
           .subtract(1, "year")
           .endOf("year")
           .format("YYYYMMDD");
         break;
       }
       default: {
-        data = {};
+        data.fromDate = moment(this.state.from).format("YYYYMMDD");
+        data.toDate = moment(this.state.to).format("YYYYMMDD");
         break;
       }
     }
@@ -105,13 +109,11 @@ class Collapse extends Component {
 
   onChange(e) {
     this.setState({ value: e.target.value });
-    if(e.target.value === 'custom'){
-      console.log('custom')
-    }
+    if (e.target.value === "custom") this.setState({ showCustom: true });
   }
 
-  clearTime = (e) => {
-    this.setState({ value: 'today' });
+  clearTime = e => {
+    this.setState({ value: "today" });
     let data = {
       fromTime: "00:00",
       toTime: "23:59"
@@ -121,11 +123,28 @@ class Collapse extends Component {
     data.toDate = today;
     const { onSubmit } = this.props;
     if (onSubmit) onSubmit(data);
+  };
+
+  fromChange(date) {
+    this.setState({ from: date });
+  }
+
+  toChange(date) {
+    this.setState({ to: date });
   }
 
   render() {
     const { projects, people } = this.props;
-
+    const { from, to, showCustom, value } = this.state;
+    console.log("Render ", value);
+    let showInput = showCustom ? (
+      <Fragment>
+        <DatePicker selected={from} onChange={this.fromChange.bind(this)} />
+        <DatePicker selected={to} onChange={this.toChange.bind(this)} />
+      </Fragment>
+    ) : (
+      undefined
+    );
     return (
       <Fragment>
         <form onSubmit={this.onSubmit.bind(this)}>
@@ -133,12 +152,10 @@ class Collapse extends Component {
             Dates:
           </p>
           <div className="col-md-7 d-flex align-items-center ml-2">
-            <SelectInput
-              name='dates'
-              onChange={this.onChange.bind(this)}
-              value={this.state.value}
-            />
-            
+            <SelectInput onChange={this.onChange.bind(this)} value={value} />
+          </div>
+          <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
+            {showInput}
           </div>
           <hr />
           <div className="d-flex flex-row ml-2">
