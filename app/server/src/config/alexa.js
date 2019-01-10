@@ -28,7 +28,7 @@ module.exports = {
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
-            console.log('ALEXA TOTALHOURS res :', JSON.stringify(res));
+            console.log('ALEXA TOTALHOURS res :', res.slot('period'));
             const projectId = 302263;
             // teamwork.getTotalTimeByDate({ projectId }).then(console.log);
 
