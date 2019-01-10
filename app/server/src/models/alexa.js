@@ -35,12 +35,12 @@ const model = {
         break;
       }
       case 'this month': {
-        data.fromDate = moment().format("YYYYMM01");
+        data.fromDate = moment().startOf('month').format("YYYYMMDD");
         data.toDate = moment().endOf('month').format("YYYYMMDD");
         break;
       }
       case 'last month': {
-        data.fromDate = moment().subtract(1, 'month').format("YYYYMM01");
+        data.fromDate = moment().subtract(1, 'month').startOf('month').format("YYYYMMDD");
         data.toDate = moment().subtract(1, 'month').endOf('month').format("YYYYMMDD");
         break;
       }
@@ -55,13 +55,13 @@ const model = {
         break;
       }
       case 'this year': {
-        data.fromDate = moment().endOf('year').format("YYYYMMDD");
-        data.toDate = moment().startOf('year').format("YYYYMMDD");
+        data.fromDate = moment().startOf('year').format("YYYYMMDD");
+        data.toDate = moment().endOf('year').format("YYYYMMDD");
         break;
       }
       case 'last year': {
-        data.fromDate = moment().subtract(1, 'year').endOf('year').format("YYYYMMDD");
-        data.toDate = moment().subtract(1, 'year').startOf('year').format("YYYYMMDD");
+        data.fromDate = moment().subtract(1, 'year').startOf('year').format("YYYYMMDD");
+        data.toDate = moment().subtract(1, 'year').endOf('year').format("YYYYMMDD");
         break;
       }
       default: {
