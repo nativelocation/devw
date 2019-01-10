@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
+var moment = require("moment");
 
 const month = new Array();
 month[0] = "01";
@@ -27,10 +28,17 @@ class Dashboard extends Component {
 
   async componentWillMount() {
     const { account } = this.props;
+    let data = {
+      fromTime: "00:00",
+      toTime: "23:59"
+    };
+    const today = moment().format("YYYYMMDD");
+    data.fromDate = today;
+    data.toDate = today;
     const resProj = await Api.GetProjects(account.tokenAuth);
     const resPeople = await Api.GetPeople(account.tokenAuth);
     if (resProj && resProj.data && resPeople && resPeople.data)
-      this.getTimeByUser(resProj.data.projects, resPeople.data.people);
+      this.getTimeByUser(resProj.data.projects, resPeople.data.people, data);
     else console.log("Error getting data");
   }
 
@@ -39,27 +47,15 @@ class Dashboard extends Component {
     window.location.reload();
   }
 
-  getTimeByUser = async (projects, people) => {
+  getTimeByUser = async (projects, people, data) => {
     const { account } = this.props;
-    const d = new Date();
-    const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
-    const mon = month[d.getMonth()];
-    const year = d.getFullYear();
-    const today = `${year}${mon}${day}`;
-    
-    let data = {
-      fromDate: today,
-      toDate: today,
-      fromTime: "00:00",
-      toTime: "23:59"
-    };
-
     people.forEach(pp => {
       data.userId = pp.id;
-
+      console.log('===== START =====')
       Api.GetTotalTimeByDate(account.tokenAuth, data)
         .then(res => {
           if (res.data) {
+            console.log('Entro ',res.data)
             this.setState(oldState => {
               let { times } = oldState;
               times[pp.id] = res.data.projects.map(v => ({
@@ -136,7 +132,11 @@ class Dashboard extends Component {
     });
     return (
       <Fragment>
-        <Sidebar onSubmit={(r) => console.log(r)} projects={projects} people={people}/>
+        <Sidebar
+          onSubmit={r => (this.getTimeByUser(projects, people, r))}
+          projects={projects}
+          people={people}
+        />
         <Wrapper name="Show:" onClick={this.onLogout}>
           <div className="d-flex flex-row table-responsive tableProjects">
             <table className="table table-striped table-hover table-borderless">
