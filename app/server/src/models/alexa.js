@@ -14,8 +14,7 @@ const model = {
       toTime: "23:59"
     });
   },
-  getTotalTime: async data => {
-    const { projectId, period } = data;
+  getTotalTime: async (projectId, period) => {
     let data = {};
     switch (period) {
       case 'today': {
