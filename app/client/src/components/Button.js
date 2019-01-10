@@ -12,7 +12,7 @@ const Button = ({ text, bigSize, onClick, link }) => {
     let style = !link ? { ...styles.common } : {};
     if (bigSize) style = { ...style, ...styles.bigButton };
     return (
-        <button type={`${onClick ? "button" : "submit"}`} onClick={onClick} className={`bg-secondary btn float-right border-0 ${typeClass}`} style={style}>
+        <button type={`${onClick ? "button" : "submit"}`} onClick={onClick} className={`bg-secondary btn float-right border border-light ${typeClass}`} style={style}>
             {text}
         </button>
     )
