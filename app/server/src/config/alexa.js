@@ -32,7 +32,7 @@ module.exports = {
             console.log('ALEXA TOTALHOURS');
             const projectId = 302263;
             const period = req.slot('period');
-            teamwork.getTotalTime({ projectId, period })
+            return teamwork.getTotalTime({ projectId, period })
                 .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`))
                 .catch(e => res.say(texts.genericError));
         });
