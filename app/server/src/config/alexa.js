@@ -1,5 +1,9 @@
 const alexa = require("alexa-app");
 const teamwork = require('../models/alexa');
+
+const pg = require('pg');
+require('dotenv').config()
+
 const { DEBUG } = process.env;
 
 const texts = {
@@ -24,6 +28,23 @@ module.exports = {
             checkCert: DEBUG ? false : true,
             debug: DEBUG ? true : false
         });
+
+
+
+        const { Client } = require('pg')
+        const connectionString = process.env.POSTGRESS_CV_DB;
+
+        const client = new Client({
+            connectionString: connectionString,
+        })
+        client.connect()
+
+        client.query('SELECT NOW()', (err, res) => {
+            console.log(err, res)
+            client.end()
+        })
+
+
 
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
