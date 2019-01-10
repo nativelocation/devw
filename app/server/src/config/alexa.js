@@ -31,7 +31,7 @@ module.exports = {
             const projectId = 302263;
             const period = req.slot('period');
             return teamwork.getTotalTime(projectId, period)
-                .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`).shouldEndSession(false))
+                .then(h => res.say(`${texts.totalHoursResult} ${h} hours${period ? ' for ' + period : ''}.`).shouldEndSession(false))
                 .catch(e => { console.log(e); res.say(texts.genericError) });
         });
 
