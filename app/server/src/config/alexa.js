@@ -25,14 +25,17 @@ module.exports = {
             debug: DEBUG ? true : false
         });
 
-        // teamwork.getTotalTimeByDate({ projectId:302263 }).then(e=>console.log(e.projects[0]['time-totals']['total-hours-sum']));
+        // teamwork.getTotalTime(302263, 'today')
+        //     .then(console.log)
+        //     .catch(console.log);
+
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
             console.log('ALEXA TOTALHOURS');
             const projectId = 302263;
             const period = req.slot('period');
-            return teamwork.getTotalTime({ projectId, period })
+            return teamwork.getTotalTime(projectId, period)
                 .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`))
                 .catch(e => { console.log(e); res.say(texts.genericError) });
         });
