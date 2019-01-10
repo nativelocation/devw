@@ -1,4 +1,5 @@
 const tw = require("../config/teamwork");
+const pg = require('../config/postgress');
 const moment = require("moment");
 
 const model = {
@@ -13,6 +14,32 @@ const model = {
       toDate: "20181226",
       fromTime: "00:00",
       toTime: "23:59"
+    });
+  },
+  getStatusUpdate: async projectId => {
+    const cleanHtml = str => {
+      if (!str) return false;
+      str = str.toString();
+      return str.replace(/<[^>]*>/g, '');
+    }
+
+    return new Promise((resolve, reject) => {
+      pg.connect()
+      pg.query(`select * from projects where project_id = '${projectId}'`, (err, res) => {
+        if (!err && res.rowCount > 0) {
+          let { id } = res.rows[0];
+          pg.query(`select * from statuses where project_id = '${id}' ORDER BY updated_at desc limit 1`, (err, res) => {
+            if (!err && res.rowCount > 0) {
+              resolve(cleanHtml(res.rows[0].description));
+              // console.log(res.rows[0].description)
+            } else resolve();
+            pg.end()
+          });
+        } else {
+          pg.end()
+          resolve();
+        }
+      })
     });
   },
   getTotalTime: async (projectId, period) => {
@@ -35,12 +62,12 @@ const model = {
         break;
       }
       case 'this month': {
-        data.fromDate = moment().format("YYYYMM01");
+        data.fromDate = moment().startOf('month').format("YYYYMMDD");
         data.toDate = moment().endOf('month').format("YYYYMMDD");
         break;
       }
       case 'last month': {
-        data.fromDate = moment().subtract(1, 'month').format("YYYYMM01");
+        data.fromDate = moment().subtract(1, 'month').startOf('month').format("YYYYMMDD");
         data.toDate = moment().subtract(1, 'month').endOf('month').format("YYYYMMDD");
         break;
       }
@@ -55,13 +82,13 @@ const model = {
         break;
       }
       case 'this year': {
-        data.fromDate = moment().endOf('year').format("YYYYMMDD");
-        data.toDate = moment().startOf('year').format("YYYYMMDD");
+        data.fromDate = moment().startOf('year').format("YYYYMMDD");
+        data.toDate = moment().endOf('year').format("YYYYMMDD");
         break;
       }
       case 'last year': {
-        data.fromDate = moment().subtract(1, 'year').endOf('year').format("YYYYMMDD");
-        data.toDate = moment().subtract(1, 'year').startOf('year').format("YYYYMMDD");
+        data.fromDate = moment().subtract(1, 'year').startOf('year').format("YYYYMMDD");
+        data.toDate = moment().subtract(1, 'year').endOf('year').format("YYYYMMDD");
         break;
       }
       default: {
