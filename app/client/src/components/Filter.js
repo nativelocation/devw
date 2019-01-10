@@ -3,9 +3,7 @@ import { FONTS } from "../config/constants";
 import SelectInput from "./SelectInput";
 import Button from "./Button";
 import { connect } from "react-redux";
-var moment = require('moment-timezone');
-moment().tz('America/Phoenix').format();
-
+var moment = require("moment");
 const month = new Array();
 month[0] = "01";
 month[1] = "02";
@@ -22,84 +20,114 @@ month[11] = "12";
 
 class Collapse extends Component {
   state = {
-    value: "today" || ""
+    value: "today",
+    dates: []
   };
 
   onSubmit(e) {
     e.preventDefault();
-    // console.log("State ", );
-    const d = new Date();
-    let date = undefined;
-    let day = undefined;
-    let mon = undefined;
-    let year = undefined;
-    // switch (this.state.value) {
-    //   case "today":
-    //     day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
-    //     mon = month[d.getMonth()];
-    //     year = d.getFullYear();
-    //     date = `${year}${mon}${day}`;
-    //     break;
-    //   case "yesterday":
-    //     // const yes = d.getDate() - 1;
-    //     day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
-    //     mon = month[d.getMonth()];
-    //     year = d.getFullYear();
-    //     date = `${year}${mon}${day}`;
-    //     break;
-
-    //   default:
-    //     break;
-    // }
+    let data = {
+      fromTime: "00:00",
+      toTime: "23:59"
+    };
 
     switch (this.state.value) {
-      case 'today': {
+      case "today": {
         const today = moment().format("YYYYMMDD");
         data.fromDate = today;
         data.toDate = today;
+        break;
       }
-      case 'yesterday': {
-        const today = moment().subtract(1, 'days').format("YYYYMMDD");
+      case "yesterday": {
+        const today = moment()
+          .subtract(1, "days")
+          .format("YYYYMMDD");
         data.fromDate = today;
         data.toDate = today;
+        break;
       }
-      case 'this month': {
+      case "this month": {
         data.fromDate = moment().format("YYYYMM01");
-        data.toDate = moment().endOf('month').format("YYYYMMDD");
+        data.toDate = moment()
+          .endOf("month")
+          .format("YYYYMMDD");
+        break;
       }
-      case 'last month': {
-        data.fromDate = moment().subtract(1, 'month').format("YYYYMM01");
-        data.toDate = moment().subtract(1, 'month').endOf('month').format("YYYYMMDD");
+      case "last month": {
+        data.fromDate = moment()
+          .subtract(1, "month")
+          .format("YYYYMM01");
+        data.toDate = moment()
+          .subtract(1, "month")
+          .endOf("month")
+          .format("YYYYMMDD");
+        break;
       }
-      case 'this week': {
-        data.fromDate = moment().startOf('week').format("YYYYMMDD");
-        data.toDate = moment().endOf('week').format("YYYYMMDD");
+      case "this week": {
+        data.fromDate = moment()
+          .startOf("week")
+          .format("YYYYMMDD");
+        data.toDate = moment()
+          .endOf("week")
+          .format("YYYYMMDD");
+        break;
       }
-      case 'last week': {
-        data.fromDate = moment().subtract(1, 'week').startOf('week').format("YYYYMMDD");
-        data.toDate = moment().subtract(1, 'week').endOf('week').format("YYYYMMDD");
+      case "last week": {
+        data.fromDate = moment()
+          .subtract(1, "week")
+          .startOf("week")
+          .format("YYYYMMDD");
+        data.toDate = moment()
+          .subtract(1, "week")
+          .endOf("week")
+          .format("YYYYMMDD");
+        break;
       }
-      case 'this year': {
-        data.fromDate = moment().endOf('year').format("YYYYMMDD");
-        data.toDate = moment().startOf('year').format("YYYYMMDD");
+      case "this year": {
+        data.fromDate = moment()
+          .startOf("year")
+          .format("YYYYMMDD");
+        data.toDate = moment()
+          .endOf("year")
+          .format("YYYYMMDD");
+        break;
       }
-      case 'last year': {
-        data.fromDate = moment().subtract(1, 'year').endOf('year').format("YYYYMMDD");
-        data.toDate = moment().subtract(1, 'year').startOf('year').format("YYYYMMDD");
+      case "last year": {
+        data.fromDate = moment()
+          .subtract(1, "year")
+          .startOf("year")
+          .format("YYYYMMDD");
+          data.toDate = moment()
+          .subtract(1, "year")
+          .endOf("year")
+          .format("YYYYMMDD");
+        break;
       }
       default: {
         data = {};
+        break;
       }
     }
 
     const { onSubmit } = this.props;
-    const lol = moment().subtract(1, 'day');
-    
-    if (onSubmit) onSubmit(moment(lol).get('date'));
+    if (onSubmit) onSubmit(data);
   }
 
   onChange(e) {
     this.setState({ value: e.target.value });
+  }
+
+  clearTime = (e) => {
+    e.target.value = 'today';
+    let data = {
+      fromTime: "00:00",
+      toTime: "23:59"
+    };
+    const today = moment().format("YYYYMMDD");
+    data.fromDate = today;
+    data.toDate = today;
+    const { onSubmit } = this.props;
+    if (onSubmit) onSubmit(data);
   }
 
   render() {
@@ -123,6 +151,7 @@ class Collapse extends Component {
             <button
               type="button"
               className="btn btn-link text-white nounderline"
+              onClick={this.clearTime.bind(this)}
             >
               Clear
             </button>
