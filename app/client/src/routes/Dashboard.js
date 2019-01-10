@@ -46,7 +46,7 @@ class Dashboard extends Component {
     const mon = month[d.getMonth()];
     const year = d.getFullYear();
     const today = `${year}${mon}${day}`;
-
+    
     let data = {
       fromDate: today,
       toDate: today,

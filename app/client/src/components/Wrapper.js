@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from 'react-router-dom';
 /**
  * The Wrapper Component.
  *
@@ -20,11 +20,15 @@ const Wrapper = ({ children, name, onClick }) => {
           <h6 className="font-weight-light pl-2 m-0">{name}</h6>
           <button
             type="button"
-            className="btn btn-link col-md-2 text-muted float-right btnLogout nounderline"
+            className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
             onClick={onClick}
           >
             Loguot
           </button>
+          <Link to="/admin"
+            className="btn btn-link mx-1 text-muted float-right btnLogout nounderline">
+            Admin
+          </Link>
           <div className="form-check form-check-inline mt-2 ml-2">
             <input
               style={styles.checkBoxWidth}
