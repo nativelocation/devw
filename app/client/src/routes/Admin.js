@@ -31,10 +31,30 @@ class Admin extends Component {
       let ppl = people.data.people
       console.log("PP", ppl["first-name"])
       var peopleList = ppl.map((r, i) => {
-        console.log("P", r["first-name"])
+        let fullName = r["first-name"]+" "+r["last-name"]+" "+r["id"]
+        console.log("P", r)
         return (
-          <p>{r["first-name"]}</p>
-
+          <tr key={i}>
+            <td>{fullName}</td>
+            <td>
+              <input
+                //style={styles.checkBoxWidth}
+                className="form-check-input mt-1"
+                type="checkbox"
+                id="inlineCheckbox1"
+                value="option1"
+              />
+            </td>
+            <td>
+              <input
+                //style={styles.checkBoxWidth}
+                className="form-check-input mt-1"
+                type="checkbox"
+                id="inlineCheckbox1"
+                value="option1"
+              />
+            </td>
+          </tr>
         );
       });
     }
@@ -48,7 +68,6 @@ class Admin extends Component {
         <Wrapper name="Show:" onClick={this.onLogout}>
           <div className="d-flex flex-row">
             <p>Admin</p>
-            {peopleList}
           </div>
           <div className="d-flex flex-row table-responsive tableProjects">
             <table className="table table-striped table-hover table-borderless">
@@ -60,7 +79,7 @@ class Admin extends Component {
                 </tr>
               </thead>
               <tbody>
-
+              {peopleList}
               </tbody>
             </table>
           </div>
