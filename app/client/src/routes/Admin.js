@@ -8,16 +8,13 @@ class Admin extends Component {
   state = {
     projects: [],
     people: [],
-    times: []
+    times: [],
   };
 
   async componentWillMount() {
     const { account } = this.props;
     const resProj = await Api.GetProjects(account.tokenAuth);
     const resPeople = await Api.GetPeople(account.tokenAuth);
-    if (resProj && resProj.data && resPeople && resPeople.data)
-      this.getTimeByUser(resProj.data.projects, resPeople.data.people);
-    else console.log("Error getting data");
   }
 
   onLogout() {
@@ -29,7 +26,7 @@ class Admin extends Component {
     
     return (
       <Fragment>
-        <Sidebar />
+        <Sidebar admin='admin'/>
         <Wrapper name="Show:" onClick={this.onLogout}>
           <div className="d-flex flex-row">
             <p>Admin</p>
