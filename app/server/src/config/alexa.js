@@ -34,7 +34,7 @@ module.exports = {
             const period = req.slot('period');
             return teamwork.getTotalTime({ projectId, period })
                 .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`))
-                .catch(e => res.say(texts.genericError));
+                .catch(e => { console.log(e); res.say(texts.genericError) });
         });
 
         alexaApp.intent("StatusUpdateIntent", defaultValues, (req, res) => {
