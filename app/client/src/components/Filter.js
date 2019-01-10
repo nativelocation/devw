@@ -14,7 +14,7 @@ class Collapse extends Component {
     from: new Date(),
     to: new Date(),
     dates: [],
-    showCustom: true
+    showCustom: false
   };
 
   onSubmit(e) {
@@ -139,8 +139,14 @@ class Collapse extends Component {
     console.log("Render ", value);
     let showInput = showCustom ? (
       <Fragment>
-        <DatePicker selected={from} onChange={this.fromChange.bind(this)} />
-        <DatePicker selected={to} onChange={this.toChange.bind(this)} />
+        <div className="col-md-7 d-flex flex-column">
+          <small className="form-text text-white">From</small>
+          <DatePicker selected={from} onChange={this.fromChange.bind(this)} />
+        </div>
+        <div className="col-md-7 d-flex flex-column">
+          <small className="form-text text-white">To</small>
+          <DatePicker selected={to} onChange={this.toChange.bind(this)} />
+        </div>
       </Fragment>
     ) : (
       undefined
@@ -158,12 +164,13 @@ class Collapse extends Component {
             {showInput}
           </div>
           <hr />
-          <div className="d-flex flex-row ml-2">
-            <Button text="Apply" bigSize />
+          <div className="d-flex flex-row ml-4 ">
+            <Button text="Apply" filter />
             <button
               type="button"
-              className="btn btn-link text-white nounderline"
+              className="btn btn-link text-white nounderline ml-3"
               onClick={this.clearTime.bind(this)}
+              style={{ fontSize: 13 }}
             >
               Clear
             </button>
