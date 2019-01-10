@@ -60,6 +60,7 @@ const model = {
         data = {};
       }
     }
+    console.log('data :', data);
     const results = await tw.projects.totalTime(data, projectId);
 
     if (results.projects.length <= 0) throw { msg: "No projects found" }
