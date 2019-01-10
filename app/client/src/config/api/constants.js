@@ -1,4 +1,4 @@
-export const BASE_URL = '/';
+export const BASE_URL = '/api/';
 export const FETCH_TIMEOUT = 20000;
 
 export const LOGIN = 'user/login';

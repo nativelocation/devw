@@ -2,7 +2,7 @@ const tw = require("../config/teamwork");
 
 const model = {
   getProjects: async () => {
-    return await tw.projects.get({ status: "ALL" });
+    return await tw.projects.get({ status: "ACTIVE" });
   },
   getPeople: async () => {
     return await tw.people.get({

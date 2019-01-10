@@ -12,6 +12,7 @@ const alexa = require('./src/config/alexa');
 //Route Name
 const projectRouter = require('./src/routes/project');
 const userRouter = require('./src/routes/user');
+const adminRouter = require('./src/routes/admin');
 
 const port = process.env.PORT || 8000;
 const publicPath = path.join(__dirname, "../../public");
@@ -25,8 +26,9 @@ app.use(busboyBodyParser());
 app.set("view engine", "ejs");
 
 //Routes
-app.use('/project', projectRouter);
-app.use('/user', userRouter);
+app.use('/api/project', projectRouter);
+app.use('/api/user', userRouter);
+app.use('/api/admin', adminRouter);
 
 alexa.init(app);
 app.get("*", (req, res, next) => {
