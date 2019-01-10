@@ -4,24 +4,14 @@ import SelectInput from "./SelectInput";
 import Button from "./Button";
 import { connect } from "react-redux";
 var moment = require("moment");
-const month = new Array();
-month[0] = "01";
-month[1] = "02";
-month[2] = "03";
-month[3] = "04";
-month[4] = "05";
-month[5] = "06";
-month[6] = "07";
-month[7] = "08";
-month[8] = "09";
-month[9] = "10";
-month[10] = "11";
-month[11] = "12";
 
 class Collapse extends Component {
   state = {
     value: "today",
-    dates: []
+    from: undefined,
+    to: undefined,
+    dates: [],
+    showCustom: false
   };
 
   onSubmit(e) {
@@ -30,7 +20,7 @@ class Collapse extends Component {
       fromTime: "00:00",
       toTime: "23:59"
     };
-
+    console.log('Select', this.state.value);
     switch (this.state.value) {
       case "today": {
         const today = moment().format("YYYYMMDD");
@@ -115,10 +105,13 @@ class Collapse extends Component {
 
   onChange(e) {
     this.setState({ value: e.target.value });
+    if(e.target.value === 'custom'){
+      console.log('custom')
+    }
   }
 
   clearTime = (e) => {
-    e.target.value = 'today';
+    this.setState({ value: 'today' });
     let data = {
       fromTime: "00:00",
       toTime: "23:59"
@@ -141,9 +134,11 @@ class Collapse extends Component {
           </p>
           <div className="col-md-7 d-flex align-items-center ml-2">
             <SelectInput
+              name='dates'
               onChange={this.onChange.bind(this)}
               value={this.state.value}
             />
+            
           </div>
           <hr />
           <div className="d-flex flex-row ml-2">
