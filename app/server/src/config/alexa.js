@@ -4,9 +4,10 @@ const { DEBUG } = process.env;
 
 const texts = {
     welcome: "Welcome to ClearView for SerpicoDev, you can ask for your status update or what are the total hours in a project.",
-    totalHoursResult: "Your total hours for DevView Project is 65.08 hours.",
+    totalHoursResult: "Your total hours for DevView Project is",
     statusUpdateResult: 'Your status update for DevView is "Doing progress on filter data".',
-    noIntentFound: "CleaView Can't process that request right now, you can ask for your status update or total hours right now"
+    noIntentFound: "CleaView Can't process that request right now, you can ask for your status update or total hours right now",
+    genericError: "Ooh-uh, there's an error, please contact to SerpicoDev's Support"
 }
 
 const defaultValues = {
@@ -28,13 +29,12 @@ module.exports = {
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
-            console.log('ALEXA TOTALHOURS res :', req.slot('period'));
+            console.log('ALEXA TOTALHOURS');
             const projectId = 302263;
-            // teamwork.getTotalTimeByDate({ projectId }).then(console.log);
-
-
-
-            res.say(texts.totalHoursResult);
+            const period = req.slot('period');
+            teamwork.getTotalTime({ projectId, period })
+                .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`))
+                .catch(e => res.say(texts.genericError));
         });
 
         alexaApp.intent("StatusUpdateIntent", defaultValues, (req, res) => {

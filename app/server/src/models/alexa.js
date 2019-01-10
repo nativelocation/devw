@@ -19,10 +19,10 @@ const model = {
     switch (period) {
       case 'today': {
         data = {
-          // fromDate,
-          // toDate,
-          // fromTime,
-          // toTime
+          fromDate: "20190110",
+          toDate: "20190110",
+          fromTime: "00:00",
+          toTime: "23:59"
         }
       }
     }
