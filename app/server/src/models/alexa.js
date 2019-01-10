@@ -20,7 +20,7 @@ const model = {
       fromTime: "00:00",
       toTime: "23:59"
     };
-
+    console.log('projectId,period :', projectId, period);
     switch (period) {
       case 'today': {
         const today = moment().format("YYYYMMDD");
