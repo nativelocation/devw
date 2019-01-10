@@ -25,17 +25,13 @@ module.exports = {
             debug: DEBUG ? true : false
         });
 
-        // teamwork.getTotalTime(302263, 'today')
-        //     .then(console.log)
-        //     .catch(console.log);
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
-
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
             console.log('ALEXA TOTALHOURS');
             const projectId = 302263;
             const period = req.slot('period');
             return teamwork.getTotalTime(projectId, period)
-                .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`))
+                .then(h => res.say(`${texts.totalHoursResult} ${h} hours.`).shouldEndSession(false))
                 .catch(e => { console.log(e); res.say(texts.genericError) });
         });
 
@@ -44,18 +40,6 @@ module.exports = {
             res.say(texts.statusUpdateResult);
         });
 
-
         alexaApp.messages.NO_INTENT_FOUND = texts.noIntentFound;
-        // alexaApp.dictionary = { "names": ["matt", "joe", "bob", "bill", "mary", "jane", "dawn"] };
-        // alexaApp.intent("TeamworkHoursIntent", {
-        //     "slots": { "NAME": "LITERAL" },
-        //     "utterances": [
-        //         "my {name is|name's} {names|NAME}", "set my name to {names|NAME}"
-        //     ]
-        // },
-        //     function (request, response) {
-        //         response.say("Success!");
-        //     }
-        // );
     }
 }
