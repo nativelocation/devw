@@ -14,16 +14,24 @@ const model = {
       toTime: "23:59"
     });
   },
-  getTotalTimeByDate: async data => {
-    const { projectId, fromDate, toDate, fromTime, toTime } = data;
-    return await tw.projects.totalTime(
-      {
-        // fromDate,
-        // toDate,
-        // fromTime,
-        // toTime
-      }, projectId
-    );
+  getTotalTime: async data => {
+    const { projectId, period } = data;
+    let data = {};
+    switch (period) {
+      case 'today': {
+        data = {
+          // fromDate,
+          // toDate,
+          // fromTime,
+          // toTime
+        }
+      }
+    }
+
+    const results = await tw.projects.totalTime(data, projectId);
+
+    if (results.projects.length <= 0) throw { msg: "No projects found" }
+    return results.projects[0]['time-totals']['total-hours-sum']
   }
 };
 

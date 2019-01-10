@@ -24,12 +24,13 @@ module.exports = {
             debug: DEBUG ? true : false
         });
 
+        // teamwork.getTotalTimeByDate({ projectId:302263 }).then(e=>console.log(e.projects[0]['time-totals']['total-hours-sum']));
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
-            console.log('ALEXA TOTALHOURS res :', res);
-            const projectId = 123;
-            teamwork.getTimeAll().then(console.log);
+            console.log('ALEXA TOTALHOURS res :', JSON.stringify(res));
+            const projectId = 302263;
+            // teamwork.getTotalTimeByDate({ projectId }).then(console.log);
 
 
 
