@@ -1,4 +1,5 @@
 const tw = require("../config/teamwork");
+const moment = require("moment");
 
 const model = {
   getProjects: async () => {
@@ -15,18 +16,50 @@ const model = {
     });
   },
   getTotalTime: async (projectId, period) => {
-    let data = {};
+    let data = {
+      fromTime: "00:00",
+      toTime: "23:59"
+    };
+
     switch (period) {
       case 'today': {
-        data = {
-          fromDate: "20190110",
-          toDate: "20190110",
-          fromTime: "00:00",
-          toTime: "23:59"
-        }
+        const today = moment().format("YYYYMMDD");
+        data.fromDate = today;
+        data.toDate = today;
+      }
+      case 'yesterday': {
+        const today = moment().subtract(1, 'days').format("YYYYMMDD");
+        data.fromDate = today;
+        data.toDate = today;
+      }
+      case 'this month': {
+        data.fromDate = moment().format("YYYYMM01");
+        data.toDate = moment().endOf('month').format("YYYYMMDD");
+      }
+      case 'last month': {
+        data.fromDate = moment().subtract(1, 'month').format("YYYYMM01");
+        data.toDate = moment().subtract(1, 'month').endOf('month').format("YYYYMMDD");
+      }
+      case 'this week': {
+        data.fromDate = moment().startOf('week').format("YYYYMMDD");
+        data.toDate = moment().endOf('week').format("YYYYMMDD");
+      }
+      case 'last week': {
+        data.fromDate = moment().subtract(1, 'week').startOf('week').format("YYYYMMDD");
+        data.toDate = moment().subtract(1, 'week').endOf('week').format("YYYYMMDD");
+      }
+      case 'this year': {
+        data.fromDate = moment().endOf('year').format("YYYYMMDD");
+        data.toDate = moment().startOf('year').format("YYYYMMDD");
+      }
+      case 'last year': {
+        data.fromDate = moment().subtract(1, 'year').endOf('year').format("YYYYMMDD");
+        data.toDate = moment().subtract(1, 'year').startOf('year').format("YYYYMMDD");
+      }
+      default: {
+        data = {};
       }
     }
-
     const results = await tw.projects.totalTime(data, projectId);
 
     if (results.projects.length <= 0) throw { msg: "No projects found" }

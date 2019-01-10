@@ -4,8 +4,8 @@ const { DEBUG } = process.env;
 
 const texts = {
     welcome: "Welcome to ClearView for SerpicoDev, you can ask for your status update or what are the total hours in a project.",
-    totalHoursResult: "Your total hours for DevView Project is",
-    statusUpdateResult: 'Your status update for DevView is "Doing progress on filter data".',
+    totalHoursResult: "Your total hours for ClearView Project is",
+    statusUpdateResult: 'Your status update for ClearView is "Doing progress on filter data".',
     noIntentFound: "CleaView Can't process that request right now, you can ask for your status update or total hours right now",
     genericError: "Ooh-uh, there's an error, please contact to SerpicoDev's Support"
 }
@@ -28,7 +28,6 @@ module.exports = {
         // teamwork.getTotalTime(302263, 'today')
         //     .then(console.log)
         //     .catch(console.log);
-
         alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
