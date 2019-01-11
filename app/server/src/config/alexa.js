@@ -32,7 +32,12 @@ module.exports = {
 
         // model.getStatusUpdate(302263).then(console.log);
 
-        alexaApp.launch((req, res) => res.say(texts.welcome).shouldEndSession(false));
+        alexaApp.launch((req, res) => {
+            console.log(req.userId);
+            res.say(texts.welcome).shouldEndSession(false)
+        });
+
+
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
             console.log('ALEXA TOTALHOURS');
             const projectId = 302263;
