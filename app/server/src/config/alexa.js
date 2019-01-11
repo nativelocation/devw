@@ -32,8 +32,26 @@ module.exports = {
 
         alexaApp.launch((req, res) => {
             console.log(req.userId);
+
+//check login
+//true
+//welcome back alexander, what do you want to do?
+//false
+//in order to use clearview, please tell me your pin access
+
             res.say(texts.welcome).shouldEndSession(false)
         });
+//first check if you're already logged, if yes, tell the user is logged and explain he needs to say "change account"
+//pin intent with confirmation
+//yes
+//find pin
+//found - register
+//notfound - pin not found, try again
+
+
+//change account intent
+
+
 
 
         alexaApp.intent("TotalHoursIntent", defaultValues, (req, res) => {
