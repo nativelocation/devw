@@ -30,8 +30,6 @@ module.exports = {
             debug: DEBUG ? true : false
         });
 
-        // model.getStatusUpdate(302263).then(console.log);
-
         alexaApp.launch((req, res) => {
             console.log(req.userId);
             res.say(texts.welcome).shouldEndSession(false)
