@@ -13,6 +13,20 @@ class Admin extends Component {
   async componentWillMount() {
     const { account } = this.props;
     const resPeople = await Api.GetPeople(account.tokenAuth);
+    
+
+    let dev = {
+      apiId:"123456", 
+      active:true,
+      fullTime:false
+    }
+
+    const cr = await Api.CreateDeveloper(account.tokenAuth, dev)
+    const developer = await Api.GetAllDeveloper(account.tokenAuth);
+
+
+    
+    console.log(developer)
 
     this.setState({ people: resPeople });
   }
@@ -24,7 +38,7 @@ class Admin extends Component {
 
   onChangeActive(e, id){
     console.log(e.target.checked,id)
-    developers.push()
+    //take the id and save into database if dont 
   }
 
   onChangeFullTime(e, id){
@@ -79,7 +93,6 @@ class Admin extends Component {
           <div className="d-flex flex-row">
             <p>Admin</p>
           </div>
-          <button type="submit" form="form1" value="Submit" class="btn btn-primary">Save</button>
           <div className="d-flex flex-row table-responsive tableProjects">
             <table className="table table-striped table-hover table-borderless">
               <thead>
