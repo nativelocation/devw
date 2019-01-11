@@ -4,8 +4,6 @@ const model = {
     create: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
         if (!data.apiId) throw { code: 400, msg: "API ID is required" };
-        if (!data.status) throw { code: 400, msg: "Status is required" };
-        if (!data.type) throw { code: 400, msg: "Type is required" };
         
         //const existDeveloper = await developer.getByEmail(data.apiId);
         //if (existDeveloper) throw { code: 400, msg: "The developer already exists" };
