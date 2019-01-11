@@ -48,13 +48,6 @@ class Collapse extends Component {
           <p className="text-white ml-2" style={styles.titleDate}>
             Developers:
           </p>
-          <hr />
-          <div className="d-flex flex-row bg-info ml-2">
-            <Button text="Apply" bigSize />
-            <button type="button" className="btn btn-link">
-              Clear
-            </button>
-          </div>
         </form>
       </Fragment>
     );
