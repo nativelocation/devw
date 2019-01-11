@@ -3,9 +3,7 @@ import { FONTS } from "../config/constants";
 import SelectInput from "./SelectInput";
 import Button from "./Button";
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
-
-
+import { Link } from "react-router-dom";
 
 class Collapse extends Component {
   state = {
@@ -28,11 +26,23 @@ class Collapse extends Component {
       <Fragment>
         <form onSubmit={this.onSubmit.bind(this)}>
           <p className="text-white ml-2" style={styles.titleDate}>
-            <Link to="/" className="text-white nounderline" style={{fontSize: 14}}>Dashboard</Link>
+            <Link
+              to="/"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Dashboard
+            </Link>
           </p>
           <hr />
           <p className="text-white ml-2" style={styles.titleDate}>
-            Projects:
+            <Link
+              to="/users"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Users
+            </Link>
           </p>
           <hr />
           <p className="text-white ml-2" style={styles.titleDate}>

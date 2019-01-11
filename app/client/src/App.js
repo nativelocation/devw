@@ -7,6 +7,7 @@ import Login from "./routes/Login";
 import Dashboard from "./routes/Dashboard";
 import Admin from "./routes/Admin";
 import NotFound from "./routes/NotFound";
+import User from "./routes/User";
 
 const store = configureStore();
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
               />
               <Route exact path="/" component={e => Auth.authorize(Dashboard, e, store)} />
               <Route exact path="/admin" component={e => Auth.authorize(Admin, e, store)} />
+              <Route exact path="/users" component={e => Auth.authorize(User, e, store)} />
               <Route component={NotFound} />
             </Switch>
           </Fragment>
