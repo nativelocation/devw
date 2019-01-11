@@ -1,16 +1,18 @@
 const { Client } = require('pg')
 require('dotenv').config()
-const connectionString = process.env.POSTGRESS_CV_DB;
+const { POSTGRESS_CV_DB, POSTGRESS_CV_USER, POSTGRESS_CV_PASSWORD, POSTGRESS_CV_DATABASE, POSTGRESS_CV_HOST } = process.env;
 
-//Test Local //TODO: find a correct way to manage this
-// const client = new Client({
-//     user: "zimmdycoobkwwv",
-//     password: "21e2e1743ed88be9369ca572ea8cace4eaadfcd0114f35cf307e1f14bb6d695a",
-//     database: "d7ef7sb3bip61i",
-//     port: 5432,
-//     host: "ec2-54-225-100-12.compute-1.amazonaws.com",
-//     ssl: true
-// })
+let client;
+if (POSTGRESS_CV_DB) client = new Client({ connectionString: POSTGRESS_CV_DB });
+else {
+    client = new Client({
+        user: POSTGRESS_CV_USER,
+        password: POSTGRESS_CV_PASSWORD,
+        database: POSTGRESS_CV_DATABASE,
+        host: POSTGRESS_CV_HOST,
+        port: 5432,
+        ssl: true
+    })
+}
 
-const client = new Client({ connectionString });
 module.exports = client;
