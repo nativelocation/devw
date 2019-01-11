@@ -108,12 +108,12 @@ class Collapse extends Component {
   }
 
   onChange(e) {
-    this.setState({ value: e.target.value });
+    this.setState({ value: e.target.value, showCustom: false });
     if (e.target.value === "custom") this.setState({ showCustom: true });
   }
 
   clearTime = e => {
-    this.setState({ value: "today" });
+    this.setState({ value: "today", showCustom: false });
     let data = {
       fromTime: "00:00",
       toTime: "23:59"
