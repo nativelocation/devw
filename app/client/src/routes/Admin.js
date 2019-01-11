@@ -13,18 +13,6 @@ class Admin extends Component {
   async componentWillMount() {
     const { account } = this.props;
     const resPeople = await Api.GetPeople(account.tokenAuth);
-    let dev = {
-      apiId:"123456", 
-      active:true,
-      fullTime:false,
-    }
-
-    await Api.CreateDeveloper(account.tokenAuth, dev)
-    const developer = await Api.GetAllDeveloper(account.tokenAuth);
-
-
-    
-    console.log(developer)
     this.setState({ people: resPeople });
   }
 
