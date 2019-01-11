@@ -2,13 +2,13 @@ const db = require('../config/mongoose');
 
 module.exports = {
     create: async data => {
-        const { firstName, lastName, apiId, status, type } = data;
-        const item = new db.Developer({ firstName, lastName, apiId, status, type });
+        const { apiId, status, type } = data;
+        const item = new db.Developer({ apiId, status, type });
         return await item.save();
     },
     update: async (id, data) => {
-        const { firstName, lastName, apiId, status, type } = data;
-        await db.Developer.findByIdAndUpdate(id, { firstName, lastName, apiId, status, type });
+        const { apiId, status, type } = data;
+        await db.Developer.findByIdAndUpdate(id, { apiId, status, type });
         return await db.Developer.findById(id);
     },
     delete: async id => {

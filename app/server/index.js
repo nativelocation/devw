@@ -13,6 +13,8 @@ const alexa = require('./src/config/alexa');
 const projectRouter = require('./src/routes/project');
 const userRouter = require('./src/routes/user');
 const adminRouter = require('./src/routes/admin');
+const devRouter = require('./src/routes/developer');
+
 
 const port = process.env.PORT || 8000;
 const publicPath = path.join(__dirname, "../../public");
@@ -29,6 +31,7 @@ app.set("view engine", "ejs");
 app.use('/api/project', projectRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/developer', devRouter);
 
 alexa.init(app);
 app.get("*", (req, res, next) => {

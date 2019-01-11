@@ -6,15 +6,27 @@ import Sidebar from "../components/Sidebar";
 
 class Admin extends Component {
   state = {
-    projects: [],
     people: [],
-    times: [],
+    developers: [],
   };
 
   async componentWillMount() {
     const { account } = this.props;
-    const resProj = await Api.GetProjects(account.tokenAuth);
     const resPeople = await Api.GetPeople(account.tokenAuth);
+    
+
+    let dev = {
+      apiId:"123456", 
+      active:true,
+      fullTime:false
+    }
+
+    const cr = await Api.CreateDeveloper(account.tokenAuth, dev)
+    const developer = await Api.GetAllDeveloper(account.tokenAuth);
+
+
+    
+    console.log(developer)
 
     this.setState({ people: resPeople });
   }
@@ -24,6 +36,15 @@ class Admin extends Component {
     window.location.reload();
   }
 
+  onChangeActive(e, id){
+    console.log(e.target.checked,id)
+    //take the id and save into database if dont 
+  }
+
+  onChangeFullTime(e, id){
+    console.log(e.target.checked,id)
+  }
+
   render() {
     const { people } = this.state;
 
@@ -31,7 +52,7 @@ class Admin extends Component {
       let ppl = people.data.people
       console.log("PP", ppl["first-name"])
       var peopleList = ppl.map((r, i) => {
-        let fullName = r["first-name"]+" "+r["last-name"]+" "+r["id"]
+        let fullName = r["first-name"]+" "+r["last-name"]
         console.log("P", r)
         return (
           <tr key={i}>
@@ -43,6 +64,7 @@ class Admin extends Component {
                 type="checkbox"
                 id="inlineCheckbox1"
                 value="option1"
+                onChange={e => this.onChangeActive(e,r["id"])}
               />
             </td>
             <td>
@@ -52,6 +74,8 @@ class Admin extends Component {
                 type="checkbox"
                 id="inlineCheckbox1"
                 value="option1"
+                onChange={e => this.onChangeFullTime(e,r["id"])}
+
               />
             </td>
           </tr>
