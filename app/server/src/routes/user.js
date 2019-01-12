@@ -25,11 +25,9 @@ router.post('/', (req, res, next) => {
     model.getById(req.body).then(r => generalSuccess(res, "Get user by id", r)).catch(e => generalError(e, res));
 });
 router.post('/create', (req, res) => {
-    busboy(merge =>
         model.create(merge)
             .then(user => generalSuccess(res, 'Create User Ok', { user }))
-            .catch(e => generalError(e, res))
-        , req);
+            .catch(e => generalError(e, res));
 });
 router.put('/update', (req, res) => {
     busboy(merge =>
