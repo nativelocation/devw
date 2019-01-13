@@ -12,32 +12,23 @@ const model = {
     },
     update: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
-        if (!data.id) throw { code: 400, msg: "Id is required" };
         if (!data.apiId) throw { code: 400, msg: "API ID is required" };
 
-        const existUser = await user.getById(data.id);
-        if (!existUser) throw { code: 400, msg: "The user doesn't exists" };
-
-        return await developer.update(data.id, data);
+        return await developer.update(data.apiId, data);
     },
     delete: async data => {
         if (!data) throw { code: 400, msg: "Params is empty" };
-        if (!data._id) throw { code: 400, msg: "ID is required" };
-        return await developer.delete(data._id);
+        if (!data.apiId) throw { code: 400, msg: "ID is required" };
+        return await developer.delete(data.apiId);
     },
     getAll: async () => {
         return await developer.getAll();
     },
-    getById: async data => {
+    getDeveloperByApiId: async data => {
         if (!data) throw { code: 400, msg: "Data is empty" };
-        if (!data._id) throw { code: 400, msg: "ID is required" };
-        return await developer.getById(data._id);
+        if (!data.apiId) throw { code: 400, msg: "ID is required" };
+        return await developer.getByApiId(data.apiId);
     },
-    getByToken: async data => {
-        if (!data) throw { code: 400, msg: "Data is empty" };
-        if (!data.developer_id) throw { code: 400, msg: "Id is required" };
-        return await developer.getById(data.developer_id);
-    }
 }
 
 module.exports = model;

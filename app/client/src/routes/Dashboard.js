@@ -16,10 +16,25 @@ class Dashboard extends Component {
     loading: true
   };
 
+  tableRef = React.createRef();
   totalProjects = {};
   totalPeople = {};
+
+
   componentWillMount() {
     this.onStart();
+  }
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  onScroll() {
+    const dimentions = this.refs.table.getBoundingClientRect();
+    if (dimentions.top <= 0)
+      console.log('keep it :');
   }
 
   async onStart() {
@@ -53,16 +68,17 @@ class Dashboard extends Component {
     await Promise.all(this.totalPeople.map(async pp => {
       data.userId = pp.id;
       const res = await Api.GetTotalTimeByDate(account.tokenAuth, data);
-      if (res.data) {
+      if (res.data && res.data.projects && res.data.projects.length > 0) {
         times[pp.id] = res.data.projects.map(v => ({
           id: v.id,
           time: v.totalHours
         }));
-
-        counter++;
-        let process = ((counter * 100) / this.totalPeople.length).toFixed(0);
-        if (process < 100) this.setState({ process });
       }
+
+      counter++;
+      let process = ((counter * 100) / this.totalPeople.length).toFixed(0);
+      if (process < 100) this.setState({ process });
+
     }));
     this.totalProjects.map(pj => {
       let total = 0;
@@ -73,7 +89,7 @@ class Dashboard extends Component {
       pj.totalHours = total.toFixed(2);
       if (total > 0) projects.push(pj);
     });
-
+    console.log("HERE");
     this.setState({ projects, people, times, loading: false });
   }
 
@@ -124,11 +140,11 @@ class Dashboard extends Component {
     return (
       <Fragment>
         <Sidebar onSubmit={r => this.getTimeByUser(r)} />
-        <Wrapper name="Show:" onClick={this.onLogout}>
+        <Wrapper onScroll={this.onScroll.bind(this)}>
           <FilterFulltime />
           {!loading ?
-            <div className="d-flex flex-row table-responsive tableProjects">
-              <table className="table table-striped table-hover table-borderless" style={{ overflowX: 'scroll' }}>
+            <div className="d-flex flex-row" style={{ flex: 1, overflowX: "scroll" }}>
+              <table ref="table" className="table table-striped table-hover table-borderless">
                 <thead>
                   <tr>
                     <th />
