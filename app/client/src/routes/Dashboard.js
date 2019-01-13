@@ -113,21 +113,21 @@ class Dashboard extends Component {
 
       return (
         <tr key={i} className="">
-          <td className="border-right peopleName">
+          <td className="border-right peopleName" style={styles.sizeRow} >
             {pp["first-name"]} {pp["last-name"]}
           </td>
           {projects.map((pj, ii) => (
-            <td key={ii} className="border-right text-center">
+            <td key={ii} className="border-right text-center" style={styles.sizeRow} >
               {getTime(pj.id)}
             </td>
           ))}
-          <td className="text-center">{getTotalPeople()}</td>
+          <td className="text-center" style={styles.sizeRow} >{getTotalPeople()}</td>
         </tr>
       );
     });
 
-    const projectsName = projects.map((r, i) => <th key={i} className="text-center peopleName">{r.name}</th>);
-    const totalProjects = projects.map((pj, i) => <td key={i} className="border-right text-center"> {pj.totalHours}</td>);
+    const projectsName = projects.map((r, i) => <th key={i} className="text-center" style={styles.sizeRow}>{r.name}</th>);
+    const totalProjects = projects.map((pj, i) => <td key={i} className="border-right text-center" style={styles.sizeRow} > {pj.totalHours}</td>);
     let totalOfTotals = 0;
     projects.map((pj, i) => totalOfTotals += parseFloat(pj.totalHours));
 
@@ -137,29 +137,37 @@ class Dashboard extends Component {
         <Wrapper>
           <FilterFulltime />
           {!loading ?
-            <div className="d-flex flex-row" style={{ flex: 1, overflowX: "scroll" }}>
-              <table ref="table" className="table table-striped table-hover table-borderless">
-                <thead>
-                  <tr>
-                    <th />
-                    {projectsName}
-                    <th>TOTAL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {peoplesName}
-                  <tr>
-                    <td className="border-right peopleName"><b>TOTAL</b></td>
-                    {totalProjects}
-                    <td className="border-right text-center"><b>{totalOfTotals.toFixed(2)}</b></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <Fragment>
+              <div className="d-flex flex-row" style={{ flex: 1 }}>
+                <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
+                  <thead>
+                    <tr>
+                      <th style={styles.sizeRow} className="text-center"  />
+                      {projectsName}
+                      <th style={styles.sizeRow} className="text-center" >TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody style={{ overflowY: "scroll", overflowX: 'hidden', width: 'max-content' }}>
+                    {peoplesName}
+                    <tr>
+                      <td className="border-right text-center" style={styles.sizeRow} ><b>TOTAL</b></td>
+                      {totalProjects}
+                      <td className="border-right text-center" style={styles.sizeRow} ><b>{totalOfTotals.toFixed(2)}</b></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </Fragment>
             : <Loading show text={`LOADING: ${process}%`} />}
         </Wrapper>
       </Fragment >
     );
+  }
+}
+
+const styles = {
+  sizeRow: {
+    minWidth: '200px'
   }
 }
 export default connect(s => ({ account: s.account }))(Dashboard);
