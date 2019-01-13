@@ -9,15 +9,15 @@ class Wrapper extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, onScroll } = this.props;
     return (
       <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
         <div
-          id="scrollWrapper"
-          className="col-md-12 col-lg-12 p-3"
+          className="col-md-12 col-lg-12 p-3 d-flex flex-column"
           style={styles.flex}
+          onScroll={onScroll}
         >
-          <div className="col-md-12 col-lg-12 m-0 p-3">
+          <div className="col-md-12 col-lg-12 m-0 p-3" style={{ flex: "unset" }}>
             <button
               type="button"
               className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
@@ -32,7 +32,7 @@ class Wrapper extends Component {
               Admin
             </Link>
           </div>
-          <div className="col-md-12 col-lg-12 bg-white p-2">{children}</div>
+          <div className="col-md-12 col-lg-12 bg-white p-2 d-flex flex-column" style={styles.flex}>{children}</div>
         </div>
       </div>
     );
