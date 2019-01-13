@@ -12,11 +12,7 @@ const model = {
     },
     update: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
-        if (!data.id) throw { code: 400, msg: "Id is required" };
         if (!data.apiId) throw { code: 400, msg: "API ID is required" };
-
-        const existUser = await user.getById(data.id);
-        if (!existUser) throw { code: 400, msg: "The user doesn't exists" };
 
         return await developer.update(data.apiId, data);
     },
