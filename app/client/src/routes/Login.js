@@ -56,7 +56,7 @@ export default class Login extends Component {
         >
           <div className="col-md-6 col-lg-6 col-xl-3">
             <div>
-              <h1 className="mb-3 mt-5 text-black">Dev ViewWW</h1>
+              <h1 className="mb-3 mt-5 text-black">Dev View</h1>
               <div>
                 <form onSubmit={this.onSubmit.bind(this)}>
                   <div className="form-group" style={styles.mb}>
