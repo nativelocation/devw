@@ -1,89 +1,86 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import moment from 'moment';
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
-var moment = require("moment");
-
-const month = new Array();
-month[0] = "01";
-month[1] = "02";
-month[2] = "03";
-month[3] = "04";
-month[4] = "05";
-month[5] = "06";
-month[6] = "07";
-month[7] = "08";
-month[8] = "09";
-month[9] = "10";
-month[10] = "11";
-month[11] = "12";
+import Loading from '../components/Loading';
+import FilterFulltime from "../components/FilterFulltime";
 
 class Dashboard extends Component {
   state = {
     projects: [],
     people: [],
-    times: []
+    times: [],
+    process: 0,
+    loading: true
   };
 
-  async componentWillMount() {
+  totalProjects = {};
+  totalPeople = {};
+  componentWillMount() {
+    this.onStart();
+  }
+
+  async onStart() {
     const { account } = this.props;
-    let data = {
-      fromTime: "00:00",
-      toTime: "23:59"
-    };
-    const today = moment().format("YYYYMMDD");
-    data.fromDate = today;
-    data.toDate = today;
     const resProj = await Api.GetProjects(account.tokenAuth);
     const resPeople = await Api.GetPeople(account.tokenAuth);
-    if (resProj && resProj.data && resPeople && resPeople.data)
-      this.getTimeByUser(resProj.data.projects, resPeople.data.people, data);
-    else console.log("Error getting data");
+    const today = moment().format("YYYYMMDD");
+
+    if (resProj && resProj.data && resPeople && resPeople.data) {
+      this.totalProjects = resProj.data.projects;
+      this.totalPeople = resPeople.data.people;
+
+      this.getTimeByUser({
+        fromTime: "00:00",
+        toTime: "23:59",
+        fromDate: today,
+        toDate: today
+      });
+    } else console.log("Error getting data");
   }
 
-  onLogout() {
-    localStorage.removeItem("tokenAuth");
-    window.location.reload();
-  }
-
-  getTimeByUser = async (projects, people, data) => {
+  async getTimeByUser(data) {
     const { account } = this.props;
-    people.forEach(pp => {
+    const people = this.totalPeople;
+    let times = [];
+    let projects = [];
+    console.log('===== START =====', data)
+
+    let counter = 0;
+    this.setState({ process: 0, loading: true });
+    await Promise.all(this.totalPeople.map(async pp => {
       data.userId = pp.id;
-      console.log('===== START =====')
-      Api.GetTotalTimeByDate(account.tokenAuth, data)
-        .then(res => {
-          if (res.data) {
-            // console.log('Entro ',res.data)
-            this.setState(oldState => {
-              let { times } = oldState;
-              times[pp.id] = res.data.projects.map(v => ({
-                id: v.id,
-                time: v.totalHours
-              }));
-              return { times };
-            });
-          }
-        })
-        .catch(err => {
-          console.error(err);
-        });
+      const res = await Api.GetTotalTimeByDate(account.tokenAuth, data);
+      if (res.data) {
+        times[pp.id] = res.data.projects.map(v => ({
+          id: v.id,
+          time: v.totalHours
+        }));
+
+        counter++;
+        let process = ((counter * 100) / this.totalPeople.length).toFixed(0);
+        if (process < 100) this.setState({ process });
+      }
+    }));
+    this.totalProjects.map(pj => {
+      let total = 0;
+      times.map(v => {
+        let proj = v.find(p => p.id === pj.id);
+        if (proj) total += parseFloat(proj.time);
+      });
+      pj.totalHours = total.toFixed(2);
+      if (total > 0) projects.push(pj);
     });
 
-    this.setState({ projects, people });
-  };
+    this.setState({ projects, people, times, loading: false });
+  }
 
   render() {
-    const { projects, people, times } = this.state;
-    let projectsName = projects.map((r, i) => {
-      return (
-        <th key={i} className="text-center peopleName">
-          {r.name}
-        </th>
-      );
-    });
-    let peoplesName = people.map((pp, i) => {
+    const { projects, people, times, loading, process } = this.state;
+
+    const peoplesName = people.map((pp, i) => {
       const getTime = id => {
         if (times[pp.id] && times[pp.id].length > 0) {
           const p = times[pp.id].find(v => v.id === id);
@@ -118,47 +115,40 @@ class Dashboard extends Component {
         </tr>
       );
     });
-    let totalProjects = projects.map((pj, i) => {
-      let total = 0;
-      times.map(v => {
-        let proj = v.find(p => p.id === pj.id);
-        if (proj) total += parseFloat(proj.time);
-      });
-      return (
-        <td key={i} className="border-right text-center">
-          {total.toFixed(2)}
-        </td>
-      );
-    });
+
+    const projectsName = projects.map((r, i) => <th key={i} className="text-center peopleName">{r.name}</th>);
+    const totalProjects = projects.map((pj, i) => <td key={i} className="border-right text-center"> {pj.totalHours}</td>);
+    let totalOfTotals = 0;
+    projects.map((pj, i) => totalOfTotals += parseFloat(pj.totalHours));
+
     return (
       <Fragment>
-        <Sidebar
-          onSubmit={r => (this.getTimeByUser(projects, people, r))}
-          projects={projects}
-          people={people}
-        />
+        <Sidebar onSubmit={r => this.getTimeByUser(r)} />
         <Wrapper name="Show:" onClick={this.onLogout}>
-          <div className="d-flex flex-row table-responsive tableProjects">
-            <table className="table table-striped table-hover table-borderless">
-              <thead>
-                <tr>
-                  <th />
-                  {projectsName}
-                  <th>TOTAL</th>
-                </tr>
-              </thead>
-              <tbody>
-                {peoplesName}
-                <tr>
-                  <td className="border-right peopleName">TOTAL</td>
-                  {totalProjects}
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <FilterFulltime />
+          {!loading ?
+            <div className="d-flex flex-row table-responsive tableProjects">
+              <table className="table table-striped table-hover table-borderless" style={{ overflowX: 'scroll' }}>
+                <thead>
+                  <tr>
+                    <th />
+                    {projectsName}
+                    <th>TOTAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {peoplesName}
+                  <tr>
+                    <td className="border-right peopleName"><b>TOTAL</b></td>
+                    {totalProjects}
+                    <td className="border-right text-center"><b>{totalOfTotals.toFixed(2)}</b></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            : <Loading show text={`LOADING: ${process}%`} />}
         </Wrapper>
-      </Fragment>
+      </Fragment >
     );
   }
 }

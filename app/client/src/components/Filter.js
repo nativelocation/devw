@@ -134,7 +134,6 @@ class Collapse extends Component {
   }
 
   render() {
-    const { projects, people } = this.props;
     const { from, to, showCustom, value } = this.state;
     console.log("Render ", value);
     let showInput = showCustom ? (

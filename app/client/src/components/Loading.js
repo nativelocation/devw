@@ -14,7 +14,7 @@ const Loading = ({ show, textColor, absolute, text, backgroundClass }) => {
         <div className={`h-100 d-flex align-items-center justify-content-center ${classValues}`}>
             <div className="d-flex flex-column col-md-3">
                 <object data="/assets/img/loading.svg" />
-                <span className='text-lg-left mx-auto font-weight-light' style={{ color: textColor || COLORS.LightGray, fontSize: 40 }}>{text || "LOADING.."}</span>
+                <span className='text-lg-left mx-auto font-weight-light' style={{ color: textColor || COLORS.LightGray, fontSize: 20 }}>{text || "LOADING.."}</span>
             </div>
         </div>
     )
