@@ -5,6 +5,7 @@ import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
 import Loading from '../components/Loading';
+import FilterFulltime from "../components/FilterFulltime";
 
 class Dashboard extends Component {
   state = {
@@ -38,11 +39,6 @@ class Dashboard extends Component {
         toDate: today
       });
     } else console.log("Error getting data");
-  }
-
-  onLogout() {
-    localStorage.removeItem("tokenAuth");
-    window.location.reload();
   }
 
   async getTimeByUser(data) {
@@ -129,9 +125,10 @@ class Dashboard extends Component {
       <Fragment>
         <Sidebar onSubmit={r => this.getTimeByUser(r)} />
         <Wrapper name="Show:" onClick={this.onLogout}>
+          <FilterFulltime />
           {!loading ?
             <div className="d-flex flex-row table-responsive tableProjects">
-              <table className="table table-striped table-hover table-borderless">
+              <table className="table table-striped table-hover table-borderless" style={{ overflowX: 'scroll' }}>
                 <thead>
                   <tr>
                     <th />
