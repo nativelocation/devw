@@ -27,13 +27,13 @@ export default class SelectInput extends Component {
         return (
             <div className="input-group">
                 <select id={name} name={name} className="custom-select noBorder bg-secondary text-white" onChange={onChange} value={value}>
-                    <option>today</option>
-                    <option>yesterday</option>
-                    <option>this month</option>
-                    <option>last month</option>
-                    <option>this year</option>
-                    <option>last year</option>
-                    <option>custom</option>
+                    <option>Today</option>
+                    <option>Yesterday</option>
+                    <option>This month</option>
+                    <option>Last month</option>
+                    <option>This year</option>
+                    <option>Last year</option>
+                    <option>Custom</option>
                 </select>
             </div>
         )
