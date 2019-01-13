@@ -31,12 +31,6 @@ class Dashboard extends Component {
     window.removeEventListener('scroll', this.handleScroll);
   }
 
-  onScroll() {
-    const dimentions = this.refs.table.getBoundingClientRect();
-    if (dimentions.top <= 0)
-      console.log('keep it :');
-  }
-
   async onStart() {
     const { account } = this.props;
     const resProj = await Api.GetProjects(account.tokenAuth);
@@ -140,7 +134,7 @@ class Dashboard extends Component {
     return (
       <Fragment>
         <Sidebar onSubmit={r => this.getTimeByUser(r)} />
-        <Wrapper onScroll={this.onScroll.bind(this)}>
+        <Wrapper>
           <FilterFulltime />
           {!loading ?
             <div className="d-flex flex-row" style={{ flex: 1, overflowX: "scroll" }}>
