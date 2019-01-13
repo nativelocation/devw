@@ -3,10 +3,14 @@ import * as c from './constants';
 
 class ApiModel {
     Login = credentials => FetchRequest(c.LOGIN, 'POST', null, credentials);
+    //User
     GetUserToken = token => FetchRequest(c.GETCURRENT, 'GET', token);
     CreateUser = (token, data) => FetchRequest(c.CREATEUSER, 'POST', token, data);
     GetAllUser = token => FetchRequest(c.GETALLUSERS, 'GET', token);
-    GetUserById = (token, data) => FetchRequest(c.GETUSERBYID, 'POST', token, data);//aqui
+    GetUser = (token, _id) => FetchRequest(c.GETUSER, 'POST', token, { _id });
+    UpdateUser = (token, data) => FetchRequest(c.UPDATEUSER, 'PUT', token, data);
+    DeleteUser = (token, _id) => FetchRequest(c.DELETEUSER, 'DELETE', token, { _id });
+
     GetProjects = token => FetchRequest(c.GETPROJECT, 'GET', token);
     GetPeople = token => FetchRequest(c.GETPEOPLE, 'GET', token);
     GetTimeByUser = (token, data) => FetchRequest(c.GETTIMEBYUSER, 'POST', token, data);

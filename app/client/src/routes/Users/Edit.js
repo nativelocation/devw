@@ -7,6 +7,8 @@ import Alert from "../../components/Alert";
 import Loading from "../../components/Loading";
 import Button from "../../components/Button";
 import _ from "lodash";
+import SweetAlert from "sweetalert-react";
+import { COLORS } from "../../config/constants";
 
 const roles = new Array();
 roles[1] = "Super Admin";
@@ -14,22 +16,19 @@ roles[2] = "Admin";
 
 class Edit extends Component {
   state = {
-    user: [],
-    id: this.props.match.params.id || '',
-    showTable: true,
+    id: this.props.match.params.id || "",
+    firstName: "",
     lastName: "",
     email: "",
     role: 1,
-    password: "12345678",
     errorMessage: "",
     loading: false,
-    isEdit: false
+    alertProps: { title: "Alert" },
+    alertShow: false
   };
 
   async componentWillMount() {
-    const { account } = this.props;
-    const us = await Api.GetUserById(account.tokenAuth, this.state.id);
-    console.log('DEV: ',us)
+    await this.getUser(this.state.id);
   }
 
   onLogout() {
@@ -37,30 +36,58 @@ class Edit extends Component {
     window.location.reload();
   }
 
-  adminUser = id => {};
+  getUser = id => {
+    const { account, history } = this.props;
+    this.setState({ loading: true });
+
+    Api.GetUser(account.tokenAuth, id)
+      .then(res => {
+        if (res.status === 201) {
+          const { firstName, lastName, email } = res.data;
+          this.setState({
+            loading: false,
+            firstName: firstName,
+            lastName: lastName,
+            email: email
+          });
+        } else history.push(`/user`);
+      })
+      .catch(err => {
+        this.setState({ loading: false });
+        history.push("/user");
+      });
+  };
+
+  back() {
+    const { history } = this.props;
+    history.push(`/user`);
+  }
 
   onSubmit(e) {
     e.preventDefault();
     const { account } = this.props;
-    const { firstName, lastName, email, role, password } = this.state;
-    const data = { firstName, lastName, email, role, password };
-    this.setState({ loading: true });
-
-    Api.CreateUser(account.tokenAuth, data)
-      .then(res => {
-        console.log(res);
-        if (res.status === 201) {
-          this.setState({ loading: false, showTable: true, errorMessage: "" });
-          this.getAll();
+    const { firstName, lastName, email, role, id } = this.state;
+    const data = { firstName, lastName, email, role, id };
+    
+    Api.UpdateUser(account.tokenAuth, data)
+    .then(res => {
+      if (res.status === 201) {
+        this.setState({ loading: true, alertShow: true });
+          const alertProps = this.getSuccessAlertProps(() => {
+            this.setState({ alertShow: false, loading: false, }, () =>
+              this.props.history.push("/user")
+            );
+          });
+          this.setState({ alertProps, errorMessage: "" });
         } else {
           this.setState({
             loading: false,
-            errorMessage: res.message
+            errorMessage: res.message,
+            alertShow: false
           });
         }
       })
       .catch(err => {
-        console.log(err);
         this.setState({
           errorMessage: err.message,
           loading: false
@@ -73,8 +100,18 @@ class Edit extends Component {
     this.setState({ [name]: value, errorMessage: "" });
   }
 
+  confirmData() {}
+
   render() {
-    const { loading, errorMessage } = this.state;
+    const {
+      loading,
+      errorMessage,
+      firstName,
+      lastName,
+      email,
+      alertShow,
+      alertProps
+    } = this.state;
     return (
       <Fragment>
         <Sidebar admin="admin" />
@@ -88,6 +125,7 @@ class Edit extends Component {
                     name="firstName"
                     type="text"
                     className="form-control"
+                    value={firstName}
                     onChange={this.onChange.bind(this)}
                   />
                 </div>
@@ -97,6 +135,7 @@ class Edit extends Component {
                     name="lastName"
                     type="text"
                     className="form-control"
+                    value={lastName}
                     onChange={this.onChange.bind(this)}
                   />
                 </div>
@@ -106,7 +145,9 @@ class Edit extends Component {
                     name="email"
                     type="email"
                     className="form-control"
+                    value={email}
                     onChange={this.onChange.bind(this)}
+                    disabled
                   />
                 </div>
                 <div className="form-group col-md-6">
@@ -119,13 +160,11 @@ class Edit extends Component {
                     disabled
                   />
                 </div>
-                <Button text="Create" />
+                <Button text="Update" />
                 <button
                   type="button"
                   className="btn btn-link text-muted nounderline "
-                  onClick={() =>
-                    this.setState({ showTable: true, errorMessage: "" })
-                  }
+                  onClick={this.back.bind(this)}
                   style={{ fontSize: 14 }}
                 >
                   Back
@@ -138,6 +177,7 @@ class Edit extends Component {
               </Alert>
             </div>
           </div>
+          <SweetAlert show={alertShow} {...alertProps} />
           <Loading
             show={loading}
             absolute
@@ -148,6 +188,27 @@ class Edit extends Component {
         </Wrapper>
       </Fragment>
     );
+  }
+
+  getSaveAlertProps() {
+    return {
+      title: "Update User",
+      text: "Are you sure to update the user?",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Success,
+      onConfirm: () => console.log('lol'),
+      onCancel: () => this.setState({ alertShow: false, loading: false })
+    };
+  }
+
+  getSuccessAlertProps(onClick) {
+    return {
+      title: "User Updated",
+      text: `The user has been updated successfully`,
+      type: "success",
+      confirmButtonColor: COLORS.Success,
+      onConfirm: onClick.bind(this)
+    };
   }
 }
 export default connect(s => ({ account: s.account }))(Edit);
