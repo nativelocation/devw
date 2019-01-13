@@ -9,13 +9,12 @@ class Wrapper extends Component {
   }
 
   render() {
-    const { children, onScroll } = this.props;
+    const { children } = this.props;
     return (
       <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
         <div
           className="col-md-12 col-lg-12 p-3 d-flex flex-column"
           style={styles.flex}
-          onScroll={onScroll}
         >
           <div className="col-md-12 col-lg-12 m-0 p-3" style={{ flex: "unset" }}>
             <button
