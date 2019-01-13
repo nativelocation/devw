@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
+import { ToastContainer, ToastStore } from 'react-toasts';
+
 
 class Admin extends Component {
   state = {
@@ -19,6 +21,9 @@ class Admin extends Component {
     this.setState({ people: resPeople, developers: resDeveloper });
 
     // await Api.CreateDeveloper(account.tokenAuth, { apiId: "123456", active: true, fullTime: true });
+
+   // ToastStore.info('Hey, it worked !');
+
 
 
   }
@@ -37,41 +42,54 @@ class Admin extends Component {
         if (dev.data.fullTime) {
           await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
           await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });
+          ToastStore.success('Developer has been updated');
         }
         else {
           await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
+          ToastStore.success('Developer has been added');
         }
       } else {
         await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
+        ToastStore.success('Developer has been added');
       }
     } else {
       const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
-      if(dev.data.fullTime){
+      if (dev.data.fullTime) {
         await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
         await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
-      }else{
+        ToastStore.success('Developer has been updated');
+      } else {
         await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
-      }      
+        ToastStore.success('Developer has been removed');
+      }
     }
   }
 
   async onChangeFullTime(e, id) {
     const { account } = this.props;
+    ToastStore.error('Hey, it worked !');
 
-    if(e.target.checked){
+
+    if (e.target.checked) {
       const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
-      if(dev.data != null){
-        if(dev.data.active){
+      if (dev.data != null) {
+        if (dev.data.active) {
           await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
-          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });
-        }else{
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });          
+          ToastStore.success('Developer has been updated');
+
+        } else {
           await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+          ToastStore.success('Developer has been added');
         }
-      }else{
+      } else {
         await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+        ToastStore.success('Developer has been added');
       }
-    }else{
+    } else {
       await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+      ToastStore.success('Developer has been removed');
+
     }
   }
 
@@ -127,8 +145,6 @@ class Admin extends Component {
       });
     }
 
-
-
     return (
 
       <Fragment>
@@ -150,6 +166,9 @@ class Admin extends Component {
                 {peopleList}
               </tbody>
             </table>
+            <div>
+              <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_RIGHT} lightBackground />
+            </div>
           </div>
         </Wrapper>
       </Fragment>
