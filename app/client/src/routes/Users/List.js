@@ -1,21 +1,21 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import Api from "../config/api";
-import Wrapper from "../components/Wrapper";
-import Sidebar from "../components/Sidebar";
-import { Link } from "react-router-dom";
-import Alert from "../components/Alert";
-import Loading from "../components/Loading";
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Api from "../../config/api";
+import Wrapper from "../../components/Wrapper";
+import Sidebar from "../../components/Sidebar";
+import Alert from "../../components/Alert";
+import Loading from "../../components/Loading";
+import Button from "../../components/Button";
+import _ from "lodash";
 
 const roles = new Array();
 roles[1] = "Super Admin";
 roles[2] = "Admin";
 
-class User extends Component {
+class List extends Component {
   state = {
     user: [],
+    idUser: "",
     showTable: true,
     fullName: "",
     lastName: "",
@@ -23,48 +23,78 @@ class User extends Component {
     role: 1,
     password: "12345678",
     errorMessage: "",
-    loading: false
+    loading: false,
+    isEdit: false
   };
 
   async componentWillMount() {
+    this.getAll();
+  }
+
+  getAll = async () => {
     const { account } = this.props;
     const all = await Api.GetAllUser(account.tokenAuth);
     this.setState({ user: all });
-  }
+  };
 
   onLogout() {
     localStorage.removeItem("tokenAuth");
     window.location.reload();
   }
 
-  NewUser = () => {
-    this.setState({ showTable: !this.state.showTable });
+  adminUser = id => {
+    const { idUser } = this.state;
+    console.log()
+    this.setState({ showTable: false, isEdit: true });
   };
+
+  editUser(id) {
+    const { history } = this.props;
+    history.push(`/user/edit/${id}`);
+  }
 
   onSubmit(e) {
     e.preventDefault();
     const { account } = this.props;
-    const { firstName, lastName, email, role, password } = this.state;
-    const data = { firstName, lastName, email, role, password }
-    console.log(firstName, lastName, email, role, password);
+    const {
+      firstName,
+      lastName,
+      email,
+      role,
+      password,
+    } = this.state;
+    const data = { firstName, lastName, email, role, password };
+    this.setState({ loading: true });
 
     Api.CreateUser(account.tokenAuth, data)
       .then(res => {
         console.log(res);
+        if (res.status === 201) {
+          this.setState({ loading: false, showTable: true, errorMessage: '' });
+          this.getAll();
+        }else{
+          this.setState({
+            loading: false,
+            errorMessage: res.message
+          });
+        }
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
+        this.setState({
+          errorMessage: err.message,
+          loading: false
+        });
       });
   }
 
   onChange(e) {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, errorMessage: '' });
   }
 
   render() {
     const { user, showTable, loading, errorMessage } = this.state;
-    console.log(user);
     if (user.data) {
       const res = user.data;
       var users = res.map((r, i) => {
@@ -76,20 +106,19 @@ class User extends Component {
             <td>{role}</td>
             <td>
               <div className="d-flex flex-row justify-content-center">
-                <Link
-                  to="/edit"
+                <a
                   className="text-muted nounderline p-1"
                   style={{ fontSize: 14 }}
+                  onClick={this.editUser.bind(this, r._id)}
                 >
                   Edit
-                </Link>
-                <Link
-                  to="/delete"
+                </a>
+                <a
                   className="text-muted nounderline p-1"
                   style={{ fontSize: 14 }}
                 >
                   Delete
-                </Link>
+                </a>
               </div>
             </td>
           </tr>
@@ -101,7 +130,7 @@ class User extends Component {
       <button
         type="button"
         className="btn btn-light text-muted nounderline "
-        onClick={this.NewUser.bind(this)}
+        onClick={() => this.setState({ showTable: false, errorMessage: '' })}
         style={{ fontSize: 14 }}
       >
         New
@@ -166,20 +195,22 @@ class User extends Component {
                 disabled
               />
             </div>
-            <Alert type="danger" hide={!errorMessage}>
-              {errorMessage}
-            </Alert>
             <Button text="Create" />
             <button
               type="button"
               className="btn btn-link text-muted nounderline "
-              onClick={this.NewUser.bind(this)}
+              onClick={() => this.setState({ showTable: true, errorMessage: '' })}
               style={{ fontSize: 14 }}
             >
               Back
             </button>
           </div>
         </form>
+        <div className='pt-3'>
+        <Alert type="danger" hide={!errorMessage}>
+          {errorMessage}
+        </Alert>
+        </div>
       </div>
     );
 
@@ -194,12 +225,12 @@ class User extends Component {
             show={loading}
             absolute
             backgroundClass="bg-gray"
-            textColor="#fff"
-            text="LOGIN IN.."
+            textColor="#020202"
+            text="LOADING.."
           />
         </Wrapper>
       </Fragment>
     );
   }
 }
-export default connect(s => ({ account: s.account }))(User);
+export default connect(s => ({ account: s.account }))(List);
