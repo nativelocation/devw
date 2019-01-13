@@ -152,7 +152,7 @@ class Admin extends Component {
             <td align="center">
               <input
                 //style={styles.checkBoxWidth}
-                className="form-check-input mt-1"
+                className="mt-1"
                 type="checkbox"
                 id={r.id + "A"}
                 value={r.id + "A"}
@@ -163,7 +163,7 @@ class Admin extends Component {
             <td align="center">
               <input
                 //style={styles.checkBoxWidth}
-                className="form-check-input mt-1"
+                className="mt-1"
                 type="checkbox"
                 id={r.id + "F"}
                 value={r.id + "F"}
