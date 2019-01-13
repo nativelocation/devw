@@ -8,12 +8,41 @@ class Admin extends Component {
   state = {
     people: [],
     developers: [],
+    active: {},
+    isGoing: false,
   };
 
   async componentWillMount() {
     const { account } = this.props;
     const resPeople = await Api.GetPeople(account.tokenAuth);
-    this.setState({ people: resPeople });
+    const resDeveloper = await Api.GetAllDeveloper(account.tokenAuth);
+    this.setState({ people: resPeople, developers: resDeveloper });
+
+
+
+    await resDeveloper.data.map((dev) => {
+      if (id.toString() === dev.active) {
+        console.log("siexiste")
+        this.setState({ active: true })
+
+      } else {
+        console.log("siexiste")
+        this.setState({ active: false })
+
+      }
+    })
+
+
+
+    let data = {
+      apiId: "112233",
+      active: true,
+      fullTime: true
+    };
+
+    //await Api.CreateDeveloper(account.tokenAuth, data);
+
+    //console.log("DEV ",resDeveloper);
   }
 
   onLogout() {
@@ -21,45 +50,125 @@ class Admin extends Component {
     window.location.reload();
   }
 
-  onChangeActive(e, id){
-    console.log(e.target.checked,id)
-    //take the id and save into database if dont 
+  async onChangeActive(e, id) {
+    const { account } = this.props;
+    const developers = this.state.developers;
+
+
+
+    console.log(e.target.checked, id)
+
+    var exist
+
+
+    await developers.data.map((dev) => {
+      if (id.toString() === dev.apiId) {
+        console.log("siexiste")
+        exist = true;
+      } else {
+        console.log("siexiste")
+        exist = false;
+      }
+    })
+
+    console.log(exist)
+
+    // if (e.target.checked) {
+    //   let data = {
+    //     apiId: id,
+    //     active: true,
+    //     fullTime: false
+    //   };
+    //   await Api.CreateDeveloper(account.tokenAuth, data);
+    // }else{
+
+    // }
+
+
+
+
+    // if()
+    // let data = {
+    //   apiId:id,
+    //   active:false,
+    //   fullTime:true
+    // }; 
+
+    // await Api.CreateDeveloper(account.tokenAuth, data);
+
+    // console.log("DEV ", developers);
+
+
   }
 
-  onChangeFullTime(e, id){
-    console.log(e.target.checked,id)
+  async onChangeFullTime(e, id) {
+    const { account } = this.props;
+
+    if (e.target.checked) {
+      let data = {
+        apiId: id,
+        active: false,
+        fullTime: true
+      };
+      await Api.CreateDeveloper(account.tokenAuth, data);
+      console.log("se creo ", id)
+    } else {
+      await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() })
+      console.log("se borro", id)
+    }
+
+    console.log(e.target.checked, id)
   }
 
   render() {
     const { people } = this.state;
+    const developers = this.state.developers;
+
 
     if (people.data) {
       let ppl = people.data.people
       console.log("PP", ppl["first-name"])
       var peopleList = ppl.map((r, i) => {
-        let fullName = r["first-name"]+" "+r["last-name"]
-        console.log("P", r)
+        let fullName = r["first-name"] + " " + r["last-name"]
+        var active = false;
+        var fullTime = false;
+
+        developers.data.map((a) => {
+          if (r.id === a.apiId) {
+            console.log(a.apiId, a.active, a.fullTime)
+            if (a.active) {
+              console.log("entro actve")
+              active = true
+            }
+            if (a.fullTime) {
+              console.log("entro fullTime")
+              fullTime = true
+            }
+          }
+        })
         return (
           <tr key={i}>
             <td>{fullName}</td>
-            <td>
+            <td align="center">
               <input
                 //style={styles.checkBoxWidth}
                 className="form-check-input mt-1"
                 type="checkbox"
-                id="inlineCheckbox1"
-                value="option1"
-                onChange={e => this.onChangeActive(e,r["id"])}
+                id={r.id + "A"}
+                value={r.id + "A"}
+                {...(active ? { checked: true } : {})}
+                onChange={e => this.onChangeActive(e, r["id"])}
               />
             </td>
-            <td>
+            <td align="center">
               <input
                 //style={styles.checkBoxWidth}
                 className="form-check-input mt-1"
                 type="checkbox"
-                id="inlineCheckbox1"
-                value="option1"
-                onChange={e => this.onChangeFullTime(e,r["id"])}
+                id={r.id + "F"}
+                value={r.id + "F"}
+                {...(fullTime ? { checked: true } : {})}
+                onChange={e => this.onChangeFullTime(e, r["id"])}
 
               />
             </td>
@@ -83,12 +192,12 @@ class Admin extends Component {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Active</th>
-                  <th>Full-Time</th>
+                  <th className="text-center">Active</th>
+                  <th className="text-center">Full-Time</th>
                 </tr>
               </thead>
               <tbody>
-              {peopleList}
+                {peopleList}
               </tbody>
             </table>
           </div>

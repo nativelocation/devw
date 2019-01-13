@@ -6,13 +6,14 @@ module.exports = {
         const item = new db.Developer({ apiId, active, fullTime });
         return await item.save();
     },
-    update: async (id, data) => {
+    update: async data => {
         const { apiId, active, fullTime } = data;
-        await db.Developer.findByIdAndUpdate(id, { apiId, active, fullTime });
-        return await db.Developer.findById(id);
+        //await db.Developer.findOneAndUpdate(id, { apiId, active, fullTime });
+        return await db.Developer.findOneAndUpdate({ apiId, active, fullTime });
+        //return await db.Developer.findById(id);
     },
-    delete: async id => {
-        return await db.Developer.findByIdAndRemove(id);
+    delete: async apiId => {
+        return await db.Developer.findOneAndDelete({ apiId });
     },
 
     getByApiId: async apiId => {

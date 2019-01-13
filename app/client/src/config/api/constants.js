@@ -11,4 +11,6 @@ export const GETTIMEBYUSER = 'project/timebyuser';
 export const GETTIMEALL = 'project/timeall';
 export const GETTOTALTIMEBYDATE = 'project/timebydate';
 export const GETALLDEVELOPER = 'developer/all';
+export const DETDEVELOPERBYAPIID = 'developer/';
 export const CREATEDEVELOPER = 'developer/create';
+export const DELETEDEVELOPER = 'developer/delete';
