@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
+import { ToastContainer, ToastStore } from 'react-toasts';
+
 
 class Admin extends Component {
   state = {
@@ -18,31 +20,12 @@ class Admin extends Component {
     const resDeveloper = await Api.GetAllDeveloper(account.tokenAuth);
     this.setState({ people: resPeople, developers: resDeveloper });
 
+    // await Api.CreateDeveloper(account.tokenAuth, { apiId: "123456", active: true, fullTime: true });
 
-
-    await resDeveloper.data.map((dev) => {
-      if (id.toString() === dev.active) {
-        console.log("siexiste")
-        this.setState({ active: true })
-
-      } else {
-        console.log("siexiste")
-        this.setState({ active: false })
-
-      }
-    })
+   // ToastStore.info('Hey, it worked !');
 
 
 
-    let data = {
-      apiId: "112233",
-      active: true,
-      fullTime: true
-    };
-
-    //await Api.CreateDeveloper(account.tokenAuth, data);
-
-    //console.log("DEV ",resDeveloper);
   }
 
   onLogout() {
@@ -52,82 +35,70 @@ class Admin extends Component {
 
   async onChangeActive(e, id) {
     const { account } = this.props;
-    const developers = this.state.developers;
 
-
-
-    console.log(e.target.checked, id)
-
-    var exist
-
-
-    await developers.data.map((dev) => {
-      if (id.toString() === dev.apiId) {
-        console.log("siexiste")
-        exist = true;
+    if (e.target.checked) {
+      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
+      if (dev.data != null) {
+        if (dev.data.fullTime) {
+          await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });
+          ToastStore.success('Developer has been updated');
+        }
+        else {
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
+          ToastStore.success('Developer has been added');
+        }
       } else {
-        console.log("siexiste")
-        exist = false;
+        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
+        ToastStore.success('Developer has been added');
       }
-    })
-
-    console.log(exist)
-
-    // if (e.target.checked) {
-    //   let data = {
-    //     apiId: id,
-    //     active: true,
-    //     fullTime: false
-    //   };
-    //   await Api.CreateDeveloper(account.tokenAuth, data);
-    // }else{
-
-    // }
-
-
-
-
-    // if()
-    // let data = {
-    //   apiId:id,
-    //   active:false,
-    //   fullTime:true
-    // }; 
-
-    // await Api.CreateDeveloper(account.tokenAuth, data);
-
-    // console.log("DEV ", developers);
-
-
+    } else {
+      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
+      if (dev.data.fullTime) {
+        await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+        ToastStore.success('Developer has been updated');
+      } else {
+        await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+        ToastStore.success('Developer has been removed');
+      }
+    }
   }
 
   async onChangeFullTime(e, id) {
     const { account } = this.props;
+    ToastStore.error('Hey, it worked !');
+
 
     if (e.target.checked) {
-      let data = {
-        apiId: id,
-        active: false,
-        fullTime: true
-      };
-      await Api.CreateDeveloper(account.tokenAuth, data);
-      console.log("se creo ", id)
-    } else {
-      await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() })
-      console.log("se borro", id)
-    }
+      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
+      if (dev.data != null) {
+        if (dev.data.active) {
+          await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });          
+          ToastStore.success('Developer has been updated');
 
-    console.log(e.target.checked, id)
+        } else {
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+          ToastStore.success('Developer has been added');
+        }
+      } else {
+        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+        ToastStore.success('Developer has been added');
+      }
+    } else {
+      await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+      ToastStore.success('Developer has been removed');
+
+    }
   }
 
   render() {
     const { people } = this.state;
     const developers = this.state.developers;
 
-
     if (people.data) {
       let ppl = people.data.people
-      console.log("PP", ppl["first-name"])
       var peopleList = ppl.map((r, i) => {
         let fullName = r["first-name"] + " " + r["last-name"]
         var active = false;
@@ -135,13 +106,10 @@ class Admin extends Component {
 
         developers.data.map((a) => {
           if (r.id === a.apiId) {
-            console.log(a.apiId, a.active, a.fullTime)
             if (a.active) {
-              console.log("entro actve")
               active = true
             }
             if (a.fullTime) {
-              console.log("entro fullTime")
               fullTime = true
             }
           }
@@ -177,8 +145,6 @@ class Admin extends Component {
       });
     }
 
-
-
     return (
 
       <Fragment>
@@ -200,6 +166,9 @@ class Admin extends Component {
                 {peopleList}
               </tbody>
             </table>
+            <div>
+              <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_RIGHT} lightBackground />
+            </div>
           </div>
         </Wrapper>
       </Fragment>

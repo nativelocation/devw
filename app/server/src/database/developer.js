@@ -9,7 +9,7 @@ module.exports = {
     update: async data => {
         const { apiId, active, fullTime } = data;
         //await db.Developer.findOneAndUpdate(id, { apiId, active, fullTime });
-        return await db.Developer.findOneAndUpdate({ apiId, active, fullTime });
+        return await db.Developer.findOneAndUpdate( apiId,{active, fullTime });
         //return await db.Developer.findById(id);
     },
     delete: async apiId => {
