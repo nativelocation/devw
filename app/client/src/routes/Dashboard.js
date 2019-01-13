@@ -122,6 +122,9 @@ class Dashboard extends Component {
 
     const projectsName = projects.map((r, i) => <th key={i} className="text-center peopleName">{r.name}</th>);
     const totalProjects = projects.map((pj, i) => <td key={i} className="border-right text-center"> {pj.totalHours}</td>);
+    let totalOfTotals = 0;
+    projects.map((pj, i) => totalOfTotals += parseFloat(pj.totalHours));
+
     return (
       <Fragment>
         <Sidebar onSubmit={r => this.getTimeByUser(r)} />
@@ -141,7 +144,7 @@ class Dashboard extends Component {
                   <tr>
                     <td className="border-right peopleName"><b>TOTAL</b></td>
                     {totalProjects}
-                    <td />
+                    <td className="border-right text-center"><b>{totalOfTotals.toFixed(2)}</b></td>
                   </tr>
                 </tbody>
               </table>
