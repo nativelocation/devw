@@ -12,7 +12,7 @@ const roles = new Array();
 roles[1] = "Super Admin";
 roles[2] = "Admin";
 
-class List extends Component {
+class Edit extends Component {
   state = {
     user: [],
     id: this.props.match.params.id || '',
@@ -71,7 +71,7 @@ class List extends Component {
   }
 
   render() {
-    const { showTable, loading, errorMessage } = this.state;
+    const { loading, errorMessage } = this.state;
     return (
       <Fragment>
         <Sidebar admin="admin" />
@@ -147,4 +147,4 @@ class List extends Component {
     );
   }
 }
-export default connect(s => ({ account: s.account }))(List);
+export default connect(s => ({ account: s.account }))(Edit);
