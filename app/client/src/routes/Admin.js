@@ -18,46 +18,9 @@ class Admin extends Component {
     const resDeveloper = await Api.GetAllDeveloper(account.tokenAuth);
     this.setState({ people: resPeople, developers: resDeveloper });
 
+    // await Api.CreateDeveloper(account.tokenAuth, { apiId: "123456", active: true, fullTime: true });
 
 
-    // await resDeveloper.data.map((dev) => {
-    //   if (id.toString() === dev.active) {
-    //     console.log("siexiste")
-    //     this.setState({ active: true })
-
-    //   } else {
-    //     console.log("siexiste")
-    //     this.setState({ active: false })
-
-    //   }
-    // })
-
-
-
-
-    let data2 = {
-      apiId: "112233",
-      active: true,
-      fullTime: true
-    };
-
-    let data1 = {
-      apiId: "112233",
-      active: false,
-      fullTime: false
-    };
-
-    
-
-
-    const dev = await Api.GetDeveloperByApiId(account.tokenAuth, {apiId: "112233"});
-    console.log(!dev.data.fullTime)
-
-    if(!dev.data.fullTime){
-      console.log("DSFASFASFASFD")
-    }
-
-    //console.log("DEV ",resDeveloper);
   }
 
   onLogout() {
@@ -67,62 +30,57 @@ class Admin extends Component {
 
   async onChangeActive(e, id) {
     const { account } = this.props;
-    const developers = this.state.developers;
-    console.log(e.target.checked, id)
 
-    var exist=false;
-
-    await developers.data.map((dev) => {
-      if (id.toString() === dev.apiId) {
-        exist = true;
+    if (e.target.checked) {
+      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
+      if (dev.data != null) {
+        if (dev.data.fullTime) {
+          await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });
+        }
+        else {
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
+        }
+      } else {
+        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
       }
-    })
-
-    if (exist){
-      await Api.DeleteDeveloper(account.tokenAuth, {apiId: id.toString()});
-      await Api.CreateDeveloper(account.tokenAuth, {apiId:id.toString(),active:true,fullTime:true});
-    }else{
-      await Api.CreateDeveloper(account.tokenAuth, {apiId:id.toString(),active:true,fullTime:false});
-    }
-    const dev = await Api.GetDeveloperByApiId(account.tokenAuth, {apiId: id.toString()});
-
-    if(!e.target.checked){
+    } else {
+      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
       if(dev.data.fullTime){
-        await Api.DeleteDeveloper(account.tokenAuth, {apiId: id.toString()});
-        await Api.CreateDeveloper(account.tokenAuth, {apiId:id.toString(),active:false,fullTime:true});
-      }
-      else{
-        await Api.DeleteDeveloper(account.tokenAuth, {apiId: id.toString()});
-      }
+        await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+      }else{
+        await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+      }      
     }
- }
+  }
 
   async onChangeFullTime(e, id) {
     const { account } = this.props;
 
-    const dev = await Api.GetDeveloperByApiId(account.tokenAuth, {apiId: id.toString()});
-
-    if (e.target.checked) {
-      if(dev.data.active){
-        await Api.DeleteDeveloper(account.tokenAuth, {apiId: id.toString()});
-        await Api.CreateDeveloper(account.tokenAuth, {apiId:id.toString(),active:true,fullTime:true});
+    if(e.target.checked){
+      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
+      if(dev.data != null){
+        if(dev.data.active){
+          await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });
+        }else{
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
+        }
       }else{
-        await Api.CreateDeveloper(account.tokenAuth, {apiId:id.toString(),active:false,fullTime:true});
+        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
       }
-    } else{
-      await Api.DeleteDeveloper(account.tokenAuth, {apiId: id.toString()});
+    }else{
+      await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
     }
-
   }
 
   render() {
     const { people } = this.state;
     const developers = this.state.developers;
 
-
     if (people.data) {
       let ppl = people.data.people
-      console.log("PP", ppl["first-name"])
       var peopleList = ppl.map((r, i) => {
         let fullName = r["first-name"] + " " + r["last-name"]
         var active = false;
@@ -130,13 +88,10 @@ class Admin extends Component {
 
         developers.data.map((a) => {
           if (r.id === a.apiId) {
-            console.log(a.apiId, a.active, a.fullTime)
             if (a.active) {
-              console.log("entro actve")
               active = true
             }
             if (a.fullTime) {
-              console.log("entro fullTime")
               fullTime = true
             }
           }
