@@ -50,6 +50,7 @@ const model = {
         return await user.getAll();
     },
     getById: async data => {
+        console.log('M ', data)
         if (!data) throw { code: 400, msg: "Data is empty" };
         if (!data._id) throw { code: 400, msg: "ID is required" };
         return await user.getById(data._id);

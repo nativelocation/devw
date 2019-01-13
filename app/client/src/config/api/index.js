@@ -6,6 +6,7 @@ class ApiModel {
     GetUserToken = token => FetchRequest(c.GETCURRENT, 'GET', token);
     CreateUser = (token, data) => FetchRequest(c.CREATEUSER, 'POST', token, data);
     GetAllUser = token => FetchRequest(c.GETALLUSERS, 'GET', token);
+    GetUserById = (token, data) => FetchRequest(c.GETUSERBYID, 'POST', token, data);//aqui
     GetProjects = token => FetchRequest(c.GETPROJECT, 'GET', token);
     GetPeople = token => FetchRequest(c.GETPEOPLE, 'GET', token);
     GetTimeByUser = (token, data) => FetchRequest(c.GETTIMEBYUSER, 'POST', token, data);

@@ -4,6 +4,7 @@ export const FETCH_TIMEOUT = 20000;
 export const LOGIN = 'user/login';
 export const GETCURRENT = 'user/token';
 export const GETALLUSERS = 'user/all';
+export const GETUSERBYID = 'user/byid';
 export const CREATEUSER = 'user/create';
 export const GETPROJECT = 'project/all';
 export const GETPEOPLE = 'project/people';

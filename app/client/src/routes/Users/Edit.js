@@ -17,7 +17,6 @@ class Edit extends Component {
     user: [],
     id: this.props.match.params.id || '',
     showTable: true,
-    fullName: "",
     lastName: "",
     email: "",
     role: 1,
@@ -27,7 +26,11 @@ class Edit extends Component {
     isEdit: false
   };
 
-  async componentWillMount() {}
+  async componentWillMount() {
+    const { account } = this.props;
+    const us = await Api.GetUserById(account.tokenAuth, this.state.id);
+    console.log('DEV: ',us)
+  }
 
   onLogout() {
     localStorage.removeItem("tokenAuth");

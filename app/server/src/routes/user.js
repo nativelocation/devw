@@ -21,7 +21,8 @@ router.get('/token', (req, res, next) => {
 router.get('/all', (req, res, next) => {
     model.getAll().then(r => generalSuccess(res, "Get users list", r)).catch(e => generalError(e, res));
 });
-router.post('/', (req, res, next) => {
+router.post('/byid', (req, res, next) => {
+    console.log('R ', req.body)
     model.getById(req.body).then(r => generalSuccess(res, "Get user by id", r)).catch(e => generalError(e, res));
 });
 router.post('/create', (req, res) => {
