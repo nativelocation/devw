@@ -65,10 +65,9 @@ class Dashboard extends Component {
 
         counter++;
         let process = ((counter * 100) / this.totalPeople.length).toFixed(0);
-        this.setState({ process });
+        if (process < 100) this.setState({ process });
       }
     }));
-
     this.totalProjects.map(pj => {
       let total = 0;
       times.map(v => {
