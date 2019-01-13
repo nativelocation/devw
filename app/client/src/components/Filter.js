@@ -157,7 +157,19 @@ class Collapse extends Component {
             Dates:
           </p>
           <div className="col-md-7 d-flex align-items-center ml-2">
-            <SelectInput onChange={this.onChange.bind(this)} value={value} />
+            {/* <SelectInput onChange={this.onChange.bind(this)} value={value} /> */}
+          </div>
+          <div className="col-md-7 d-flex align-items-center ml-2">
+            <div className='d-flex flex-column col-md-12 border border-light text-white'>
+              <label className='pt-2'>Today <span><i class="fa fa-angle-down float-right pt-1" aria-hidden="true"></i></span></label>
+              <a className='pt-1'>today</a>
+              <a className='pt-1'>yesterday</a>
+              <a className='pt-1'>this month</a>
+              <a className='pt-1'>last month</a>
+              <a className='pt-1'>this year</a>
+              <a className='pt-1 pb-2'>last year</a>
+              <a className='pt-1 pb-2'>custom</a>
+            </div>
           </div>
           <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
             {showInput}
