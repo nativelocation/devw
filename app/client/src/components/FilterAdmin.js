@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { FONTS } from "../config/constants";
-import SelectInput from "./SelectInput";
-import Button from "./Button";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -37,7 +35,7 @@ class Collapse extends Component {
           <hr />
           <p className="text-white ml-2" style={styles.titleDate}>
             <Link
-              to="/users"
+              to="/user"
               className="text-white nounderline"
               style={{ fontSize: 14 }}
             >
@@ -46,7 +44,13 @@ class Collapse extends Component {
           </p>
           <hr />
           <p className="text-white ml-2" style={styles.titleDate}>
-            Developers:
+            <Link
+              to="/admin"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Developers
+            </Link>
           </p>
         </form>
       </Fragment>

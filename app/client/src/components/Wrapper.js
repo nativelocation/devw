@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 /**
  * The Wrapper Component.
  *
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
  * @param  children - Add more components
  */
 
-const Wrapper = ({ children, name, onClick }) => {
+const Wrapper = ({ children, name, onClick, admin }) => {
   return (
     <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
       <div
@@ -23,10 +23,12 @@ const Wrapper = ({ children, name, onClick }) => {
             className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
             onClick={onClick}
           >
-            Loguot
+            Logout
           </button>
-          <Link to="/admin"
-            className="btn btn-link mx-1 text-muted float-right btnLogout nounderline">
+          <Link
+            to="/admin"
+            className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
+          >
             Admin
           </Link>
           <div className="form-check form-check-inline mt-2 ml-2">
