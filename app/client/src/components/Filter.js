@@ -17,14 +17,14 @@ class Collapse extends Component {
     showCustom: false
   };
 
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(e, value) {
+    if (e) e.preventDefault();
     let data = {
       fromTime: "00:00",
       toTime: "23:59"
     };
-    console.log("Select", this.state.value);
-    switch (this.state.value) {
+
+    switch (value.toLowerCase()) {
       case "today": {
         const today = moment().format("YYYYMMDD");
         data.fromDate = today;
@@ -108,8 +108,11 @@ class Collapse extends Component {
   }
 
   onChange(e) {
-    this.setState({ value: e.target.value, showCustom: false });
-    if (e.target.value === "custom") this.setState({ showCustom: true });
+    let showCustom = false;
+    if (e.target.value === "custom") showCustom = true;
+    else this.onSubmit(undefined, e.target.value);
+
+    this.setState({ value: e.target.value, showCustom });
   }
 
   clearTime = e => {
@@ -135,7 +138,6 @@ class Collapse extends Component {
 
   render() {
     const { from, to, showCustom, value } = this.state;
-    console.log("Render ", value);
     let showInput = showCustom ? (
       <Fragment>
         <div className="col-md-7 d-flex flex-column">
@@ -148,11 +150,11 @@ class Collapse extends Component {
         </div>
       </Fragment>
     ) : (
-      undefined
-    );
+        undefined
+      );
     return (
       <Fragment>
-        <form onSubmit={this.onSubmit.bind(this)}>
+        <form onSubmit={e => this.onSubmit(e, value)}>
           <p className="text-white ml-2" style={styles.titleDate}>
             Dates:
           </p>

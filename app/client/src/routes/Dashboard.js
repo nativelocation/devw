@@ -137,27 +137,31 @@ class Dashboard extends Component {
         <Wrapper>
           <FilterFulltime />
           {!loading ?
-            <Fragment>
-              <div className="d-flex flex-row" style={{ flex: 1 }}>
-                <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
-                  <thead>
-                    <tr>
-                      <th style={styles.sizeRow} className="text-center"  />
-                      {projectsName}
-                      <th style={styles.sizeRow} className="text-center" >TOTAL</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ overflowY: "scroll", overflowX: 'hidden', width: 'max-content' }}>
-                    {peoplesName}
-                    <tr>
-                      <td className="border-right text-center" style={styles.sizeRow} ><b>TOTAL</b></td>
-                      {totalProjects}
-                      <td className="border-right text-center" style={styles.sizeRow} ><b>{totalOfTotals.toFixed(2)}</b></td>
-                    </tr>
-                  </tbody>
-                </table>
+            projects.length > 0 ?
+              <Fragment>
+                <div className="d-flex flex-row" style={{ flex: 1 }}>
+                  <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
+                    <thead>
+                      <tr>
+                        <th style={styles.sizeRow} className="text-center" />
+                        {projectsName}
+                        <th style={styles.sizeRow} className="text-center" >TOTAL</th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ overflowY: "scroll", overflowX: 'hidden', width: 'max-content' }}>
+                      {peoplesName}
+                      <tr>
+                        <td className="border-right text-center" style={styles.sizeRow} ><b>TOTAL</b></td>
+                        {totalProjects}
+                        <td className="border-right text-center" style={styles.sizeRow} ><b>{totalOfTotals.toFixed(2)}</b></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </Fragment> :
+              <div className={"h-100 d-flex align-items-center justify-content-center text-center"}>
+                <h1 className="font-weight-light pl-2 m-0">Uh-oh, seems like there aren't hours logged for this period time</h1>
               </div>
-            </Fragment>
             : <Loading show text={`LOADING: ${process}%`} />}
         </Wrapper>
       </Fragment >
