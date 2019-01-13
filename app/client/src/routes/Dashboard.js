@@ -5,6 +5,7 @@ import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
 import Loading from '../components/Loading';
+import FilterFulltime from "../components/FilterFulltime";
 
 class Dashboard extends Component {
   state = {
@@ -40,11 +41,6 @@ class Dashboard extends Component {
     } else console.log("Error getting data");
   }
 
-  onLogout() {
-    localStorage.removeItem("tokenAuth");
-    window.location.reload();
-  }
-
   async getTimeByUser(data) {
     const { account } = this.props;
     const people = this.totalPeople;
@@ -65,10 +61,9 @@ class Dashboard extends Component {
 
         counter++;
         let process = ((counter * 100) / this.totalPeople.length).toFixed(0);
-        this.setState({ process });
+        if (process < 100) this.setState({ process });
       }
     }));
-
     this.totalProjects.map(pj => {
       let total = 0;
       times.map(v => {
@@ -123,13 +118,17 @@ class Dashboard extends Component {
 
     const projectsName = projects.map((r, i) => <th key={i} className="text-center peopleName">{r.name}</th>);
     const totalProjects = projects.map((pj, i) => <td key={i} className="border-right text-center"> {pj.totalHours}</td>);
+    let totalOfTotals = 0;
+    projects.map((pj, i) => totalOfTotals += parseFloat(pj.totalHours));
+
     return (
       <Fragment>
         <Sidebar onSubmit={r => this.getTimeByUser(r)} />
         <Wrapper name="Show:" onClick={this.onLogout}>
+          <FilterFulltime />
           {!loading ?
             <div className="d-flex flex-row table-responsive tableProjects">
-              <table className="table table-striped table-hover table-borderless">
+              <table className="table table-striped table-hover table-borderless" style={{ overflowX: 'scroll' }}>
                 <thead>
                   <tr>
                     <th />
@@ -142,7 +141,7 @@ class Dashboard extends Component {
                   <tr>
                     <td className="border-right peopleName"><b>TOTAL</b></td>
                     {totalProjects}
-                    <td />
+                    <td className="border-right text-center"><b>{totalOfTotals.toFixed(2)}</b></td>
                   </tr>
                 </tbody>
               </table>
