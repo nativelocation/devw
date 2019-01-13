@@ -22,7 +22,7 @@ router.post("/", (req, res, next) => {
 router.post('/create', (req, res, next) => {
     model.create(req.body).then(r => generalSuccess(res, "Get all time list", r)).catch(e => generalError(e, res));
 });
-router.put("/update", (req, res) => {
+router.post("/update", (req, res) => {
   model
     .update(req.body)
     .then(user => generalSuccess(res, "Update User Ok", { user }))
