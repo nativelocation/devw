@@ -14,7 +14,7 @@ const model = {
         if (!data) throw { code: 400, msg: "Data is required" };
         if (!data.apiId) throw { code: 400, msg: "API ID is required" };
 
-        return await developer.update(data.apiId, data);
+        return await developer.update(data);
     },
     delete: async data => {
         if (!data) throw { code: 400, msg: "Params is empty" };
