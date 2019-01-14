@@ -26,7 +26,9 @@ const styles = {
     },
     bigButton: {
         width: 110,
-        height: 50
+        height: 50,
+        borderRadius: 1,
+        backgroundColor: '#666667'
     },
     filter:{
         width: 100,

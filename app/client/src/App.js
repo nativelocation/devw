@@ -23,10 +23,10 @@ class App extends Component {
                 path="/login"
                 component={e => Auth.validate(Login, e, store)}
               />
-              <Route exact path="/" component={e => Auth.authorize(Dashboard, e, store)} />
-              <Route exact path="/admin" component={e => Auth.authorize(Admin, e, store)} />
-              <Route exact path="/user" component={e => Auth.authorize(User, e, store)} />
-              <Route exact path="/user/edit/:id" component={e => Auth.authorize(EditUser, e, store)} />
+              <Route exact path="/" component={e => Auth.authorize(Dashboard, e, store, 2)} />
+              <Route exact path="/admin" component={e => Auth.authorize(Admin, e, store, 1)} />
+              <Route exact path="/user" component={e => Auth.authorize(User, e, store, 1)} />
+              <Route exact path="/user/edit/:id" component={e => Auth.authorize(EditUser, e, store, 1)} />
               <Route component={NotFound} />
             </Switch>
           </Fragment>

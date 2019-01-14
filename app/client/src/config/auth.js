@@ -21,7 +21,7 @@ const auth = {
         }).catch(sendToLogin);
     },
 
-    authorize: (Composed, props, store, level = 1) => {
+    authorize: (Composed, props, store, level) => {
         const { pathname } = props.history.location;
         const { account } = store.getState();
         if (!localStorage.tokenAuth) props.history.push('/login');

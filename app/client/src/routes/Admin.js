@@ -149,10 +149,7 @@ class Admin extends Component {
 
       <Fragment>
         <Sidebar admin='admin' />
-        <Wrapper name="Show:" onClick={this.onLogout}>
-          <div className="d-flex flex-row">
-            <p>Admin</p>
-          </div>
+        <Wrapper title="Admin" onClick={this.onLogout} hideLink>
           <div className="d-flex flex-row table-responsive tableProjects">
             <table className="table table-striped table-hover table-borderless">
               <thead>

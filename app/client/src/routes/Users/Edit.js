@@ -20,7 +20,7 @@ class Edit extends Component {
     firstName: "",
     lastName: "",
     email: "",
-    role: 1,
+    rol: '',
     errorMessage: "",
     loading: false,
     alertProps: { title: "Alert" },
@@ -43,12 +43,13 @@ class Edit extends Component {
     Api.GetUser(account.tokenAuth, id)
       .then(res => {
         if (res.status === 201) {
-          const { firstName, lastName, email } = res.data;
+          const { firstName, lastName, email, role } = res.data;
           this.setState({
             loading: false,
             firstName: firstName,
             lastName: lastName,
-            email: email
+            email: email,
+            rol: String(role)
           });
         } else history.push(`/user`);
       })
@@ -65,16 +66,26 @@ class Edit extends Component {
 
   onSubmit(e) {
     e.preventDefault();
+    const { firstName, lastName, rol } = this.state;
+    if (_.isEmpty(firstName))
+      return this.setState({ errorMessage: "First name is required" });
+    if (_.isEmpty(lastName))
+      return this.setState({ errorMessage: "Last name is required" });
+    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
+  }
+
+  editUser() {
     const { account } = this.props;
-    const { firstName, lastName, email, role, id } = this.state;
+    const { firstName, lastName, email, rol, id } = this.state;
+    let role = parseInt(rol);
     const data = { firstName, lastName, email, role, id };
-    
+    this.setState({ loading: true });
     Api.UpdateUser(account.tokenAuth, data)
-    .then(res => {
-      if (res.status === 201) {
-        this.setState({ loading: true, alertShow: true });
+      .then(res => {
+        if (res.status === 201) {
+          this.setState({ loading: false, alertShow: true });
           const alertProps = this.getSuccessAlertProps(() => {
-            this.setState({ alertShow: false, loading: false, }, () =>
+            this.setState({ alertShow: false }, () =>
               this.props.history.push("/user")
             );
           });
@@ -110,12 +121,13 @@ class Edit extends Component {
       lastName,
       email,
       alertShow,
-      alertProps
+      alertProps,
+      rol
     } = this.state;
     return (
       <Fragment>
         <Sidebar admin="admin" />
-        <Wrapper name="User:" onClick={this.onLogout}>
+        <Wrapper title="Edit User" onClick={this.onLogout} hideLink>
           <div className="mt-3">
             <form onSubmit={this.onSubmit.bind(this)}>
               <div className="form-row">
@@ -152,6 +164,18 @@ class Edit extends Component {
                 </div>
                 <div className="form-group col-md-6">
                   <small className="form-text text-muted">Role</small>
+                  <select
+                    className="form-control"
+                    name="rol"
+                    onChange={this.onChange.bind(this)}
+                    value={rol}
+                  >
+                    <option value="1">Super Admin</option>
+                    <option value="2">Admin</option>
+                  </select>
+                </div>
+                {/* <div className="form-group col-md-6">
+                  <small className="form-text text-muted">Role</small>
                   <input
                     name="role"
                     type="text"
@@ -159,8 +183,8 @@ class Edit extends Component {
                     placeholder="Super Admin"
                     disabled
                   />
-                </div>
-                <Button text="Update" />
+                </div> */}
+                <Button text="Update" filter />
                 <button
                   type="button"
                   className="btn btn-link text-muted nounderline "
@@ -196,7 +220,7 @@ class Edit extends Component {
       text: "Are you sure to update the user?",
       showCancelButton: true,
       confirmButtonColor: COLORS.Success,
-      onConfirm: () => console.log('lol'),
+      onConfirm: this.editUser.bind(this),
       onCancel: () => this.setState({ alertShow: false, loading: false })
     };
   }
