@@ -130,11 +130,12 @@ class Dashboard extends Component {
     const totalProjects = projects.map((pj, i) => <td key={i} className="border-right text-center" style={styles.sizeRow} > {pj.totalHours}</td>);
     let totalOfTotals = 0;
     projects.map((pj, i) => totalOfTotals += parseFloat(pj.totalHours));
-
+    const { account } = this.props;
+    const hideAdmin = account.role === 2 ? 'hideLink' : undefined
     return (
       <Fragment>
         <Sidebar onSubmit={r => this.getTimeByUser(r)} />
-        <Wrapper>
+        <Wrapper hideLink={hideAdmin}>
           <FilterFulltime />
           {!loading ?
             projects.length > 0 ?

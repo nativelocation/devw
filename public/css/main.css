@@ -145,3 +145,7 @@ hr {
   border-radius: 2px;
   text-align: right;
 }
+
+.custom-select{
+  border-radius: 1px;
+}

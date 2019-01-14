@@ -9,29 +9,45 @@ class Wrapper extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, title, hideLink } = this.props;
+    let showTitle = title ? <h5 className="float-left">{title}</h5> : undefined;
     return (
       <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
         <div
           className="col-md-12 col-lg-12 p-3 d-flex flex-column"
           style={styles.flex}
         >
-          <div className="col-md-12 col-lg-12 m-0 p-3" style={{ flex: "unset" }}>
+          <div
+            className="col-md-12 col-lg-12 m-0 p-3"
+            style={{ flex: "unset" }}
+          >
+            {showTitle}
             <button
               type="button"
               className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
               onClick={this.onLogout}
+              style={styles.mt}
             >
               Logout
             </button>
-            <Link
-              to="/admin"
-              className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
-            >
-              Admin
-            </Link>
+            {!hideLink ? (
+              <Link
+                to="/admin"
+                className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
+                style={styles.mt}
+              >
+                Admin
+              </Link>
+            ) : (
+              undefined
+            )}
           </div>
-          <div className="col-md-12 col-lg-12 bg-white p-2 d-flex flex-column" style={styles.flex}>{children}</div>
+          <div
+            className="col-md-12 col-lg-12 bg-white p-2 d-flex flex-column"
+            style={styles.flex}
+          >
+            {children}
+          </div>
         </div>
       </div>
     );
@@ -41,6 +57,9 @@ class Wrapper extends Component {
 const styles = {
   flex: {
     flex: 1
+  },
+  mt: {
+    marginTop: -5
   }
 };
 export default connect(s => ({ account: s.account }))(Wrapper);

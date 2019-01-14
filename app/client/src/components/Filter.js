@@ -14,7 +14,7 @@ class Collapse extends Component {
     from: new Date(),
     to: new Date(),
     dates: [],
-    showCustom: false
+    showCustom: false,
   };
 
   onSubmit(e, value) {
@@ -109,9 +109,9 @@ class Collapse extends Component {
 
   onChange(e) {
     let showCustom = false;
-    if (e.target.value === "custom") showCustom = true;
+    if (e.target.value.toLowerCase() === "custom") showCustom = true;
     else this.onSubmit(undefined, e.target.value);
-
+    
     this.setState({ value: e.target.value, showCustom });
   }
 
@@ -150,8 +150,8 @@ class Collapse extends Component {
         </div>
       </Fragment>
     ) : (
-        undefined
-      );
+      undefined
+    );
     return (
       <Fragment>
         <form onSubmit={e => this.onSubmit(e, value)}>
@@ -161,11 +161,38 @@ class Collapse extends Component {
           <div className="col-md-7 d-flex align-items-center ml-2">
             <SelectInput onChange={this.onChange.bind(this)} value={value} />
           </div>
+
+          {/* <div className="col-md-7 d-flex align-items-center ml-2">
+            <div className="d-flex flex-column col-md-12 border border-light text-white">
+              <a
+                className="pt-2 nounderline text-white"
+                href="#filter"
+                data-toggle="collapse"
+                aria-expanded="false"
+              >
+                Today
+                <span>
+                  <i className="fa fa-angle-down float-right pt-1" />
+                </span>
+              </a>
+              <div id="filter" className=" collapse">
+                <a className="pt-1">today</a>
+                <a className="pt-1">yesterday</a>
+                <a className="pt-1">this month</a>
+                <a className="pt-1">last month</a>
+                <a className="pt-1">this year</a>
+                <a className="">last year</a>
+                <hr />
+                <a className="pb-2">custom</a>
+              </div>
+            </div>
+          </div> */}
+
           <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
             {showInput}
           </div>
           <hr />
-          <div className="d-flex flex-row ml-4 ">
+          <div className="d-flex flex-row ml-4">
             <Button text="Apply" filter />
             <button
               type="button"

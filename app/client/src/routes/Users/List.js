@@ -22,7 +22,7 @@ class List extends Component {
     fullName: "",
     lastName: "",
     email: "",
-    role: 1,
+    rol: 1,
     password: "12345678",
     errorMessage: "",
     loading: false,
@@ -59,17 +59,26 @@ class List extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { account } = this.props;
-    const { firstName, lastName, email, role, password } = this.state;
-    const data = { firstName, lastName, email, role, password };
+    const { firstName, lastName, email } = this.state;
+    if (_.isEmpty(firstName)) return this.setState({ errorMessage: 'First name is required' });
+    if (_.isEmpty(lastName)) return this.setState({ errorMessage: 'Last name is required' });
+    if (_.isEmpty(email)) return this.setState({ errorMessage: 'Email is required' });
+    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
+  }
 
+  saveUser() {
+    const { account } = this.props;
+    const { firstName, lastName, email, rol, password } = this.state;
+    let role = parseInt(rol);
+    const data = { firstName, lastName, email, role, password };
+    this.setState({ loading: true });
     Api.CreateUser(account.tokenAuth, data)
       .then(res => {
         console.log(res);
         if (res.status === 201) {
-          this.setState({ alertShow: true });
+          this.setState({ loading: false, alertShow: true });
           const alertProps = this.getSuccessAlertProps(() => {
-            this.setState({ alertShow: false, showTable: true, });
+            this.setState({ alertShow: false, showTable: true });
           });
           this.setState({ alertProps, errorMessage: "" });
           this.getAll();
@@ -100,22 +109,33 @@ class List extends Component {
 
   deleteUser(id) {
     const { account } = this.props;
-    const closeProcess = errorMessage => this.setState({ alertShow: false, errorMessage });
+    const closeProcess = errorMessage =>
+      this.setState({ alertShow: false, errorMessage });
     if (id) {
-      Api.DeleteUser(account.tokenAuth, id).then(res => {
-        if (res.status === 201) {
-          this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
-          this.getAll();
-        } else closeProcess(res.message)
-      }).catch(err => {
-        if (err.message) closeProcess(err.message)
-      });
-    } else closeProcess("Error Id Required")
-
+      Api.DeleteUser(account.tokenAuth, id)
+        .then(res => {
+          if (res.status === 201) {
+            this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
+            this.getAll();
+          } else closeProcess(res.message);
+        })
+        .catch(err => {
+          if (err.message) closeProcess(err.message);
+        });
+    } else closeProcess("Error Id Required");
   }
 
   render() {
-    const { user, showTable, loading, errorMessage, alertShow, alertProps } = this.state;
+    const {
+      user,
+      showTable,
+      loading,
+      errorMessage,
+      alertShow,
+      alertProps,
+      rol
+    } = this.state;
+    const { account } = this.props;
     if (user.data) {
       const res = user.data;
       var users = res.map((r, i) => {
@@ -134,13 +154,17 @@ class List extends Component {
                 >
                   Edit
                 </a>
-                <a
-                  className="text-muted nounderline p-1"
-                  style={{ fontSize: 14 }}
-                  onClick={this.showDeleteUserAlert.bind(this, r._id)}
-                >
-                  Delete
-                </a>
+                {r._id !== account._id ? (
+                  <a
+                    className="text-muted nounderline p-1"
+                    style={{ fontSize: 14 }}
+                    onClick={this.showDeleteUserAlert.bind(this, r._id)}
+                  >
+                    Delete
+                  </a>
+                ) : (
+                  undefined
+                )}
               </div>
             </td>
           </tr>
@@ -209,15 +233,17 @@ class List extends Component {
             </div>
             <div className="form-group col-md-6">
               <small className="form-text text-muted">Role</small>
-              <input
-                name="role"
-                type="text"
+              <select
                 className="form-control"
-                placeholder="Super Admin"
-                disabled
-              />
+                name="rol"
+                onChange={this.onChange.bind(this)}
+                value={rol}
+              >
+                <option value="1">Super Admin</option>
+                <option value="2">Admin</option>
+              </select>
             </div>
-            <Button text="Create" />
+            <Button text="Create" filter />
             <button
               type="button"
               className="btn btn-link text-muted nounderline "
@@ -239,10 +265,11 @@ class List extends Component {
     );
 
     let show = showTable ? table : formUser;
+    let title = showTable ? "Users" : "Create User";
     return (
       <Fragment>
         <Sidebar admin="admin" />
-        <Wrapper name="User:" onClick={this.onLogout}>
+        <Wrapper title={title} onClick={this.onLogout} hideLink>
           <div className="d-flex flex-row">{buttonNew}</div>
           {show}
           <SweetAlert show={alertShow} {...alertProps} />
@@ -258,6 +285,17 @@ class List extends Component {
     );
   }
 
+  getSaveAlertProps() {
+    return {
+      title: "Create User",
+      text: "Are you sure to create the user?",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Success,
+      onConfirm: this.saveUser.bind(this),
+      onCancel: () => this.setState({ alertShow: false })
+    };
+  }
+
   getSuccessAlertProps(onClick) {
     return {
       title: "User Created",
@@ -270,10 +308,10 @@ class List extends Component {
 
   getDeleteAlertProps(id) {
     return {
-      title: 'Delete User',
-      text: 'Are you sure to delete the user?',
+      title: "Delete User",
+      text: "Are you sure to delete the user?",
       showCancelButton: true,
-      type: 'info',
+      type: "info",
       confirmButtonColor: COLORS.Danger,
       onConfirm: this.deleteUser.bind(this, id),
       onCancel: () => this.setState({ alertShow: false })
@@ -282,13 +320,12 @@ class List extends Component {
 
   getSuccessDeleteAlertProps() {
     return {
-      title: 'User Deleted',
-      text: 'The user has been deleted',
-      type: 'success',
+      title: "User Deleted",
+      text: "The user has been deleted",
+      type: "success",
       confirmButtonColor: COLORS.Success,
       onConfirm: () => this.setState({ alertShow: false, loading: false })
     };
   }
-
 }
 export default connect(s => ({ account: s.account }))(List);
