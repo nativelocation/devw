@@ -26,7 +26,7 @@ export default class SelectInput extends Component {
 
         return (
             <div className="input-group">
-                <select id={name} name={name} className="custom-select  bg-secondary text-white" onChange={onChange} value={value} style={{backgroundColor: '#666667'}}>
+                <select id={name} name={name} className="custom-select text-white" onChange={onChange} value={value} style={{backgroundColor: '#666667'}}>
                     <option>Today</option>
                     <option>Yesterday</option>
                     <option>This month</option>
