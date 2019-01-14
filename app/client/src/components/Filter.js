@@ -109,7 +109,7 @@ class Collapse extends Component {
 
   onChange(e) {
     let showCustom = false;
-    if (e.target.value === "custom") showCustom = true;
+    if (e.target.value.toLowerCase() === "custom") showCustom = true;
     else this.onSubmit(undefined, e.target.value);
     
     this.setState({ value: e.target.value, showCustom });
