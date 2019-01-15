@@ -42,6 +42,7 @@
     "react-toasts": "^2.0.14",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "ssml-builder": "^0.4.3",
     "sweetalert-react": "^0.4.11",
     "teamwork-api": "^1.0.1"
   },

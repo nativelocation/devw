@@ -1,5 +1,5 @@
-const tw = require("../config/teamwork");
-const pg = require('../config/postgress');
+const tw = require("../../config/teamwork");
+const pg = require('../../config/postgress');
 const moment = require("moment");
 
 const model = {
