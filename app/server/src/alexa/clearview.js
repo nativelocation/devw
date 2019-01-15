@@ -80,7 +80,7 @@ module.exports = {
                 if (req.isConfirmed()) {
                     await model.removeUser(alexaUserId);
                     message = texts.youAreNotLogged;
-                } else message = texts.idenfityErrorNotConfirmed;
+                } else message = texts.ok;
             }
 
             return res.say(message).shouldEndSession(false);
