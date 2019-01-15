@@ -1,5 +1,6 @@
 const tw = require("../../config/teamwork");
 const pg = require('../../config/postgress');
+const db = require('../../config/mongoose');
 const moment = require("moment");
 
 const model = {
@@ -7,37 +8,51 @@ const model = {
     return await tw.projects.get({ status: "ALL" });
   },
   getStatusUpdate: async projectId => {
+    const pqClient = pg.newClient();
     const cleanHtml = str => {
       if (!str) return false;
       str = str.toString();
       return str.replace(/<[^>]*>/g, '');
     }
 
-    return new Promise((resolve, reject) => {
-      pg.connect()
-      pg.query(`select * from projects where project_id = '${projectId}'`, (err, res) => {
-        if (!err && res.rowCount > 0) {
-          let { id } = res.rows[0];
-          pg.query(`select * from statuses where project_id = '${id}' ORDER BY updated_at desc limit 1`, (err, res) => {
-            if (!err && res.rowCount > 0) {
-              resolve(cleanHtml(res.rows[0].description));
-              // console.log(res.rows[0].description)
-            } else resolve();
-            pg.end()
-          });
-        } else {
-          pg.end()
-          resolve();
-        }
-      })
-    });
+    await pqClient.connect()
+    const query = `select p.id, p.project_id, s.description from projects as p inner join statuses as s on p.id=s.project_id where p.project_id = '${projectId}' ORDER BY s.updated_at desc limit 1`;
+    const res = await pqClient.query(query);
+    await pqClient.end()
+
+    if (res.rowCount > 0) {
+      let { description } = res.rows[0];
+      return cleanHtml(description);
+    } else return;
+  },
+  getUserByAlexaId: async alexaUserId => {
+    const result = await db.ClearviewAlexa.findOne({ alexaUserId });
+    return result;
+  },
+  registerUser: async (alexaUserId, clearviewUserId) => {
+    await db.ClearviewAlexa.findOneAndDelete({ alexaUserId });
+    const item = new db.ClearviewAlexa({ alexaUserId, clearviewUserId });
+    return await item.save();
+  },
+  removeUser: async (alexaUserId) => {
+    return await db.ClearviewAlexa.findOneAndDelete({ alexaUserId });
+  },
+  getUserByPinOrId: async (value, isUserId) => {
+    const pqClient = pg.newClient();
+    const where = `where u.${isUserId ? 'id' : 'pin'} = '${value}'`;
+    const query = `select u.id, u.email, u.name, u.project_id as projectId, p.project_id as twId, p.name as projectName from users as u inner join projects as p on u.project_id=p.id ${where}`;
+
+    await pqClient.connect()
+    const res = await pqClient.query(query);
+    await pqClient.end();
+
+    if (res.rowCount > 0) return res.rows[0];
   },
   getTotalTime: async (projectId, period) => {
     let data = {
       fromTime: "00:00",
       toTime: "23:59"
     };
-    console.log('projectId,period :', projectId, period);
     switch (period) {
       case 'today': {
         const today = moment().format("YYYYMMDD");
@@ -85,9 +100,7 @@ const model = {
         data = {};
       }
     }
-    console.log('data :', data);
     const results = await tw.projects.totalTime(data, projectId);
-
     if (results.projects.length <= 0) throw { msg: "No projects found" }
     return results.projects[0]['time-totals']['total-hours-sum']
   }

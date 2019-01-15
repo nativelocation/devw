@@ -5,6 +5,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }).then(() => 
 
 const User = mongoose.model('User', require('./models/User')(Schema));
 const Developer = mongoose.model('Developer', require('./models/Developer')(Schema));
-const AlexaSession = mongoose.model('AlexaSession', require('./models/AlexaSession')(Schema));
+const ClearviewAlexa = mongoose.model('ClearviewAlexa', require('./models/ClearviewAlexa')(Schema));
 
-module.exports = { User, Developer, AlexaSession };
+module.exports = { User, Developer, ClearviewAlexa };
