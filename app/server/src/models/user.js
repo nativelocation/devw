@@ -2,6 +2,10 @@ const user = require('../database/user');
 const bcrypt = require('bcryptjs');
 
 const model = {
+    existEmail: async data =>{
+        const existUser = await user.getByEmail(data.email);
+        if (existUser) throw { code: 400, msg: "The email already exists" };
+    },
     login: async data => {
         if (!data) throw { code: 400, msg: "User data is required" };
         if (!data.email) throw { code: 400, msg: "Email is required" };

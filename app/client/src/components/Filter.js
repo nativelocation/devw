@@ -192,7 +192,7 @@ class Collapse extends Component {
             <SelectInput onChange={this.onChange.bind(this)} value={value} />
           </div>
 
-          {/* <div className="col-md-7 d-flex align-items-center ml-2">
+          <div className="col-md-7 d-flex align-items-center ml-2">
             <div className="d-flex flex-column col-md-12 border border-light text-white">
               <a
                 className="pt-2 nounderline text-white"
@@ -206,17 +206,33 @@ class Collapse extends Component {
                 </span>
               </a>
               <div id="filter" className=" collapse">
-                <a className="pt-1">today</a>
-                <a className="pt-1">yesterday</a>
-                <a className="pt-1">this month</a>
-                <a className="pt-1">last month</a>
-                <a className="pt-1">this year</a>
-                <a className="">last year</a>
-                <hr />
-                <a className="pb-2">custom</a>
+                <ul value={value}>
+                  <li>
+                    <a href='#javascript:;' className="pt-1">today</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">yesterday</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">this month</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">last month</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">this year</a>
+                  </li>
+                  <li>
+                    <a className="">last year</a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a className="pb-2">custom</a>
+                  </li>
+                </ul>
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
             {showInput}
