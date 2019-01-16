@@ -9,8 +9,9 @@ class Wrapper extends Component {
   }
 
   render() {
-    const { children, title, hideLink } = this.props;
+    const { children, title, hideLink, showPassword } = this.props;
     let showTitle = title ? <h5 className="float-left">{title}</h5> : undefined;
+    console.log('W ',showPassword)
     return (
       <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
         <div
@@ -30,6 +31,13 @@ class Wrapper extends Component {
             >
               Logout
             </button>
+            <Link
+              to="/profile"
+              className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
+              style={styles.mt}
+            >
+              Profile
+            </Link>
             {!hideLink ? (
               <Link
                 to="/admin"

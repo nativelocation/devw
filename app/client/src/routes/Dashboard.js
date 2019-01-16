@@ -13,7 +13,8 @@ class Dashboard extends Component {
     people: [],
     times: [],
     process: 0,
-    loading: true
+    loading: true,
+    showPassword: false
   };
 
   tableRef = React.createRef();
@@ -87,8 +88,12 @@ class Dashboard extends Component {
     this.setState({ projects, people, times, loading: false });
   }
 
+  changePass(){
+    this.setState({showPassword: true})
+  }
+
   render() {
-    const { projects, people, times, loading, process } = this.state;
+    const { projects, people, times, loading, process, showPassword } = this.state;
 
     const peoplesName = people.map((pp, i) => {
       const getTime = id => {
@@ -134,8 +139,8 @@ class Dashboard extends Component {
     const hideAdmin = account.role === 2 ? 'hideLink' : undefined
     return (
       <Fragment>
-        <Sidebar onSubmit={r => this.getTimeByUser(r)} />
-        <Wrapper hideLink={hideAdmin}>
+        <Sidebar onSubmit={r => this.getTimeByUser(r)} changePass={() => this.changePass.bind(this)}/>
+        <Wrapper hideLink={hideAdmin} showPassword>
           <FilterFulltime />
           {!loading ?
             projects.length > 0 ?

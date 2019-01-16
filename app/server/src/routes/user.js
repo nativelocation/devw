@@ -41,7 +41,6 @@ router.post("/create", (req, res) => {
     .catch(e => generalError(e, res));
 });
 router.put("/update", (req, res) => {
-    console.log('R ', req.body)
   model
     .update(req.body)
     .then(user => generalSuccess(res, "Update User Ok", { user }))
