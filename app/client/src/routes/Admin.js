@@ -1,11 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { ToastContainer, ToastStore } from "react-toasts";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
+<<<<<<< HEAD
 import Loading from '../components/Loading';
 import { ToastContainer, ToastStore } from 'react-toasts';
 
+=======
+>>>>>>> b9e857599710d2b966c9f4328fc46156013d907c
 
 class Admin extends Component {
   state = {
@@ -25,7 +29,11 @@ class Admin extends Component {
 
     // await Api.CreateDeveloper(account.tokenAuth, { apiId: "123456", active: true, fullTime: true });
 
+<<<<<<< HEAD
     // ToastStore.info('Hey, it worked !'); //BLUE ADD //WHITE REMOVE
+=======
+    // ToastStore.info('Hey, it worked !');
+>>>>>>> b9e857599710d2b966c9f4328fc46156013d907c
     this.allDeveloper()
 
 
@@ -177,6 +185,7 @@ class Admin extends Component {
       <Fragment>
         <Sidebar admin='admin' />
         <Wrapper title="Admin" onClick={this.onLogout} hideLink>
+<<<<<<< HEAD
           {!loading ?
             <div className="d-flex flex-row table-responsive tableProjects">
               <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
@@ -196,6 +205,25 @@ class Admin extends Component {
               </div>
             </div> : <Loading show text={`LOADING: ${process}%`} />}
 
+=======
+          <div className="d-flex flex-row table-responsive tableProjects">
+            <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th style={styles.sizeRow} className="text-right">Active</th>
+                  <th style={styles.sizeRow} className="text-right">Full-Time</th>
+                </tr>
+              </thead>
+              <tbody style={{ overflowY: "scroll", overflowX: 'hidden' }}>
+                {peopleList}
+              </tbody>
+            </table>
+            <div>
+              <ToastContainer store={ToastStore} position={ToastContainer.POSITION.TOP_RIGHT} lightBackground />
+            </div>
+          </div>
+>>>>>>> b9e857599710d2b966c9f4328fc46156013d907c
         </Wrapper>
       </Fragment>
     );

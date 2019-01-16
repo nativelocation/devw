@@ -12,8 +12,8 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:server": "npm run server",
     "dev:client": "npm run client",
-    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev && npm run build",
-    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
+    "heroku-prebuild-disabled": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev && npm run build",
+    "heroku-postbuild-disabled": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "author": "Author of Devview",
   "license": "MIT",
@@ -42,6 +42,7 @@
     "react-toasts": "^2.0.14",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "ssml-builder": "^0.4.3",
     "sweetalert-react": "^0.4.11",
     "teamwork-api": "^1.0.1"
   },

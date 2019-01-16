@@ -14,7 +14,7 @@ class Collapse extends Component {
     from: new Date(),
     to: new Date(),
     dates: [],
-    showCustom: false,
+    showCustom: false
   };
 
   onSubmit(e, value) {
@@ -111,7 +111,7 @@ class Collapse extends Component {
     let showCustom = false;
     if (e.target.value.toLowerCase() === "custom") showCustom = true;
     else this.onSubmit(undefined, e.target.value);
-    
+
     this.setState({ value: e.target.value, showCustom });
   }
 
@@ -141,12 +141,42 @@ class Collapse extends Component {
     let showInput = showCustom ? (
       <Fragment>
         <div className="col-md-7 d-flex flex-column">
+          <div>
+            <i
+              className="fa fa-calendar-day text-white"
+              aria-hidden="true"
+              style={styles.calendarOne}
+            />
+          </div>
           <small className="form-text text-white">From</small>
           <DatePicker selected={from} onChange={this.fromChange.bind(this)} />
         </div>
         <div className="col-md-7 d-flex flex-column">
-          <small className="form-text text-white">To</small>
+          <i
+            className="fa fa-calendar-day text-white calendarFrom"
+            aria-hidden="true"
+            style={styles.calendarOne}
+          />
+          <small className="form-text text-white pt-2">To</small>
           <DatePicker selected={to} onChange={this.toChange.bind(this)} />
+        </div>
+      </Fragment>
+    ) : (
+      undefined
+    );
+    let showButton = showCustom ? (
+      <Fragment>
+        <hr />
+        <div className="d-flex flex-row ml-4">
+          <Button text="Apply" filter />
+          <button
+            type="button"
+            className="btn btn-link text-white nounderline ml-3"
+            onClick={this.clearTime.bind(this)}
+            style={{ fontSize: 13 }}
+          >
+            Clear
+          </button>
         </div>
       </Fragment>
     ) : (
@@ -158,7 +188,7 @@ class Collapse extends Component {
           <p className="text-white ml-2" style={styles.titleDate}>
             Dates:
           </p>
-          <div className="col-md-7 d-flex align-items-center ml-2">
+          <div className="col-md-9 col-lg-7 d-flex align-items-center ml-2">
             <SelectInput onChange={this.onChange.bind(this)} value={value} />
           </div>
 
@@ -191,18 +221,7 @@ class Collapse extends Component {
           <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
             {showInput}
           </div>
-          <hr />
-          <div className="d-flex flex-row ml-4">
-            <Button text="Apply" filter />
-            <button
-              type="button"
-              className="btn btn-link text-white nounderline ml-3"
-              onClick={this.clearTime.bind(this)}
-              style={{ fontSize: 13 }}
-            >
-              Clear
-            </button>
-          </div>
+          {showButton}
         </form>
       </Fragment>
     );
@@ -214,6 +233,11 @@ const styles = {
     fontFamily: FONTS.RobotoLight,
     fontSize: 14,
     paddingLeft: 10
+  },
+  calendarOne: {
+    top: 55,
+    position: "relative",
+    zIndex: 2
   }
 };
 

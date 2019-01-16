@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import Alert from "../../components/Alert";
 import Loading from "../../components/Loading";
 import Button from "../../components/Button";
+import Input from "../../components/Input";
 import _ from "lodash";
 import SweetAlert from "sweetalert-react";
 import { COLORS } from "../../config/constants";
@@ -13,22 +14,25 @@ import { COLORS } from "../../config/constants";
 const roles = new Array();
 roles[1] = "Super Admin";
 roles[2] = "Admin";
-
-class Edit extends Component {
+class Profile extends Component {
   state = {
-    id: this.props.match.params.id || "",
+    id: "",
     firstName: "",
     lastName: "",
     email: "",
     rol: "",
+    password: "",
+    re_password: "",
     errorMessage: "",
     loading: false,
     alertProps: { title: "Alert" },
-    alertShow: false
+    alertShow: false,
+    isPassword: false
   };
 
   async componentWillMount() {
-    await this.getUser(this.state.id);
+    const { account } = this.props;
+    await this.getUser(account._id);
   }
 
   onLogout() {
@@ -61,24 +65,41 @@ class Edit extends Component {
 
   back() {
     const { history } = this.props;
-    history.push(`/user`);
+    history.push(`/`);
   }
 
   onSubmit(e) {
     e.preventDefault();
-    const { firstName, lastName, rol } = this.state;
+    const { firstName, lastName, password, re_password } = this.state;
     if (_.isEmpty(firstName))
       return this.setState({ errorMessage: "First name is required" });
     if (_.isEmpty(lastName))
       return this.setState({ errorMessage: "Last name is required" });
+    if (password !== "") {
+      this.setState({ isPassword: true });
+      if (password.length < 6)
+        return this.setState({
+          errorMessage: "Password length must be higher or equal than 6"
+        });
+      if (password !== re_password)
+        return this.setState({ errorMessage: "Passwords do not match." });
+    }
     this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
   }
 
   editUser() {
     const { account } = this.props;
-    const { firstName, lastName, email, rol, id } = this.state;
+    const {
+      firstName,
+      lastName,
+      email,
+      rol,
+      password,
+      isPassword
+    } = this.state;
     let role = parseInt(rol);
-    const data = { firstName, lastName, email, role, id };
+    let id = account._id;
+    const data = { firstName, lastName, email, role, password, id };
     this.setState({ loading: true });
     Api.UpdateUser(account.tokenAuth, data)
       .then(res => {
@@ -86,7 +107,9 @@ class Edit extends Component {
           this.setState({ loading: false, alertShow: true });
           const alertProps = this.getSuccessAlertProps(() => {
             this.setState({ alertShow: false }, () =>
-              this.props.history.push("/user")
+              !isPassword
+                ? this.props.history.push("/profile")
+                : this.onLogout()
             );
           });
           this.setState({ alertProps, errorMessage: "" });
@@ -123,14 +146,13 @@ class Edit extends Component {
       alertShow,
       alertProps,
       rol,
-      id
+      password,
+      re_password,
     } = this.state;
-    const { account } = this.props;
-    let disabledRol = account._id === id ? "disabled" : undefined;
     return (
       <Fragment>
-        <Sidebar admin="admin" />
-        <Wrapper title="Edit User" onClick={this.onLogout} hideLink>
+        <Sidebar admin="admin" profile="profile" />
+        <Wrapper title="Profile" onClick={this.onLogout}>
           <div className="mt-3">
             <form onSubmit={this.onSubmit.bind(this)}>
               <div className="form-row">
@@ -172,11 +194,35 @@ class Edit extends Component {
                     name="rol"
                     onChange={this.onChange.bind(this)}
                     value={rol}
-                    disabled={disabledRol}
+                    disabled
                   >
                     <option value="1">Super Admin</option>
                     <option value="2">Admin</option>
                   </select>
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">
+                    Password <span>(Optional)</span>
+                  </small>
+                  <input
+                    name="password"
+                    type="password"
+                    className="form-control"
+                    value={password}
+                    onChange={this.onChange.bind(this)}
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">
+                    Repeat Password <span>(Optional)</span>
+                  </small>
+                  <input
+                    name="re_password"
+                    type="password"
+                    className="form-control"
+                    value={re_password}
+                    onChange={this.onChange.bind(this)}
+                  />
                 </div>
                 <Button text="Update" filter />
                 <button
@@ -229,4 +275,4 @@ class Edit extends Component {
     };
   }
 }
-export default connect(s => ({ account: s.account }))(Edit);
+export default connect(s => ({ account: s.account }))(Profile);

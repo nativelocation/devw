@@ -15,24 +15,20 @@ class Collapse extends Component {
     if (onSubmit) onSubmit(date);
   }
 
+  changePass() {
+    const { changePass } = this.props;
+    if (changePass) changePass(true);
+  }
+
   onChange(e) {
     this.setState({ value: e.target.value });
   }
 
   render() {
-    return (
-      <Fragment>
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <p className="text-white ml-2" style={styles.titleDate}>
-            <Link
-              to="/"
-              className="text-white nounderline"
-              style={{ fontSize: 14 }}
-            >
-              Dashboard
-            </Link>
-          </p>
-          <hr />
+    const { account } = this.props;
+    let showAdmin =
+      account.role === 1 ? (
+        <Fragment>
           <p className="text-white ml-2" style={styles.titleDate}>
             <Link
               to="/user"
@@ -52,9 +48,41 @@ class Collapse extends Component {
               Developers
             </Link>
           </p>
-        </form>
-      </Fragment>
-    );
+          <hr />
+          <p className="text-white ml-2" style={styles.titleDate}>
+            <Link
+              to="/profile"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Profile
+            </Link>
+          </p>
+        </Fragment>
+      ) : (
+        <Fragment>
+        <p className="text-white ml-2" style={styles.titleDate}>
+          <Link
+            to="/"
+            className="text-white nounderline"
+            style={{ fontSize: 14 }}
+          >
+            Dashboard
+          </Link>
+        </p>
+        <hr />
+        <p className="text-white ml-2" style={styles.titleDate}>
+          <Link
+            to="/admin"
+            className="text-white nounderline"
+            style={{ fontSize: 14 }}
+          >
+            Developers
+          </Link>
+        </p>
+        </Fragment>
+      );
+    return <Fragment>{showAdmin}</Fragment>;
   }
 }
 

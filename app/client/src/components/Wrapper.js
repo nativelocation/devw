@@ -9,8 +9,20 @@ class Wrapper extends Component {
   }
 
   render() {
-    const { children, title, hideLink } = this.props;
+    const { children, title, account } = this.props;
     let showTitle = title ? <h5 className="float-left">{title}</h5> : undefined;
+    let showDash =
+      account.role === 1 ? (
+        <Link
+          to="/"
+          className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
+          style={styles.mt}
+        >
+          Dashboard
+        </Link>
+      ) : (
+        undefined
+      );
     return (
       <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
         <div
@@ -30,17 +42,14 @@ class Wrapper extends Component {
             >
               Logout
             </button>
-            {!hideLink ? (
-              <Link
-                to="/admin"
-                className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
-                style={styles.mt}
-              >
-                Admin
-              </Link>
-            ) : (
-              undefined
-            )}
+            {showDash}
+            <Link
+              to={account.role === 1 ? "/admin" : "profile"}
+              className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
+              style={styles.mt}
+            >
+              Admin
+            </Link>
           </div>
           <div
             className="col-md-12 col-lg-12 bg-white p-2 d-flex flex-column"
