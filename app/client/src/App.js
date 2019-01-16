@@ -25,7 +25,7 @@ class App extends Component {
                 component={e => Auth.validate(Login, e, store)}
               />
               <Route exact path="/" component={e => Auth.authorize(Dashboard, e, store, 2)} />
-              <Route exact path="/admin" component={e => Auth.authorize(Admin, e, store, 1)} />
+              <Route exact path="/admin" component={e => Auth.authorize(Admin, e, store, 2)} />
               <Route exact path="/profile" component={e => Auth.authorize(Profile, e, store, 2)} />
               <Route exact path="/user" component={e => Auth.authorize(User, e, store, 1)} />
               <Route exact path="/user/edit/:id" component={e => Auth.authorize(EditUser, e, store, 1)} />

@@ -20,7 +20,7 @@ class Edit extends Component {
     firstName: "",
     lastName: "",
     email: "",
-    rol: '',
+    rol: "",
     errorMessage: "",
     loading: false,
     alertProps: { title: "Alert" },
@@ -122,8 +122,11 @@ class Edit extends Component {
       email,
       alertShow,
       alertProps,
-      rol
+      rol,
+      id
     } = this.state;
+    const { account } = this.props;
+    let disabledRol = account._id === id ? "disabled" : undefined;
     return (
       <Fragment>
         <Sidebar admin="admin" />
@@ -169,21 +172,12 @@ class Edit extends Component {
                     name="rol"
                     onChange={this.onChange.bind(this)}
                     value={rol}
+                    disabled={disabledRol}
                   >
                     <option value="1">Super Admin</option>
                     <option value="2">Admin</option>
                   </select>
                 </div>
-                {/* <div className="form-group col-md-6">
-                  <small className="form-text text-muted">Role</small>
-                  <input
-                    name="role"
-                    type="text"
-                    className="form-control"
-                    placeholder="Super Admin"
-                    disabled
-                  />
-                </div> */}
                 <Button text="Update" filter />
                 <button
                   type="button"
@@ -191,7 +185,7 @@ class Edit extends Component {
                   onClick={this.back.bind(this)}
                   style={{ fontSize: 14 }}
                 >
-                  Back
+                  Cancel
                 </button>
               </div>
             </form>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 class Collapse extends Component {
   state = {
-    value: "today" || "",
+    value: "today" || ""
   };
 
   onSubmit(e) {
@@ -15,27 +15,59 @@ class Collapse extends Component {
     if (onSubmit) onSubmit(date);
   }
 
-  changePass(){
+  changePass() {
     const { changePass } = this.props;
     if (changePass) changePass(true);
-  }  
+  }
 
   onChange(e) {
     this.setState({ value: e.target.value });
   }
 
   render() {
-    const { profile } = this.props;
-    let showAdmin = !profile ? (
-      <Fragment>
-        <hr />
+    const { account } = this.props;
+    let showAdmin =
+      account.role === 1 ? (
+        <Fragment>
+          <p className="text-white ml-2" style={styles.titleDate}>
+            <Link
+              to="/user"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Users
+            </Link>
+          </p>
+          <hr />
+          <p className="text-white ml-2" style={styles.titleDate}>
+            <Link
+              to="/admin"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Developers
+            </Link>
+          </p>
+          <hr />
+          <p className="text-white ml-2" style={styles.titleDate}>
+            <Link
+              to="/profile"
+              className="text-white nounderline"
+              style={{ fontSize: 14 }}
+            >
+              Profile
+            </Link>
+          </p>
+        </Fragment>
+      ) : (
+        <Fragment>
         <p className="text-white ml-2" style={styles.titleDate}>
           <Link
-            to="/user"
+            to="/"
             className="text-white nounderline"
             style={{ fontSize: 14 }}
           >
-            Users
+            Dashboard
           </Link>
         </p>
         <hr />
@@ -48,40 +80,9 @@ class Collapse extends Component {
             Developers
           </Link>
         </p>
-      </Fragment>
-    ) : (
-      undefined
-    );
-    let changePass = profile ? (
-      <Fragment>
-        <hr />
-        <button
-          type="button"
-          className="btn btn-link text-white nounderline ml-2"
-          onClick={this.changePass.bind(this)}
-          style={{ fontSize: 14 }}
-        >
-          Change Password
-        </button>
-      </Fragment>
-    ) : (
-      undefined
-    );
-    return (
-      <Fragment>
-        <p className="text-white ml-2" style={styles.titleDate}>
-          <Link
-            to="/"
-            className="text-white nounderline"
-            style={{ fontSize: 14 }}
-          >
-            Dashboard
-          </Link>
-        </p>
-        {changePass}
-        {showAdmin}
-      </Fragment>
-    );
+        </Fragment>
+      );
+    return <Fragment>{showAdmin}</Fragment>;
   }
 }
 
