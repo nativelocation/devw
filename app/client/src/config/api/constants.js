@@ -8,6 +8,7 @@ export const GETUSER = 'user';
 export const CREATEUSER = 'user/create';
 export const UPDATEUSER = 'user/update';
 export const DELETEUSER = 'user/delete';
+export const EMAILVALIDATION = 'user/validation';
 export const GETPROJECT = 'project/all';
 export const GETPEOPLE = 'project/people';
 export const GETTIMEBYUSER = 'project/timebyuser';
