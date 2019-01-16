@@ -127,7 +127,7 @@ class Edit extends Component {
     } = this.state;
     const { account } = this.props;
     let disabledRol = account._id === id ? "disabled" : undefined;
-    let showEdit = !loading ? (
+    let showEdit = (
       <div className="mt-3">
         <form onSubmit={this.onSubmit.bind(this)}>
           <div className="form-row">
@@ -192,13 +192,13 @@ class Edit extends Component {
           </Alert>
         </div>
       </div>
-    ) : (
-      undefined
     );
+    let editForm = !loading ? showEdit : undefined
     return (
       <Fragment>
         <Sidebar admin="admin" />
         <Wrapper title="Edit User" onClick={this.onLogout} hideLink>
+          {editForm}
           <SweetAlert show={alertShow} {...alertProps} />
           <Loading
             show={loading}
