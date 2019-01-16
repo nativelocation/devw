@@ -7,7 +7,7 @@ const busboy = require("connect-busboy");
 const busboyBodyParser = require("busboy-body-parser");
 const app = express();
 const helpers = require('./src/config/helpers');
-const alexa = require('./src/config/alexa');
+const alexaClearview = require('./src/alexa/clearview');
 
 //Route Name
 const projectRouter = require('./src/routes/project');
@@ -33,7 +33,7 @@ app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/developer', devRouter);
 
-alexa.init(app);
+alexaClearview.init(app);
 app.get("*", (req, res, next) => {
   if (req.url.includes("api")) return next();
   res.sendFile(path.resolve(publicPath, "index.html"));

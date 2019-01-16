@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { ToastContainer, ToastStore } from "react-toasts";
 import Api from "../config/api";
 import Wrapper from "../components/Wrapper";
 import Sidebar from "../components/Sidebar";
-import { ToastContainer, ToastStore } from 'react-toasts';
-
 
 class Admin extends Component {
   state = {
@@ -22,14 +21,14 @@ class Admin extends Component {
 
     // await Api.CreateDeveloper(account.tokenAuth, { apiId: "123456", active: true, fullTime: true });
 
-   // ToastStore.info('Hey, it worked !');
-   this.allDeveloper()
+    // ToastStore.info('Hey, it worked !');
+    this.allDeveloper()
 
 
 
   }
 
-  async allDeveloper(){
+  async allDeveloper() {
     const { account } = this.props;
     const resPeople = await Api.GetPeople(account.tokenAuth);
     const resDeveloper = await Api.GetAllDeveloper(account.tokenAuth);
@@ -74,7 +73,7 @@ class Admin extends Component {
       }
     }
 
-    
+
 
     // this.allDeveloper()
 
@@ -88,7 +87,7 @@ class Admin extends Component {
       if (dev.data != null) {
         if (dev.data.active) {
           await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
-          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });          
+          await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: true });
           ToastStore.success('Team member has been updated');
 
         } else {
@@ -140,7 +139,7 @@ class Admin extends Component {
                 id={r.id + "A"}
                 value={r.id + "A"}
                 {...(active ? { checked: true } : {})}
-                onChange={e => this.onChangeActive(e, r["id"] )}
+                onChange={e => this.onChangeActive(e, r["id"])}
               />
             </td>
             <td style={styles.sizeRow} align="center">
@@ -166,7 +165,7 @@ class Admin extends Component {
         <Sidebar admin='admin' />
         <Wrapper title="Admin" onClick={this.onLogout} hideLink>
           <div className="d-flex flex-row table-responsive tableProjects">
-          <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
+            <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -174,7 +173,7 @@ class Admin extends Component {
                   <th style={styles.sizeRow} className="text-right">Full-Time</th>
                 </tr>
               </thead>
-              <tbody style={{ overflowY: "scroll", overflowX: 'hidden'}}>
+              <tbody style={{ overflowY: "scroll", overflowX: 'hidden' }}>
                 {peopleList}
               </tbody>
             </table>
