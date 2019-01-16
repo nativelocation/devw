@@ -34,6 +34,12 @@ router.post("/", (req, res, next) => {
     .then(r => generalSuccess(res, "Get user by id", r))
     .catch(e => generalError(e, res));
 });
+router.post("/validation", (req, res, next) => {
+  model
+    .existEmail(req.body)
+    .then(r => generalSuccess(res, "Email exists", r))
+    .catch(e => generalError(e, res));
+});
 router.post("/create", (req, res) => {
   model
     .create(req.body)

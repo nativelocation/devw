@@ -27,7 +27,7 @@ class Profile extends Component {
     loading: false,
     alertProps: { title: "Alert" },
     alertShow: false,
-    isPassword: false,
+    isPassword: false
   };
 
   async componentWillMount() {
@@ -77,7 +77,10 @@ class Profile extends Component {
       return this.setState({ errorMessage: "Last name is required" });
     if (password !== "") {
       this.setState({ isPassword: true });
-      if(password.length < 6) return this.setState({ errorMessage: 'Password length must be higher or equal than 6' });
+      if (password.length < 6)
+        return this.setState({
+          errorMessage: "Password length must be higher or equal than 6"
+        });
       if (password !== re_password)
         return this.setState({ errorMessage: "Passwords do not match." });
     }
@@ -145,113 +148,82 @@ class Profile extends Component {
       rol,
       password,
       re_password,
-      isPassword,
     } = this.state;
-    let pass = !isPassword ? (
-      <Fragment>
-        <div className="form-group col-md-6">
-          <small className="form-text text-muted">
-            Password <span>(Optional)</span>
-          </small>
-          <input
-            name="password"
-            type="password"
-            className="form-control"
-            value={password}
-            onChange={this.onChange.bind(this)}
-          />
-          {/* <Input
-            name="password"
-            value={password}
-            onChange={this.onChange.bind(this)}
-            disableAutoComplete
-            password
-            bigSize
-          /> */}
-        </div>
-        <div className="form-group col-md-6">
-          <small className="form-text text-muted">
-            Repeat Password <span>(Optional)</span>
-          </small>
-          <input
-            name="re_password"
-            type="password"
-            className="form-control"
-            value={re_password}
-            onChange={this.onChange.bind(this)}
-          />
-          {/* <Input
-            name="re_password"
-            value={re_password}
-            onChange={this.onChange.bind(this)}
-            disableAutoComplete
-            password
-            bigSize
-          /> */}
-        </div>
-      </Fragment>
-    ) : (
-      undefined
-    );
-    let formProfile = !isPassword ? (
-      <Fragment>
-        <div className="form-group col-md-6">
-          <small className="form-text text-muted">First Name</small>
-          <input
-            name="firstName"
-            type="text"
-            className="form-control"
-            value={firstName}
-            onChange={this.onChange.bind(this)}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <small className="form-text text-muted">Last Name</small>
-          <input
-            name="lastName"
-            type="text"
-            className="form-control"
-            value={lastName}
-            onChange={this.onChange.bind(this)}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <small className="form-text text-muted">Email</small>
-          <input
-            name="email"
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={this.onChange.bind(this)}
-            disabled
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <small className="form-text text-muted">Role</small>
-          <select
-            className="form-control"
-            name="rol"
-            onChange={this.onChange.bind(this)}
-            value={rol}
-            disabled
-          >
-            <option value="1">Super Admin</option>
-            <option value="2">Admin</option>
-          </select>
-        </div>
-      </Fragment>
-    ) : (
-      undefined
-    );
     return (
       <Fragment>
-        <Sidebar admin="admin" profile="profile"/>
-        <Wrapper title="Edit User" onClick={this.onLogout} hideLink>
+        <Sidebar admin="admin" profile="profile" />
+        <Wrapper title="Profile" onClick={this.onLogout}>
           <div className="mt-3">
             <form onSubmit={this.onSubmit.bind(this)}>
               <div className="form-row">
-                {formProfile}
-                {pass}
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">First Name</small>
+                  <input
+                    name="firstName"
+                    type="text"
+                    className="form-control"
+                    value={firstName}
+                    onChange={this.onChange.bind(this)}
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">Last Name</small>
+                  <input
+                    name="lastName"
+                    type="text"
+                    className="form-control"
+                    value={lastName}
+                    onChange={this.onChange.bind(this)}
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">Email</small>
+                  <input
+                    name="email"
+                    type="email"
+                    className="form-control"
+                    value={email}
+                    onChange={this.onChange.bind(this)}
+                    disabled
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">Role</small>
+                  <select
+                    className="form-control"
+                    name="rol"
+                    onChange={this.onChange.bind(this)}
+                    value={rol}
+                    disabled
+                  >
+                    <option value="1">Super Admin</option>
+                    <option value="2">Admin</option>
+                  </select>
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">
+                    Password <span>(Optional)</span>
+                  </small>
+                  <input
+                    name="password"
+                    type="password"
+                    className="form-control"
+                    value={password}
+                    onChange={this.onChange.bind(this)}
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <small className="form-text text-muted">
+                    Repeat Password <span>(Optional)</span>
+                  </small>
+                  <input
+                    name="re_password"
+                    type="password"
+                    className="form-control"
+                    value={re_password}
+                    onChange={this.onChange.bind(this)}
+                  />
+                </div>
                 <Button text="Update" filter />
                 <button
                   type="button"

@@ -5,9 +5,8 @@ import FilterAdmin from "./FilterAdmin";
 
 export default class Sidebar extends Component {
   render() {
-    const { onSubmit, admin, profile, changePass } = this.props;
-    let filter = admin ? <FilterAdmin profile={profile} changePass={changePass} /> : <Filter onSubmit={onSubmit} />
-    console.log('Sidebar ',this.props)
+    const { onSubmit, admin, profile } = this.props;
+    let filter = admin ? <FilterAdmin profile={profile} /> : <Filter onSubmit={onSubmit} />
     return (
       <div className="col-md-3 col-lg-3 px-0 h-100" style={{backgroundColor: '#666667'}}>
         <h3 style={styles.titleSidebar} className="text-white pl-3">

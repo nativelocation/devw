@@ -28,7 +28,8 @@ class List extends Component {
     loading: false,
     isEdit: false,
     alertProps: { title: "Alert" },
-    alertShow: false
+    alertShow: false,
+    disabledButton: false
   };
 
   async componentWillMount() {
@@ -85,7 +86,8 @@ class List extends Component {
         } else {
           this.setState({
             errorMessage: res.message,
-            alertShow: false
+            alertShow: false,
+            loading: false,
           });
         }
       })
@@ -100,6 +102,28 @@ class List extends Component {
   onChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value, errorMessage: "" });
+    this.existsEmail(e);
+  }
+
+  existsEmail(e){
+    let email = e.target.value;
+    const data = { email };
+    const { account } = this.props;
+    this.setState({disabledButton: false, errorMessage: "" })
+    Api.EmailValidation(account.tokenAuth, data)
+      .then(res => {
+        if (res.status === 201) {
+          this.setState({errorMessage: "" })
+        } else{
+          this.setState({disabledButton: true, errorMessage: "The email already exists"  })
+        }
+      })
+      .catch(err => {
+        this.setState({
+          errorMessage: err.message,
+          loading: false
+        });
+      });
   }
 
   showDeleteUserAlert(id) {
@@ -133,7 +157,8 @@ class List extends Component {
       errorMessage,
       alertShow,
       alertProps,
-      rol
+      rol,
+      disabledButton
     } = this.state;
     const { account } = this.props;
     if (user.data) {
@@ -243,7 +268,7 @@ class List extends Component {
                 <option value="2">Admin</option>
               </select>
             </div>
-            <Button text="Create" filter />
+            <Button text="Create" filter disabled={disabledButton ? true:false}/>
             <button
               type="button"
               className="btn btn-link text-muted nounderline "
@@ -252,7 +277,7 @@ class List extends Component {
               }
               style={{ fontSize: 14 }}
             >
-              Back
+              Cancel
             </button>
           </div>
         </form>
@@ -266,12 +291,13 @@ class List extends Component {
 
     let show = showTable ? table : formUser;
     let title = showTable ? "Users" : "Create User";
+    let showForm = !loading ? show : undefined;
     return (
       <Fragment>
         <Sidebar admin="admin" />
         <Wrapper title={title} onClick={this.onLogout} hideLink>
           <div className="d-flex flex-row">{buttonNew}</div>
-          {show}
+          {showForm}
           <SweetAlert show={alertShow} {...alertProps} />
           <Loading
             show={loading}
