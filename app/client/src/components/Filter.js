@@ -192,7 +192,7 @@ class Collapse extends Component {
             <SelectInput onChange={this.onChange.bind(this)} value={value} />
           </div>
 
-          <div className="col-md-7 d-flex align-items-center ml-2">
+          {/* <div className="col-md-7 d-flex align-items-center ml-2">
             <div className="d-flex flex-column col-md-12 border border-light text-white">
               <a
                 className="pt-2 nounderline text-white"
@@ -232,7 +232,7 @@ class Collapse extends Component {
                 </ul>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
             {showInput}
