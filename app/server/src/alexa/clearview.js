@@ -3,22 +3,22 @@ const model = require('./models/clearview');
 
 const texts = {
     welcome: "Welcome to ClearView for SerpicoDev, ",
-    welcome2: "you can ask for your status update or what are the total hours in a project, ",
-    welcome3: "please, provide your pin access so we can know who are you.",
+    welcome2: "you can ask for a status update or your total hours, ",
+    welcome3: "please say your PIN to log into your account.",
     welcomeBack: "Welcome back ",
     welcomeBack2: "what do you want to do today?",
     totalHoursResult: "Your total hours for {project} is",
     statusUpdateResult: 'Your status update for {project} is',
-    noStatusUpdateResult: "There isn't status update for {project} yet.",
+    noStatusUpdateResult: "There is no status update for {project}. Please request a status update from SerpicoDEV support.",
     noIntentFound: "CleaView Can't process that request right now, you can ask for your status update or total hours right now",
     genericError: "Ooh-uh, there's an error, please contact to SerpicoDev's Support",
-    idenfitySuccess: "You're now logged, you can ask for you total hours or your status update.",
-    idenfityErrorRequired: "A 4-Digit pin is required to identify you.",
+    idenfitySuccess: "You are now logged in. You can ask for your total hours or status update.",
+    idenfityErrorRequired: "A 4-Digit PIN is required to log in.",
     idenfityErrorNotFound: "The 4-Digit pin you provided doesn't exist, please, contact SerpicoDev or provide your pin access again.",
     idenfityErrorNotConfirmed: "A 4-Digit pin is required to identify you, please, contact SerpicoDev or provide your pin access again.",
-    youAreNotLogged: "You are not identified, provide a 4-Digit to identify you before to get an status update or total hours of your project.",
+    youAreNotLogged: "You are not logged into ClearView. Please provide a 4-Digit PIN.",
     youAreAlreadyLogged: "You are already logged as",
-    youAreAlreadyLogged2: ", you can ask for you total hours or your status update.",
+    youAreAlreadyLogged2: ", you can ask for your total hours or a status update.",
     ok: 'Okay!'
 }
 
