@@ -117,7 +117,8 @@ module.exports = {
                 if (exist) {
                     const userLogged = await model.getUserByPinOrId(exist.clearviewUserId, true);
                     const status = await model.getStatusUpdate(userLogged.twid);
-                    message = `${texts.statusUpdateResult.replace('{project}', userLogged.projectname)} "${status}".`;
+                    if (status) message = `${texts.statusUpdateResult.replace('{project}', userLogged.projectname)} "${status}".`;
+                    else message = texts.noStatusUpdateResult.replace('{project}', userLogged.projectname);
                 } else message = texts.youAreNotLogged;
 
                 return res.say(message).shouldEndSession(false);
