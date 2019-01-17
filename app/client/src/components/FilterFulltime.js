@@ -8,9 +8,8 @@ class FilterFulltime extends Component {
     }
 
     render() {
-        //do a select instead checkbox
         return (
-            <div style={{ position: 'absolute', background: 'white', top: 0, width: '200px' }}>
+            <div style={{ position: 'absolute', background: 'white', top: -10, width: '200px' }}>
                 <h6 className="font-weight-light pl-2 m-0">Show:</h6>
                 <select className="custom-select form-control-sm" onChange={this.handleSelect.bind(this)}>
                     <option value="0">All</option>

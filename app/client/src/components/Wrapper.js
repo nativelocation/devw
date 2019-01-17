@@ -26,7 +26,7 @@ class Wrapper extends Component {
     return (
       <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
         <div
-          className="col-md-12 col-lg-12 p-3 d-flex flex-column"
+          className="col-md-12 col-lg-12 d-flex flex-column"
           style={styles.flex}
         >
           <div
@@ -52,7 +52,7 @@ class Wrapper extends Component {
             </Link>
           </div>
           <div
-            className="col-md-12 col-lg-12 bg-white p-2 d-flex flex-column"
+            className="col-md-12 col-lg-12 bg-white d-flex flex-column"
             style={styles.flex}
           >
             {children}
