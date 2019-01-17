@@ -206,14 +206,30 @@ class Collapse extends Component {
                 </span>
               </a>
               <div id="filter" className=" collapse">
-                <a className="pt-1">today</a>
-                <a className="pt-1">yesterday</a>
-                <a className="pt-1">this month</a>
-                <a className="pt-1">last month</a>
-                <a className="pt-1">this year</a>
-                <a className="">last year</a>
-                <hr />
-                <a className="pb-2">custom</a>
+                <ul value={value}>
+                  <li>
+                    <a href='#javascript:;' className="pt-1">today</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">yesterday</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">this month</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">last month</a>
+                  </li>
+                  <li>
+                    <a className="pt-1">this year</a>
+                  </li>
+                  <li>
+                    <a className="">last year</a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a className="pb-2">custom</a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div> */}
