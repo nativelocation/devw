@@ -18,9 +18,10 @@ class Dashboard extends Component {
   };
 
   tableRef = React.createRef();
-  totalProjects = {};
-  totalPeople = {};
-
+  totalProjects = [];
+  totalPeople = [];
+  fulltime = true;
+  parttime = true;
 
   componentWillMount() {
     this.onStart();
@@ -36,11 +37,22 @@ class Dashboard extends Component {
     const { account } = this.props;
     const resProj = await Api.GetProjects(account.tokenAuth);
     const resPeople = await Api.GetPeople(account.tokenAuth);
+    const resDevs = await Api.GetAllDeveloper(account.tokenAuth);
+
     const today = moment().format("YYYYMMDD");
 
     if (resProj && resProj.data && resPeople && resPeople.data) {
       this.totalProjects = resProj.data.projects;
-      this.totalPeople = resPeople.data.people;
+
+      if (resDevs.status === 201) {
+        resPeople.data.people.map(pp => {
+          const find = resDevs.data.find(d => pp.id === d.apiId);
+          if (find && find.active) {
+            pp.isFullTime = find.fullTime;
+            this.totalPeople.push(pp);
+          }
+        });
+      } else this.totalPeople = resPeople.data.people;
 
       this.getTimeByUser({
         fromTime: "00:00",
@@ -56,7 +68,6 @@ class Dashboard extends Component {
     const people = this.totalPeople;
     let times = [];
     let projects = [];
-    console.log('===== START =====', data)
 
     let counter = 0;
     this.setState({ process: 0, loading: true });
@@ -73,8 +84,8 @@ class Dashboard extends Component {
       counter++;
       let process = ((counter * 100) / this.totalPeople.length).toFixed(0);
       if (process < 100) this.setState({ process });
-
     }));
+
     this.totalProjects.map(pj => {
       let total = 0;
       times.map(v => {
@@ -84,12 +95,37 @@ class Dashboard extends Component {
       pj.totalHours = total.toFixed(2);
       if (total > 0) projects.push(pj);
     });
-    console.log("HERE");
+
     this.setState({ projects, people, times, loading: false });
   }
 
-  changePass(){
-    this.setState({showPassword: true})
+  changePass() {
+    this.setState({ showPassword: true })
+  }
+
+  handleDevs(checked, type) {
+    //TODO: finish it
+    switch (type) {
+      case 0: {
+        this.fulltime = checked;
+        break;
+      }
+      case 1: {
+        this.parttime = checked;
+      }
+    }
+
+    let people = [];
+    this.totalPeople.map(pp => {
+      let added = false;
+      if (pp.isFullTime === this.fulltime) {
+        people.push(pp);
+        added = true;
+      }
+      if (!added && pp.isFullTime === !this.parttime) people.push(pp);
+    });
+
+    this.setState({ people });
   }
 
   render() {
@@ -139,17 +175,18 @@ class Dashboard extends Component {
     const hideAdmin = account.role === 2 ? 'hideLink' : undefined
     return (
       <Fragment>
-        <Sidebar onSubmit={r => this.getTimeByUser(r)} changePass={() => this.changePass.bind(this)}/>
+        <Sidebar onSubmit={r => this.getTimeByUser(r)} changePass={() => this.changePass.bind(this)} />
         <Wrapper hideLink={hideAdmin} showPassword>
-          <FilterFulltime />
           {!loading ?
             projects.length > 0 ?
               <Fragment>
+                {/* <FilterFulltime onChange={this.handleDevs.bind(this)} /> */}
                 <div className="d-flex flex-row" style={{ flex: 1 }}>
                   <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
                     <thead>
                       <tr>
-                        <th style={styles.sizeRow} className="text-center" />
+                        <th style={styles.sizeRow}>
+                        </th>
                         {projectsName}
                         <th style={styles.sizeRow} className="text-center" >TOTAL</th>
                       </tr>
