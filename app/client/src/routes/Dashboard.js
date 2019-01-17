@@ -141,7 +141,7 @@ class Dashboard extends Component {
 
       return (
         <tr key={i} className="">
-          <td className={`border-right peopleName ${textColor}`} style={styles.sizeRow} >
+          <td className={`border-right ${textColor}`} style={styles.sizeRow} >
             {pp["first-name"]} {pp["last-name"]}
           </td>
           {projects.map((pj, ii) => (

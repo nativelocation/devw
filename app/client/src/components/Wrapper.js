@@ -24,7 +24,7 @@ class Wrapper extends Component {
         undefined
       );
     return (
-      <div className="col-md-9 col-lg-9 h-100 p-0 d-flex flex-column">
+      <div className="col-md-10 col-lg-10 h-100 p-0 d-flex flex-column">
         <div
           className="col-md-12 col-lg-12 d-flex flex-column"
           style={styles.flex}

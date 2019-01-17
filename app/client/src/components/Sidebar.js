@@ -8,7 +8,7 @@ export default class Sidebar extends Component {
     const { onSubmit, admin, profile } = this.props;
     let filter = admin ? <FilterAdmin profile={profile} /> : <Filter onSubmit={onSubmit} />
     return (
-      <div className="col-md-3 col-lg-3 px-0 h-100" style={{backgroundColor: '#666667'}}>
+      <div className="col-md-2 col-lg-2 px-0 h-100" style={{backgroundColor: '#666667'}}>
         <h3 style={styles.titleSidebar} className="text-white pl-3">
           Dev View
         </h3>

@@ -140,7 +140,7 @@ class Collapse extends Component {
     const { from, to, showCustom, value } = this.state;
     let showInput = showCustom ? (
       <Fragment>
-        <div className="col-md-7 d-flex flex-column">
+        <div className="d-flex flex-column">
           <div>
             <i
               className="fa fa-calendar-day text-white"
@@ -151,7 +151,7 @@ class Collapse extends Component {
           <small className="form-text text-white">From</small>
           <DatePicker selected={from} onChange={this.fromChange.bind(this)} />
         </div>
-        <div className="col-md-7 d-flex flex-column">
+        <div className="d-flex flex-column mb-5">
           <i
             className="fa fa-calendar-day text-white calendarFrom"
             aria-hidden="true"
@@ -161,13 +161,11 @@ class Collapse extends Component {
           <DatePicker selected={to} onChange={this.toChange.bind(this)} />
         </div>
       </Fragment>
-    ) : (
-      undefined
-    );
+    ) : undefined;
     let showButton = showCustom ? (
       <Fragment>
-        <hr />
-        <div className="d-flex flex-row ml-4">
+        <hr className="mx-0" />
+        <div className="d-flex flex-row">
           <Button text="Apply" filter />
           <button
             type="button"
@@ -180,15 +178,15 @@ class Collapse extends Component {
         </div>
       </Fragment>
     ) : (
-      undefined
-    );
+        undefined
+      );
     return (
       <Fragment>
         <form onSubmit={e => this.onSubmit(e, value)}>
-          <p className="text-white ml-2" style={styles.titleDate}>
+          <p className="text-white ml-2 mb-0" style={styles.titleDate}>
             Dates:
           </p>
-          <div className="col-md-9 col-lg-7 d-flex align-items-center ml-2">
+          <div className="col-md-12 col-lg-12 d-flex">
             <SelectInput onChange={this.onChange.bind(this)} value={value} />
           </div>
 
@@ -234,10 +232,10 @@ class Collapse extends Component {
             </div>
           </div> */}
 
-          <div className="col-md-7 d-flex flex-column justify-content-center ml-1 mt-3">
+          <div className="col-md-12 d-flex flex-column">
             {showInput}
+            {showButton}
           </div>
-          {showButton}
         </form>
       </Fragment>
     );
@@ -252,6 +250,7 @@ const styles = {
   },
   calendarOne: {
     top: 55,
+    left: 10,
     position: "relative",
     zIndex: 2
   }
