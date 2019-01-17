@@ -9,7 +9,7 @@ class Wrapper extends Component {
   }
 
   render() {
-    const { children, title, account } = this.props;
+    const { children, title, account, maxWidth } = this.props;
     let showTitle = title ? <h5 className="float-left">{title}</h5> : undefined;
     let showDash = account.role === 1 ? (
       <Link
@@ -21,7 +21,7 @@ class Wrapper extends Component {
         </Link>
     ) : undefined
     return (
-      <div className="col-md-10 col-lg-10 h-100 p-0 d-flex flex-column">
+      <div className="h-100 p-0 d-flex flex-column" style={{ flex: 1, maxWidth }}>
         <div
           className="col-md-12 col-lg-12 d-flex flex-column"
           style={styles.flex}

@@ -16,7 +16,8 @@ class Dashboard extends Component {
     loading: true,
     showPassword: false,
     scrollLeft: 0,
-    scrollRight: 0
+    scrollRight: 0,
+    wrapperWidth: 'calc(100% - 16.7%)'
   };
 
   totalProjects = [];
@@ -122,8 +123,14 @@ class Dashboard extends Component {
     this.setState({ scrollLeft, scrollRight });
   }
 
+  handleCollapse(e) {
+    let wrapperWidth = 'calc(100% - 16.7%)';
+    if (!e) wrapperWidth = 'calc(100% - 50px)';
+    this.setState({ wrapperWidth });
+  }
+
   render() {
-    const { projects, people, times, loading, process, scrollLeft, scrollRight } = this.state;
+    const { projects, people, times, loading, process, scrollLeft, scrollRight, wrapperWidth } = this.state;
 
     const peoplesName = people.map((pp, i) => {
       const getTime = id => {
@@ -170,8 +177,8 @@ class Dashboard extends Component {
     const hideAdmin = account.role === 2 ? 'hideLink' : undefined
     return (
       <Fragment>
-        <Sidebar onSubmit={r => this.getTimeByUser(r)} />
-        <Wrapper hideLink={hideAdmin} showPassword>
+        <Sidebar onSubmit={r => this.getTimeByUser(r)} onCollapse={this.handleCollapse.bind(this)} />
+        <Wrapper maxWidth={wrapperWidth} hideLink={hideAdmin} showPassword>
           {!loading ?
             projects.length > 0 ?
               <Fragment>
