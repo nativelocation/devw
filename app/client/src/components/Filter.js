@@ -141,24 +141,24 @@ class Collapse extends Component {
     let showInput = showCustom ? (
       <Fragment>
         <div className="d-flex flex-column">
-          <div>
+          <div style={styles.calendarOne}>
             <i
               className="fa fa-calendar-day text-white"
               aria-hidden="true"
-              style={styles.calendarOne}
             />
           </div>
           <small className="form-text text-white">From</small>
-          <DatePicker selected={from} onChange={this.fromChange.bind(this)} />
+          <DatePicker style={styles.datepicker} selected={from} onChange={this.fromChange.bind(this)} />
         </div>
         <div className="d-flex flex-column mb-5">
-          <i
-            className="fa fa-calendar-day text-white calendarFrom"
-            aria-hidden="true"
-            style={styles.calendarOne}
-          />
+          <div style={styles.calendarOne}>
+            <i
+              className="fa fa-calendar-day text-white calendarFrom"
+              aria-hidden="true"
+            />
+          </div>
           <small className="form-text text-white pt-2">To</small>
-          <DatePicker selected={to} onChange={this.toChange.bind(this)} />
+          <DatePicker style={styles.datepicker} selected={to} onChange={this.toChange.bind(this)} />
         </div>
       </Fragment>
     ) : undefined;
@@ -177,9 +177,7 @@ class Collapse extends Component {
           </button>
         </div>
       </Fragment>
-    ) : (
-        undefined
-      );
+    ) : undefined
     return (
       <Fragment>
         <form onSubmit={e => this.onSubmit(e, value)}>
@@ -251,7 +249,12 @@ const styles = {
   calendarOne: {
     top: 55,
     left: 10,
+    width: '20px',
+    height:'100%',
     position: "relative",
+    zIndex: 1
+  },
+  datepicker: {
     zIndex: 2
   }
 };
