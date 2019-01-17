@@ -20,8 +20,6 @@ class Dashboard extends Component {
   tableRef = React.createRef();
   totalProjects = [];
   totalPeople = [];
-  fulltime = true;
-  parttime = true;
 
   componentWillMount() {
     this.onStart();
@@ -103,33 +101,21 @@ class Dashboard extends Component {
     this.setState({ showPassword: true })
   }
 
-  handleDevs(checked, type) {
-    //TODO: finish it
-    switch (type) {
-      case 0: {
-        this.fulltime = checked;
-        break;
-      }
-      case 1: {
-        this.parttime = checked;
-      }
-    }
-
+  handleDevs(type) {
     let people = [];
     this.totalPeople.map(pp => {
-      let added = false;
-      if (pp.isFullTime === this.fulltime) {
-        people.push(pp);
-        added = true;
+      switch (type) {
+        case '1': if (pp.isFullTime) people.push(pp); break;
+        case '2': if (!pp.isFullTime) people.push(pp); break;
+        default: people.push(pp);
       }
-      if (!added && pp.isFullTime === !this.parttime) people.push(pp);
     });
 
     this.setState({ people });
   }
 
   render() {
-    const { projects, people, times, loading, process, showPassword } = this.state;
+    const { projects, people, times, loading, process } = this.state;
 
     const peoplesName = people.map((pp, i) => {
       const getTime = id => {
@@ -141,20 +127,21 @@ class Dashboard extends Component {
         return "-";
       };
 
-      const getTotalPeople = () => {
-        if (times[pp.id] && times[pp.id].length > 0) {
-          let total = 0;
-          times[pp.id].map(v => {
-            total += parseFloat(v.time);
-          });
-          return total.toFixed(2);
-        }
-        return "-";
-      };
+      let totalTimePeople = 0;
+      let textColor = '';
+      if (times[pp.id] && times[pp.id].length > 0) {
+        let total = 0;
+        times[pp.id].map(v => {
+          total += parseFloat(v.time);
+        });
+        totalTimePeople = total.toFixed(2);
+        if (pp.isFullTime) textColor = 'text-info';
+      }
+      if (totalTimePeople === 0) textColor = 'text-danger';
 
       return (
         <tr key={i} className="">
-          <td className="border-right peopleName" style={styles.sizeRow} >
+          <td className={`border-right peopleName ${textColor}`} style={styles.sizeRow} >
             {pp["first-name"]} {pp["last-name"]}
           </td>
           {projects.map((pj, ii) => (
@@ -162,7 +149,7 @@ class Dashboard extends Component {
               {getTime(pj.id)}
             </td>
           ))}
-          <td className="text-center" style={styles.sizeRow} >{getTotalPeople()}</td>
+          <td className="text-center" style={styles.sizeRow} >{totalTimePeople === 0 ? '-' : totalTimePeople}</td>
         </tr>
       );
     });
@@ -180,7 +167,7 @@ class Dashboard extends Component {
           {!loading ?
             projects.length > 0 ?
               <Fragment>
-                {/* <FilterFulltime onChange={this.handleDevs.bind(this)} /> */}
+                <FilterFulltime onChange={this.handleDevs.bind(this)} />
                 <div className="d-flex flex-row" style={{ flex: 1 }}>
                   <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
                     <thead>
