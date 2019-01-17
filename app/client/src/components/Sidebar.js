@@ -4,18 +4,34 @@ import Filter from "./Filter";
 import FilterAdmin from "./FilterAdmin";
 
 export default class Sidebar extends Component {
+  state = {
+    show: true
+  }
   render() {
+    const { show } = this.state;
     const { onSubmit, admin, profile } = this.props;
     let filter = admin ? <FilterAdmin profile={profile} /> : <Filter onSubmit={onSubmit} />
-    return (
-      <div className="col-md-2 col-lg-2 px-0 h-100" style={{backgroundColor: '#666667'}}>
-        <h3 style={styles.titleSidebar} className="text-white pl-3">
-          Dev View
-        </h3>
-        <hr />
-        {filter}
+    if (show)
+      return (
+        <div className="col-md-2 col-lg-2 px-0 h-100" style={{ backgroundColor: '#666667' }}>
+          <button style={styles.floatButton} className="text-white btn btn-link" onClick={e => this.setState({ show: false })}>
+            <h4><i className="fa fa-chevron-left" /></h4>
+          </button>
+          <h3 style={styles.titleSidebar} className="text-white pl-3">
+            Dev View
+          </h3>
+          <hr />
+          {filter}
+        </div>
+      );
+    else return (
+      <div style={{ width: '50px', backgroundColor: '#666667' }}>
+        <button className="text-white pl-3 btn btn-link" onClick={e => this.setState({ show: true })}>
+          <h3><i className="fa fa-chevron-right" /></h3>
+        </button>
       </div>
     );
+
   }
 }
 
@@ -23,5 +39,9 @@ const styles = {
   titleSidebar: {
     fontFamily: FONTS.RobotoLight,
     paddingTop: 30
+  },
+  floatButton: {
+    position: 'absolute',
+    right: 0
   }
 };

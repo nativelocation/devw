@@ -11,18 +11,15 @@ class Wrapper extends Component {
   render() {
     const { children, title, account } = this.props;
     let showTitle = title ? <h5 className="float-left">{title}</h5> : undefined;
-    let showDash =
-      account.role === 1 ? (
-        <Link
-          to="/"
-          className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
-          style={styles.mt}
-        >
-          Dashboard
+    let showDash = account.role === 1 ? (
+      <Link
+        to="/"
+        className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
+        style={styles.mt}
+      >
+        Dashboard
         </Link>
-      ) : (
-        undefined
-      );
+    ) : undefined
     return (
       <div className="col-md-10 col-lg-10 h-100 p-0 d-flex flex-column">
         <div
