@@ -23,10 +23,10 @@ class Admin extends Component {
 
   async allDeveloper() {
     const { account } = this.props;
-    this.setState({loading:true})
+    this.setState({ loading: true })
     const resPeople = await Api.GetPeople(account.tokenAuth);
     const resDeveloper = await Api.GetAllDeveloper(account.tokenAuth);
-    this.setState({ people: resPeople, developers: resDeveloper, loading:false });
+    this.setState({ people: resPeople, developers: resDeveloper, loading: false });
   }
 
   onLogout() {
@@ -54,17 +54,10 @@ class Admin extends Component {
         ToastStore.success('Team member has been added');
       }
     } else {
-      const dev = await Api.GetDeveloperByApiId(account.tokenAuth, { apiId: id.toString() });
-      if (dev.data.fullTime) {
-        await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
-        await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: false, fullTime: true });
-        ToastStore.success('Team member has been updated');
-        document.getElementById(id + "A").checked = false;
-      } else {
-        await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
-        ToastStore.info('Team member has been removed');
-        document.getElementById(id + "A").checked = false;
-      }
+      await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
+      ToastStore.info('Team member has been removed');
+      document.getElementById(id + "A").checked = false;
+      document.getElementById(id + "F").checked = false;
     }
   }
 
@@ -86,8 +79,8 @@ class Admin extends Component {
       }
     } else {
       await Api.DeleteDeveloper(account.tokenAuth, { apiId: id.toString() });
-      ToastStore.info('Team member has been removed');
-      document.getElementById(id + "A").checked = false;
+      await Api.CreateDeveloper(account.tokenAuth, { apiId: id.toString(), active: true, fullTime: false });
+      ToastStore.success('Team member has been updated');
       document.getElementById(id + "F").checked = false;
 
     }
