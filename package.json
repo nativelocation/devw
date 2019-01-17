@@ -12,6 +12,9 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:server": "npm run server",
     "dev:client": "npm run client",
+    "dev2": "npm-run-all --parallel dev2:*",
+    "dev2:server": "npm start",
+    "dev2:client": "npm run client",
     "heroku-prebuild-disabled": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev && npm run build",
     "heroku-postbuild-disabled": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },

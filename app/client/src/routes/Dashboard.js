@@ -14,21 +14,26 @@ class Dashboard extends Component {
     times: [],
     process: 0,
     loading: true,
-    showPassword: false
+    showPassword: false,
+    scrollLeft: 0,
+    scrollRight: 0
   };
 
-  tableRef = React.createRef();
   totalProjects = [];
   totalPeople = [];
+  firstTableLoad = true;
 
   componentWillMount() {
     this.onStart();
   }
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+
+  componentDidUpdate() {
+    if (this.firstTableLoad && this.refs.table) {
+      const { scrollLeft, scrollWidth, offsetWidth } = this.refs.table;
+      const scrollRight = scrollWidth - offsetWidth - scrollLeft;
+      this.setState({ scrollLeft, scrollRight });
+      this.firstTableLoad = false;
+    }
   }
 
   async onStart() {
@@ -64,6 +69,7 @@ class Dashboard extends Component {
   async getTimeByUser(data) {
     const { account } = this.props;
     const people = this.totalPeople;
+    this.firstTableLoad = true;
     let times = [];
     let projects = [];
 
@@ -97,10 +103,6 @@ class Dashboard extends Component {
     this.setState({ projects, people, times, loading: false });
   }
 
-  changePass() {
-    this.setState({ showPassword: true })
-  }
-
   handleDevs(type) {
     let people = [];
     this.totalPeople.map(pp => {
@@ -114,8 +116,14 @@ class Dashboard extends Component {
     this.setState({ people });
   }
 
+  handleScroll(e) {
+    const { scrollLeft, scrollWidth, offsetWidth } = this.refs.table;
+    const scrollRight = scrollWidth - offsetWidth - scrollLeft;
+    this.setState({ scrollLeft, scrollRight });
+  }
+
   render() {
-    const { projects, people, times, loading, process } = this.state;
+    const { projects, people, times, loading, process, scrollLeft, scrollRight } = this.state;
 
     const peoplesName = people.map((pp, i) => {
       const getTime = id => {
@@ -138,10 +146,10 @@ class Dashboard extends Component {
         if (pp.isFullTime) textColor = 'text-info';
       }
       if (totalTimePeople === 0) textColor = 'text-danger';
-
+      const backgroundColor = i % 2 != 0 ? '#FFF' : '#F2F2F2';
       return (
-        <tr key={i} className="">
-          <td className={`border-right ${textColor}`} style={styles.sizeRow} >
+        <tr key={i}>
+          <td className={`border-right ${textColor}`} style={{ ...styles.columnFixed, left: scrollLeft, backgroundColor }} >
             {pp["first-name"]} {pp["last-name"]}
           </td>
           {projects.map((pj, ii) => (
@@ -149,7 +157,7 @@ class Dashboard extends Component {
               {getTime(pj.id)}
             </td>
           ))}
-          <td className="text-center" style={styles.sizeRow} >{totalTimePeople === 0 ? '-' : totalTimePeople}</td>
+          <td className="text-center" style={{ ...styles.columnFixed, right: scrollRight, backgroundColor }}>{totalTimePeople === 0 ? '-' : totalTimePeople}</td>
         </tr>
       );
     });
@@ -162,28 +170,28 @@ class Dashboard extends Component {
     const hideAdmin = account.role === 2 ? 'hideLink' : undefined
     return (
       <Fragment>
-        <Sidebar onSubmit={r => this.getTimeByUser(r)} changePass={() => this.changePass.bind(this)} />
+        <Sidebar onSubmit={r => this.getTimeByUser(r)} />
         <Wrapper hideLink={hideAdmin} showPassword>
           {!loading ?
             projects.length > 0 ?
               <Fragment>
                 <FilterFulltime onChange={this.handleDevs.bind(this)} />
                 <div className="d-flex flex-row" style={{ flex: 1 }}>
-                  <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
+                  <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }} onScroll={this.handleScroll.bind(this)}>
                     <thead>
                       <tr>
-                        <th style={styles.sizeRow}>
+                        <th style={{ ...styles.columnFixed, backgroundColor: 'white', left: scrollLeft }}>
                         </th>
                         {projectsName}
-                        <th style={styles.sizeRow} className="text-center" >TOTAL</th>
+                        <th className="text-center" style={{ ...styles.columnFixed, backgroundColor: 'white', right: scrollRight }}>TOTAL</th>
                       </tr>
                     </thead>
-                    <tbody style={{ overflowY: "scroll", overflowX: 'hidden', width: 'max-content' }}>
+                    <tbody style={styles.tbody}>
                       {peoplesName}
                       <tr>
-                        <td className="border-right text-center" style={styles.sizeRow} ><b>TOTAL</b></td>
+                        <td className="border-right text-center" style={{ ...styles.columnFixed, backgroundColor: 'white', left: scrollLeft }} ><b>TOTAL</b></td>
                         {totalProjects}
-                        <td className="border-right text-center" style={styles.sizeRow} ><b>{totalOfTotals.toFixed(2)}</b></td>
+                        <td className="border-left text-center" style={{ ...styles.columnFixed, backgroundColor: 'white', right: scrollRight }} ><b>{totalOfTotals.toFixed(2)}</b></td>
                       </tr>
                     </tbody>
                   </table>
@@ -202,6 +210,15 @@ class Dashboard extends Component {
 const styles = {
   sizeRow: {
     minWidth: '200px'
+  },
+  columnFixed: {
+    minWidth: '200px',
+    position: 'relative'
+  },
+  tbody: {
+    overflowY: "scroll",
+    overflowX: 'hidden',
+    width: 'max-content'
   }
 }
 export default connect(s => ({ account: s.account }))(Dashboard);

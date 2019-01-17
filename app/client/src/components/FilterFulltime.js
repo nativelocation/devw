@@ -9,7 +9,7 @@ class FilterFulltime extends Component {
 
     render() {
         return (
-            <div style={{ position: 'absolute', background: 'white', top: -10, width: '200px' }}>
+            <div style={styles.position}>
                 <h6 className="font-weight-light pl-2 m-0">Show:</h6>
                 <select className="custom-select form-control-sm" onChange={this.handleSelect.bind(this)}>
                     <option value="0">All</option>
@@ -22,14 +22,12 @@ class FilterFulltime extends Component {
 }
 
 const styles = {
-    flex: {
-        flex: 1
-    },
-    checkBoxWidth: {
-        width: 10
-    },
-    checkBoxSize: {
-        fontSize: 12
+    position: {
+        position: 'absolute',
+        background: 'white',
+        top: -10,
+        width: '200px',
+        zIndex: 2
     }
 };
 
