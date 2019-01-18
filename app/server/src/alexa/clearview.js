@@ -1,6 +1,6 @@
 const alexa = require("../config/alexa");
 const model = require('./models/clearview');
-
+const applicationId = 'amzn1.ask.skill.341f13f9-ba93-461c-a9c9-8f261ef6749c';
 const texts = {
     welcome: "Welcome to ClearView for SerpicoDev, ",
     welcome2: "you can ask for a status update or your total hours, ",
@@ -24,7 +24,7 @@ const texts = {
 
 module.exports = {
     init: (app) => {
-        const alexaApp = alexa.init("clearview", app);
+        const alexaApp = alexa.init("clearview", applicationId, app);
         alexaApp.launch(async (req, res) => {
             const alexaUserId = req.userId;
             const exist = await model.getUserByAlexaId(alexaUserId);
