@@ -35,7 +35,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/developer', devRouter);
 
 alexaClearview.init(app);
-alexaAskadev.init(app);
+// alexaAskadev.init(app);
 app.get("*", (req, res, next) => {
   if (req.url.includes("api")) return next();
   res.sendFile(path.resolve(publicPath, "index.html"));

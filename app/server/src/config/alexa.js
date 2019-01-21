@@ -10,9 +10,8 @@ module.exports = {
 
         alexaApp.express({
             expressApp: app,
-            checkCert: DEBUG ? false : true,
+            checkCert: DEBUG ? false : false,
             debug: DEBUG ? true : false,
-
         });
 
         alexaApp.pre = request => {
