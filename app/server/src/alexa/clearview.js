@@ -27,6 +27,7 @@ module.exports = {
         const alexaApp = alexa.init("clearview", applicationId, app);
         alexaApp.launch(async (req, res) => {
             const alexaUserId = req.userId;
+
             const exist = await model.getUserByAlexaId(alexaUserId);
             let message = "";
             if (exist) {
@@ -48,14 +49,15 @@ module.exports = {
             console.log('ALEXA IDENTIFY');
             const number = req.slot('number');
             const alexaUserId = req.userId;
-            let message = "";
+            const isConfirmed = req.isConfirmed();
 
+            let message = "";
             const exist = await model.getUserByAlexaId(alexaUserId);
             if (exist) {
                 const userLogged = await model.getUserByPinOrId(exist.clearviewUserId, true);
                 message = `${texts.youAreAlreadyLogged} ${userLogged.name} ${texts.youAreAlreadyLogged2}`;
             } else {
-                if (req.isConfirmed()) {
+                if (isConfirmed) {
                     if (number && number.length == 4) {
                         const existCV = await model.getUserByPinOrId(number);
                         if (existCV) {
@@ -72,12 +74,13 @@ module.exports = {
         alexaApp.intent("LogoutUserIntent", alexa.defaultValues, async (req, res) => {
             console.log('ALEXA Logout');
             const alexaUserId = req.userId;
-            let message = "";
+            const isConfirmed = req.isConfirmed();
 
+            let message = "";
             const exist = await model.getUserByAlexaId(alexaUserId);
             if (!exist) message = texts.youAreNotLogged;
             else {
-                if (req.isConfirmed()) {
+                if (isConfirmed) {
                     await model.removeUser(alexaUserId);
                     message = texts.youAreNotLogged;
                 } else message = texts.ok;

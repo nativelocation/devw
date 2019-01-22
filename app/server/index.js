@@ -7,15 +7,13 @@ const busboy = require("connect-busboy");
 const busboyBodyParser = require("busboy-body-parser");
 const app = express();
 const helpers = require('./src/config/helpers');
-const alexaClearview = require('./src/alexa/clearview');
-const alexaAskadev = require('./src/alexa/askadev');
 
 //Route Name
 const projectRouter = require('./src/routes/project');
 const userRouter = require('./src/routes/user');
 const adminRouter = require('./src/routes/admin');
 const devRouter = require('./src/routes/developer');
-
+const alexaCVRouter = require('./src/routes/alexa/clearview');
 
 const port = process.env.PORT || 8000;
 const publicPath = path.join(__dirname, "../../public");
@@ -33,9 +31,8 @@ app.use('/api/project', projectRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/developer', devRouter);
+app.use('/alexa/clearview', alexaCVRouter);
 
-alexaClearview.init(app);
-// alexaAskadev.init(app);
 app.get("*", (req, res, next) => {
   if (req.url.includes("api")) return next();
   res.sendFile(path.resolve(publicPath, "index.html"));
