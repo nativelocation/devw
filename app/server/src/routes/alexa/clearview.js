@@ -4,6 +4,7 @@ const model = require('../../models/clearview');
 const texts = require('./clearview_texts');
 
 router.post("/welcome", async (req, res, next) => {
+    console.log('ALEXA WELCOME', req.body);
     let message = "";
     try {
         const { userId } = req.body;
