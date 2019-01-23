@@ -6,9 +6,9 @@ const texts = require('./clearview_texts');
 router.post("/welcome", async (req, res, next) => {
     let message = "";
     try {
-        const alexaUserId = req.body.userId;
+        const { userId } = req.body;
 
-        const exist = await model.getUserByAlexaId(alexaUserId);
+        const exist = await model.getUserByAlexaId(userId);
         if (exist) {
             const userLogged = await model.getUserByPinOrId(exist.clearviewUserId, true);
             message = texts.welcomeBack.replace('{username}', userLogged.name);
@@ -20,7 +20,7 @@ router.post("/welcome", async (req, res, next) => {
 });
 
 router.post("/identify", async (req, res, next) => {
-    console.log('ALEXA IDENTIFY');
+    console.log('ALEXA IDENTIFY', req.body);
     let message = "";
     try {
         const { number, userId, isConfirmed } = req.body;
@@ -47,7 +47,7 @@ router.post("/identify", async (req, res, next) => {
 });
 
 router.post("/logout", async (req, res, next) => {
-    console.log('ALEXA Logout');
+    console.log('ALEXA Logout', req.body);
     let message = "";
     try {
         const { userId, isConfirmed } = req.body;
@@ -65,7 +65,7 @@ router.post("/logout", async (req, res, next) => {
 });
 
 router.post("/totalhours", async (req, res, next) => {
-    console.log('ALEXA TOTALHOURS');
+    console.log('ALEXA TOTALHOURS', req.body);
     let message = "";
     try {
         const { userId, period } = req.body;
@@ -84,7 +84,7 @@ router.post("/totalhours", async (req, res, next) => {
 
 
 router.post("/statusupdate", async (req, res, next) => {
-    console.log('ALEXA STATUSUPDATE');
+    console.log('ALEXA STATUSUPDATE', req.body);
     let message = "";
     try {
         const { userId } = req.body;
