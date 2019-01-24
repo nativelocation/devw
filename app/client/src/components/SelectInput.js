@@ -29,6 +29,8 @@ export default class SelectInput extends Component {
                 <select id={name} name={name} className="custom-select text-white" onChange={onChange} value={value} style={{backgroundColor: '#666667'}}>
                     <option>Today</option>
                     <option>Yesterday</option>
+                    <option>This week</option>
+                    <option>Last week</option>
                     <option>This month</option>
                     <option>Last month</option>
                     <option>This year</option>
