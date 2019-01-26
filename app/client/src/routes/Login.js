@@ -55,6 +55,7 @@ export default class Login extends Component {
           style={styles.formBox}
         >
           <div className="col-md-6 col-lg-6 col-xl-3">
+
             <div>
               <h1 className="mb-3 mt-5 text-black">Dev View</h1>
               <div>
@@ -83,15 +84,13 @@ export default class Login extends Component {
                   <Button text="Login" bigSize />
                 </form>
               </div>
+              <Loading
+                show={loading}
+                absolute
+                backgroundClass="bg-white"
+              />
             </div>
           </div>
-          <Loading
-            show={loading}
-            absolute
-            backgroundClass="bg-gray"
-            textColor="#fff"
-            text="LOGIN IN.."
-          />
         </div>
       </Fragment>
     );

@@ -1,3 +1,4 @@
+const http = require('http');
 const methods = {
     generalError: (err, res) => {
         const data = err.code ? undefined : err.message;
@@ -42,6 +43,11 @@ const methods = {
             callback(merge);
         });
         req.pipe(midleware);
+    },
+    keepsAwakeHeroku: (appName, interval = 300000) => {
+        const url = `http://${appName}.herokuapp.com/`;
+        console.log('Starting url and interval: ', url, interval);
+        setInterval(() => http.get(url, null, e => console.log('called: ', url)), interval)
     }
 }
 
