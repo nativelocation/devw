@@ -1,7 +1,7 @@
 const path = require('path');
 
 const config = {
-  entry: ['regenerator-runtime/runtime', path.resolve(__dirname, 'app/client/index.js')],
+  entry: ['babel-polyfill', 'regenerator-runtime/runtime', path.resolve(__dirname, 'app/client/index.js')],
   output: {
     path: path.resolve(__dirname, 'public/js'),
     filename: 'app.bundled.js',
