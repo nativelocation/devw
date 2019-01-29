@@ -50,5 +50,5 @@ app.use((err, req, res, next) => {
 });
 
 helpers.initApp();
-helpers.keepsAwakeHeroku('serpicodev-devview');
+helpers.keepsAwakeHeroku();
 app.listen(port, _ => console.log(`The server is listening on port ${port}`));
