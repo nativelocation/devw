@@ -19,3 +19,4 @@ export const DETDEVELOPERBYAPIID = 'developer/';
 export const CREATEDEVELOPER = 'developer/create';
 export const DELETEDEVELOPER = 'developer/delete';
 export const UPDATEDEVELOPER = 'developer/update';
+export const GETALLGOALS = 'goal/all';

@@ -13,6 +13,7 @@ import { COLORS } from "../../config/constants";
 const roles = new Array();
 roles[1] = "Super Admin";
 roles[2] = "Admin";
+roles[3] = "User";
 
 class Edit extends Component {
   state = {
@@ -173,6 +174,7 @@ class Edit extends Component {
               >
                 <option value="1">Super Admin</option>
                 <option value="2">Admin</option>
+                <option value="3">User</option>
               </select>
             </div>
             <Button text="Update" filter />

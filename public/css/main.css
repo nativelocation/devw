@@ -127,6 +127,23 @@ hr {
   margin-right: -30px;
 }
 
+.btnLogout span{
+  margin-top: 3px;
+}
+
+.logoutBox{
+  margin-top: -20px;
+  text-align: right;
+  padding: 0;
+  height: 30px;
+  font-size: 13px;
+  min-width: 100px;
+}
+
+.logoutBox a{
+  padding-right: 10px;
+}
+
 .nounderline {
   text-decoration: none !important;
 }
@@ -158,3 +175,4 @@ hr {
   padding: 0;
   margin: 0;
 }
+

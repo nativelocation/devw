@@ -25,7 +25,7 @@ export default class Login extends Component {
         const { status, data } = res;
         let errorMessage = "";
         if (status === 201) {
-          if (data.user.role > 2) errorMessage = "User not authorized";
+          if (data.user.role > 3) errorMessage = "User not authorized";
           else {
             localStorage.setItem("tokenAuth", data.token);
             this.props.history.push("/");

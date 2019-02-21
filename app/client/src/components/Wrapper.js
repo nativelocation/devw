@@ -31,14 +31,23 @@ class Wrapper extends Component {
             style={{ flex: "unset" }}
           >
             {showTitle}
-            <button
-              type="button"
+            <a
+              className="btn btn-link btn-group mx-1 text-muted float-right btnLogout nounderline dropdown-toggle-split"
+              style={styles.mt}
+              id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent"
+            >
+              {`${account.firstName} ${account.lastName}`} <span className='jam jam-chevron-down'></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right logoutBox mr-4">
+              <a className="dropdown-item pointer text-muted" onClick={this.onLogout}>Salir</a>
+            </div>
+            <Link
+              to="/dailygoals"
               className="btn btn-link mx-1 text-muted float-right btnLogout nounderline"
-              onClick={this.onLogout}
               style={styles.mt}
             >
-              Logout
-            </button>
+              Daily Goals
+            </Link>
             {showDash}
             <Link
               to={account.role === 1 ? "/admin" : "profile"}

@@ -22,6 +22,8 @@ class ApiModel {
     CreateDeveloper = (token, data) => FetchRequest(c.CREATEDEVELOPER, 'POST', token, data);
     DeleteDeveloper = (token, data) => FetchRequest(c.DELETEDEVELOPER, 'POST', token, data);
     UpdateDeveloper = (token, data) => FetchRequest(c.UPDATEDEVELOPER, 'POST', token, data);
+    
+    GetGoals = token => FetchRequest(c.GETALLGOALS, 'GET', token);
 
 
 
