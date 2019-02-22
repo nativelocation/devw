@@ -177,7 +177,8 @@ hr {
 }
 
 .goalsBox{
-  /* min-height: 400px; */
+  height: calc(100vh - 160px);
+  overflow: auto;
 }
 
 .checkedBox{
