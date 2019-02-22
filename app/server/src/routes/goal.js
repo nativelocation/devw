@@ -24,6 +24,12 @@ router.put("/update", (req, res) => {
         .then(goal => generalSuccess(res, "Update Task Ok", { goal }))
         .catch(e => generalError(e, res));
 });
+router.put("/logicdelete", (req, res, next) => {
+    model
+        .logicDelete(req.body)
+        .then(r => generalSuccess(res, "Task deleted", r))
+        .catch(e => generalError(e, res));
+});
 router.delete("/delete", (req, res, next) => {
     model
         .delete(req.body)

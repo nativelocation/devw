@@ -127,11 +127,11 @@ class DailyGoals extends Component {
     this.setState({ alertShow: true, alertProps });
   }
 
-  deleteUser(id) {
+  deleteUser(_id) {
     const { account } = this.props;
     const closeProcess = errorMessage => this.setState({ alertShow: false, errorMessage });
-    if (id) {
-      Api.DeleteGoal(account.tokenAuth, id).then(res => {
+    if (_id) {
+      Api.LogicDeleteGoal(account.tokenAuth, { _id }).then(res => {
         if (res.status === 201) {
           this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
           this.allData();

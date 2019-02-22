@@ -21,6 +21,13 @@ const model = {
         data.updated_at = moment.utc().format();
         return await goal.update(data._id, data.checked, data.updated_at);
     },
+    logicDelete: async data => {
+        if (!data) throw { code: 400, msg: "Data is required" };
+        if (!data._id) throw { code: 400, msg: "Id is required" };
+        data.isDelete = true;
+        data.updated_at = moment.utc().format();
+        return await goal.loginDelete(data._id, data.isDelete, data.updated_at);
+    },
     delete: async data => {
         if (!data) throw { code: 400, msg: "Params is empty" };
         if (!data._id) throw { code: 400, msg: "ID is required" };
