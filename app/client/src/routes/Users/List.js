@@ -106,17 +106,17 @@ class List extends Component {
     this.existsEmail(e);
   }
 
-  existsEmail(e){
+  existsEmail(e) {
     let email = e.target.value;
     const data = { email };
     const { account } = this.props;
-    this.setState({disabledButton: false, errorMessage: "" })
+    this.setState({ disabledButton: false, errorMessage: "" })
     Api.EmailValidation(account.tokenAuth, data)
       .then(res => {
         if (res.status === 201) {
-          this.setState({errorMessage: "" })
-        } else{
-          this.setState({disabledButton: true, errorMessage: "The email already exists"  })
+          this.setState({ errorMessage: "" })
+        } else {
+          this.setState({ disabledButton: true, errorMessage: "The email already exists" })
         }
       })
       .catch(err => {
@@ -189,8 +189,8 @@ class List extends Component {
                     Delete
                   </a>
                 ) : (
-                  undefined
-                )}
+                    undefined
+                  )}
               </div>
             </td>
           </tr>
@@ -208,8 +208,8 @@ class List extends Component {
         New
       </button>
     ) : (
-      undefined
-    );
+        undefined
+      );
 
     let table = (
       <div className="d-flex flex-row table-responsive tableProjects">
@@ -270,7 +270,10 @@ class List extends Component {
                 <option value="3">User</option>
               </select>
             </div>
-            <Button text="Create" filter disabled={disabledButton ? true:false}/>
+            <div className="col-md-12 text-muted">
+              Default password will be "12345678"
+            </div>
+            <Button text="Create" filter disabled={disabledButton ? true : false} />
             <button
               type="button"
               className="btn btn-link text-muted nounderline "
