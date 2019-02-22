@@ -56,7 +56,7 @@ class DailyGoals extends Component {
   onSubmit(e) {
     e.preventDefault();
     if (e) e.preventDefault();
-    const { taskDate } = this.state;
+    const { taskDate, customDate } = this.state;
     let taskDateFormat = "";
 
     switch (taskDate.toLowerCase()) {
@@ -73,7 +73,7 @@ class DailyGoals extends Component {
         break;
       }
       case "custom": {
-        taskDateFormat = moment(this.state.customDate).format("YYYYMMDD");
+        taskDateFormat = moment(customDate).format("YYYYMMDD");
         break;
       }
     }
@@ -112,14 +112,14 @@ class DailyGoals extends Component {
   }
 
   onChange(e) {
-    let showCustom = false;
+    let { showCustom } = this.state;
     const { name, value } = e.target;
-    if (e.target.value.toLowerCase() === "custom") showCustom = true;
+    if (name === "taskDate") showCustom = e.target.value.toLowerCase() === "custom";
     this.setState({ [name]: value, errorMessage: "", showCustom });
   }
 
   fromChange(date) {
-    this.setState({ taskDate: date });
+    this.setState({ customDate: date });
   }
 
   showDeleteUserAlert(id) {
@@ -174,10 +174,9 @@ class DailyGoals extends Component {
 
       listUsers = [myComponent, ...usersGoals]
     }
-
     let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
-    return (
 
+    return (
       <Fragment>
         <Sidebar onCollapse={this.handleCollapse.bind(this)} />
         <Wrapper maxWidth={wrapperWidth} title="Daily Goals" hideLink>
