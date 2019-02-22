@@ -24,3 +24,4 @@ export const GETGOALSTODAY = 'goal/today';
 export const CREATEGOAL = 'goal/create';
 export const UPDATEGOAL = 'goal/update';
 export const DELETEGOAL = 'goal/delete';
+export const LOGICDELETEGOAL = 'goal/logicdelete';

@@ -28,6 +28,7 @@ class ApiModel {
     CreateGoal = (token, data) => FetchRequest(c.CREATEGOAL, 'POST', token, data);
     UpdateGoal = (token, data) => FetchRequest(c.UPDATEGOAL, 'PUT', token, data);
     DeleteGoal = (token, _id) => FetchRequest(c.DELETEGOAL, 'DELETE', token, { _id });
+    LogicDeleteGoal = (token, data) => FetchRequest(c.LOGICDELETEGOAL, 'PUT', token, data);
 }
 
 export default new ApiModel();

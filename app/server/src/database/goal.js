@@ -10,6 +10,10 @@ module.exports = {
         await db.Goals.findByIdAndUpdate(id, { checked, updated_at });
         return await db.Goals.findById(id);
     },
+    loginDelete: async (id, isDelete, updated_at) => {
+        await db.Goals.findByIdAndUpdate(id, { isDelete, updated_at });
+        return await db.Goals.findById(id);
+    },
     delete: async id => {
         return await db.Goals.findByIdAndRemove(id);
     },
@@ -20,6 +24,6 @@ module.exports = {
         return await db.Goals.find();
     },
     getToday: async taskDate => {
-        return await db.Goals.find({taskDate});
+        return await db.Goals.find({taskDate, isDelete:false});
     }
 }
