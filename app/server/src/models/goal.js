@@ -36,11 +36,10 @@ const model = {
     getAll: async () => {
         return await goal.getAll();
     },
-    getToday: async () => {
-        const today = moment().format("YYYYMMDD");
-        const goals = await goal.getToday(today);
+    getByDate: async (data) => {
+        if (!data.date) throw { code: 400, msg: "Date is required" };
+        const goals = await goal.getByDate(data.date);
         return goals;
-
     },
     getById: async data => {
         if (!data) throw { code: 400, msg: "Data is empty" };

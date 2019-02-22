@@ -24,7 +24,7 @@ class ApiModel {
     UpdateDeveloper = (token, data) => FetchRequest(c.UPDATEDEVELOPER, 'POST', token, data);
     //Goals
     GetGoals = token => FetchRequest(c.GETALLGOALS, 'GET', token);
-    GetGoalsToday = token => FetchRequest(c.GETGOALSTODAY, 'GET', token);
+    GetGoalsByDate = (token, data) => FetchRequest(c.GETGOALSBYDATE, 'POST', token, data);
     CreateGoal = (token, data) => FetchRequest(c.CREATEGOAL, 'POST', token, data);
     UpdateGoal = (token, data) => FetchRequest(c.UPDATEGOAL, 'PUT', token, data);
     DeleteGoal = (token, _id) => FetchRequest(c.DELETEGOAL, 'DELETE', token, { _id });
