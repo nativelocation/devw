@@ -16,7 +16,7 @@ export default class Sidebar extends Component {
 
   render() {
     const { show } = this.state;
-    const { onSubmit, admin, profile } = this.props;
+    const { onSubmit, admin, profile, contentItems } = this.props;
     let filter = admin ? <FilterAdmin profile={profile} /> : <Filter onSubmit={onSubmit} />
     if (show)
       return (
@@ -28,7 +28,7 @@ export default class Sidebar extends Component {
             Dev View
           </h3>
           <hr />
-          {filter}
+          {contentItems || filter}
         </div>
       );
     else return (

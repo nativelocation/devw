@@ -188,48 +188,6 @@ class Collapse extends Component {
             <SelectInput onChange={this.onChange.bind(this)} value={value} />
           </div>
 
-          {/* <div className="col-md-7 d-flex align-items-center ml-2">
-            <div className="d-flex flex-column col-md-12 border border-light text-white">
-              <a
-                className="pt-2 nounderline text-white"
-                href="#filter"
-                data-toggle="collapse"
-                aria-expanded="false"
-              >
-                Today
-                <span>
-                  <i className="fa fa-angle-down float-right pt-1" />
-                </span>
-              </a>
-              <div id="filter" className=" collapse">
-                <ul value={value}>
-                  <li>
-                    <a href='#javascript:;' className="pt-1">today</a>
-                  </li>
-                  <li>
-                    <a className="pt-1">yesterday</a>
-                  </li>
-                  <li>
-                    <a className="pt-1">this month</a>
-                  </li>
-                  <li>
-                    <a className="pt-1">last month</a>
-                  </li>
-                  <li>
-                    <a className="pt-1">this year</a>
-                  </li>
-                  <li>
-                    <a className="">last year</a>
-                  </li>
-                  <hr />
-                  <li>
-                    <a className="pb-2">custom</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div> */}
-
           <div className="col-md-12 d-flex flex-column">
             {showInput}
             {showButton}

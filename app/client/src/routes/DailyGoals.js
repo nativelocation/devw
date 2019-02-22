@@ -13,6 +13,7 @@ import _ from "lodash";
 import SweetAlert from "sweetalert-react";
 import { COLORS, FONTS } from "../config/constants";
 import DatePicker from "react-datepicker";
+import FilterGoals from "../components/FilterGoals";
 import "react-datepicker/dist/react-datepicker.css";
 
 var moment = require("moment");
@@ -33,6 +34,7 @@ class DailyGoals extends Component {
     errorMessage: "",
     showCustom: false,
     customDate: new Date(),
+    filterDateSidebar: '',
     isChecked: false
   };
 
@@ -48,9 +50,18 @@ class DailyGoals extends Component {
 
   async allData() {
     const { account } = this.props;
-    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: moment().format("YYYYMMDD") });
+    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: moment().subtract(1, "days").format("YYYYMMDD") });
     const users = await Api.GetAllUser(account.tokenAuth);
     this.setState({ tasks, users, loading: false });
+  }
+
+  async updateGoals(date) {
+    const { account } = this.props;
+    this.setState({ loading: true });
+    if (!date) date = this.state.filterDateSidebar;
+
+    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date });
+    this.setState({ tasks, loading: false, filterDateSidebar: date });
   }
 
   onSubmit(e) {
@@ -95,7 +106,7 @@ class DailyGoals extends Component {
           this.setState({ alertShow: false });
         });
         this.setState({ alertProps, errorMessage: "", loading: false, alertShow: true, task: "" });
-        this.allData();
+        this.updateGoals();
       } else {
         this.setState({
           errorMessage: res.message,
@@ -134,29 +145,22 @@ class DailyGoals extends Component {
       Api.LogicDeleteGoal(account.tokenAuth, { _id }).then(res => {
         if (res.status === 201) {
           this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
-          this.allData();
+          this.updateGoals();
         } else closeProcess(res.message);
       }).catch(err => { if (err.message) closeProcess(err.message); });
     } else closeProcess("Error Id Required");
   }
 
   onChecked(e, _id) {
-    console.log('Daily ', e.target.checked, _id)
     const { account } = this.props;
     const checked = e.target.checked;
     const data = { checked, _id };
-    console.log('Data ', data);
-    Api.UpdateGoal(account.tokenAuth, data)
-      .then(res => {
-        console.log(res);
-        if (res.status === 201) {
-          this.allData();
-        }
-      })
-      .catch(err => {
-        console.log(err.message)
-      });
 
+    Api.UpdateGoal(account.tokenAuth, data).then(res => {
+      if (res.status === 201) this.updateGoals();
+    }).catch(err => {
+      console.log(err.message)
+    });
   }
 
   render() {
@@ -172,13 +176,13 @@ class DailyGoals extends Component {
         if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} />
       });
 
-      listUsers = [myComponent, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals]
+      listUsers = [myComponent, ...usersGoals]
     }
     let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
-
+    let selectDateSidebar = <FilterGoals onSubmit={e => this.updateGoals(e)} />;
     return (
       <Fragment>
-        <Sidebar onCollapse={this.handleCollapse.bind(this)} />
+        <Sidebar contentItems={selectDateSidebar} onCollapse={this.handleCollapse.bind(this)} />
         <Wrapper maxWidth={wrapperWidth} title="Daily Goals" hideLink>
           <div>
             <div className='goalsBox mb-3'>

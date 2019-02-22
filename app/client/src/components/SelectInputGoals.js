@@ -17,7 +17,7 @@ export default class SelectInputGoals extends Component {
     }
 
     render() {
-        const { onChange, name, value, placeholder, classes } = this.props;
+        const { onChange, name, value, placeholder, classes, isForSideBar } = this.props;
         const content = typeof (placeholder);
         if (content === 'string') {
             defaultText = placeholder;
@@ -26,6 +26,7 @@ export default class SelectInputGoals extends Component {
         return (
             <div className="input-group">
                 <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{ backgroundColor: '#666667', height: 35 }}>
+                    {isForSideBar ? <option>Yesterday</option> : undefined}
                     <option>Today</option>
                     <option>Tomorrow</option>
                     <option>Monday</option>
