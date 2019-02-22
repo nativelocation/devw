@@ -10,15 +10,10 @@ var moment = require("moment");
 
 class Collapse extends Component {
   state = {
-    value: "today",
     custom: new Date(),
     dates: [],
     showCustom: false
   };
-
-  setValue(value) {
-    this.setState({ value });
-  }
 
   onSubmit(e, value) {
     if (e) e.preventDefault();
@@ -57,7 +52,10 @@ class Collapse extends Component {
     if (e.target.value.toLowerCase() === "custom") showCustom = true;
     else this.onSubmit(undefined, e.target.value);
 
-    this.setState({ value: e.target.value, showCustom });
+    const { onSelectChange } = this.props;
+    if (onSelectChange) onSelectChange(e.target.value);
+
+    this.setState({ showCustom });
   }
 
   clearTime = e => {
@@ -72,7 +70,8 @@ class Collapse extends Component {
   }
 
   render() {
-    const { custom, showCustom, value } = this.state;
+    const { custom, showCustom } = this.state;
+    const { selectValue, onCustomChange } = this.props;
     let showInput = showCustom ? (
       <Fragment>
         <div className="d-flex flex-column">
@@ -97,12 +96,12 @@ class Collapse extends Component {
       </Fragment>
     ) : undefined;
     return (
-      <form onSubmit={e => this.onSubmit(e, value)}>
+      <form onSubmit={e => this.onSubmit(e, selectValue)}>
         <p className="text-white ml-2 mb-0" style={styles.titleDate}>
           Filter by:
           </p>
         <div className="col-md-12 col-lg-12 d-flex">
-          <SelectInputGoals onChange={this.onChange.bind(this)} value={value} isForSideBar />
+          <SelectInputGoals onChange={this.onChange.bind(this)} value={selectValue} isForSideBar />
         </div>
 
         <div className="col-md-12 d-flex flex-column">

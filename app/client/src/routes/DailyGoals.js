@@ -35,6 +35,7 @@ class DailyGoals extends Component {
     showCustom: false,
     customDate: new Date(),
     filterDateSidebar: '',
+    selectValue: "Today",
     isChecked: false
   };
 
@@ -103,8 +104,8 @@ class DailyGoals extends Component {
     this.setState({ loading: true });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
       if (res.status === 201) {
-        this.setState({ errorMessage: "", loading: false, alertShow: false, task: "" });
-        this.updateGoals();
+        this.setState({ errorMessage: "", loading: false, alertShow: false, task: "", selectValue: this.state.taskDate });
+        this.updateGoals(taskDateFormat);
       } else {
         this.setState({
           errorMessage: res.message,
@@ -163,8 +164,9 @@ class DailyGoals extends Component {
 
   render() {
     const { account } = this.props;
-    const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage } = this.state;
+    const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue } = this.state;
     let listUsers = [];
+
     if (Object.keys(users).length > 0) {
       const myUser = users.data.find(u => u._id === account._id);
       const myGoals = tasks.data.filter(t => t.userId === account._id);
@@ -177,7 +179,7 @@ class DailyGoals extends Component {
       listUsers = [myComponent, ...usersGoals]
     }
     let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
-    let selectDateSidebar = <FilterGoals onSubmit={e => this.updateGoals(e)} />;
+    let selectDateSidebar = <FilterGoals selectValue={selectValue} onSelectChange={e => this.setState({ selectValue: e })} onSubmit={e => this.updateGoals(e)} />;
     return (
       <Fragment>
         <Sidebar contentItems={selectDateSidebar} onCollapse={this.handleCollapse.bind(this)} />
