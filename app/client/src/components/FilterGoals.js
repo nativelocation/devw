@@ -9,15 +9,10 @@ import "react-datepicker/dist/react-datepicker.css";
 var moment = require("moment");
 
 class Collapse extends Component {
-  state = {
-    custom: new Date(),
-    dates: [],
-    showCustom: false
-  };
 
   onSubmit(e, value) {
     if (e) e.preventDefault();
-    const { custom } = this.state;
+    const { customValue } = this.props;
     let taskDateFormat = "";
 
     switch (value.toLowerCase()) {
@@ -38,7 +33,7 @@ class Collapse extends Component {
         break;
       }
       case "custom": {
-        taskDateFormat = moment(custom).format("YYYYMMDD");
+        taskDateFormat = moment(customValue).format("YYYYMMDD");
         break;
       }
     }
@@ -48,38 +43,36 @@ class Collapse extends Component {
   }
 
   onChange(e) {
-    let showCustom = false;
-    if (e.target.value.toLowerCase() === "custom") showCustom = true;
-    else this.onSubmit(undefined, e.target.value);
+    if (e.target.value.toLowerCase() !== "custom") this.onSubmit(undefined, e.target.value);
 
     const { onSelectChange } = this.props;
     if (onSelectChange) onSelectChange(e.target.value);
-
-    this.setState({ showCustom });
   }
 
   clearTime = e => {
-    this.setState({ value: "today", showCustom: false });
     const today = moment().format("YYYYMMDD");
-    const { onSubmit } = this.props;
+
+    const { onSubmit, onSelectChange } = this.props;
+    if (onSelectChange) onSelectChange("Today");
     if (onSubmit) onSubmit(today);
   };
 
   onCustomChange(custom) {
-    this.setState({ custom });
+    const { onCustomChange } = this.props;
+    if (onCustomChange) onCustomChange(custom);
   }
 
   render() {
-    const { custom, showCustom } = this.state;
-    const { selectValue, onCustomChange } = this.props;
-    let showInput = showCustom ? (
+    const { selectValue, customValue } = this.props;
+
+    let showInput = selectValue.toLowerCase() === "custom" ? (
       <Fragment>
         <div className="d-flex flex-column">
           <div style={styles.calendarOne}>
             <i className="fa fa-calendar-day text-white" aria-hidden="true" />
           </div>
           <small className="form-text text-white">Custom Date:</small>
-          <DatePicker style={styles.datepicker} selected={custom} onChange={this.onCustomChange.bind(this)} />
+          <DatePicker style={styles.datepicker} selected={customValue} onChange={this.onCustomChange.bind(this)} />
         </div>
         <hr className="mx-0" />
         <div className="d-flex flex-row">

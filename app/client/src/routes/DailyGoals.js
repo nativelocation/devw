@@ -34,6 +34,7 @@ class DailyGoals extends Component {
     errorMessage: "",
     showCustom: false,
     customDate: new Date(),
+    customDateValue: new Date(),
     filterDateSidebar: '',
     selectValue: "Today",
     isChecked: false
@@ -98,13 +99,13 @@ class DailyGoals extends Component {
   saveTask() {
     const { account } = this.props;
     const userId = account._id;
-    const { task, taskDateFormat } = this.state;
+    const { task, taskDateFormat, customDate } = this.state;
     const data = { userId, task, taskDate: taskDateFormat };
 
     this.setState({ loading: true });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
       if (res.status === 201) {
-        this.setState({ errorMessage: "", loading: false, alertShow: false, task: "", selectValue: this.state.taskDate });
+        this.setState({ errorMessage: "", loading: false, alertShow: false, task: "", selectValue: this.state.taskDate, customDateValue: customDate });
         this.updateGoals(taskDateFormat);
       } else {
         this.setState({
@@ -164,7 +165,7 @@ class DailyGoals extends Component {
 
   render() {
     const { account } = this.props;
-    const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue } = this.state;
+    const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
     let listUsers = [];
 
     if (Object.keys(users).length > 0) {
@@ -179,7 +180,7 @@ class DailyGoals extends Component {
       listUsers = [myComponent, ...usersGoals]
     }
     let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
-    let selectDateSidebar = <FilterGoals selectValue={selectValue} onSelectChange={e => this.setState({ selectValue: e })} onSubmit={e => this.updateGoals(e)} />;
+    let selectDateSidebar = <FilterGoals selectValue={selectValue} customValue={customDateValue} onCustomChange={e => this.setState({ customDateValue: e })} onSelectChange={e => this.setState({ selectValue: e })} onSubmit={e => this.updateGoals(e)} />;
     return (
       <Fragment>
         <Sidebar contentItems={selectDateSidebar} onCollapse={this.handleCollapse.bind(this)} />
