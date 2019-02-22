@@ -164,17 +164,22 @@ class DailyGoals extends Component {
     const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage } = this.state;
     let listUsers = [];
     if (Object.keys(users).length > 0) {
-      listUsers = users.data.map((x, i) => {
+      const myUser = users.data.find(u => u._id === account._id);
+      const myGoals = tasks.data.filter(t => t.userId === account._id);
+      const myComponent = <UserGoals key={-1} data={myGoals} user={myUser} onDelete={this.showDeleteUserAlert.bind(this)} onChecked={this.onChecked.bind(this)} />;
+      const usersGoals = users.data.map((x, i) => {
         let userGoals = tasks.data.filter(t => t.userId === x._id)
-        if (userGoals.length > 0) return <UserGoals key={i} data={userGoals} user={x} onDelete={this.showDeleteUserAlert.bind(this)} onChecked={this.onChecked.bind(this)} />
-      })
+        if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} />
+      });
+
+      listUsers = [myComponent, ...usersGoals]
     }
 
     let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
     return (
 
       <Fragment>
-        <Sidebar />
+        <Sidebar onCollapse={this.handleCollapse.bind(this)} />
         <Wrapper maxWidth={wrapperWidth} title="Daily Goals" hideLink>
           <div>
             <div className='goalsBox mb-3'>
