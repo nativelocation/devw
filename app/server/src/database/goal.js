@@ -23,7 +23,7 @@ module.exports = {
     getAll: async () => {
         return await db.Goals.find();
     },
-    getToday: async taskDate => {
-        return await db.Goals.find({taskDate, isDelete:false});
+    getByDate: async taskDate => {
+        return await db.Goals.find({ taskDate, isDelete: false });
     }
 }

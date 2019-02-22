@@ -27,6 +27,7 @@ class DailyGoals extends Component {
     wrapperWidth: 'calc(100% - 16.7%)',
     task: '',
     taskDate: 'today',
+    taskDateFormat: '',
     alertProps: { title: "Alert" },
     alertShow: false,
     errorMessage: "",
@@ -47,7 +48,7 @@ class DailyGoals extends Component {
 
   async allData() {
     const { account } = this.props;
-    const tasks = await Api.GetGoalsToday(account.tokenAuth);//TODO: change
+    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: moment().format("YYYYMMDD") });
     const users = await Api.GetAllUser(account.tokenAuth);
     this.setState({ tasks, users, loading: false });
   }
@@ -56,37 +57,36 @@ class DailyGoals extends Component {
     e.preventDefault();
     if (e) e.preventDefault();
     const { taskDate } = this.state;
-    let dates = "";
+    let taskDateFormat = "";
 
     switch (taskDate.toLowerCase()) {
       case "today": {
-        dates = moment().format("YYYYMMDD");
+        taskDateFormat = moment().format("YYYYMMDD");
         break;
       }
       case "tomorrow": {
-        dates = moment().add(1, "days").format("YYYYMMDD");
+        taskDateFormat = moment().add(1, "days").format("YYYYMMDD");
         break;
       }
       case "monday": {
-        dates = moment().startOf('isoWeek').add(1, 'week').format("YYYYMMDD");
+        taskDateFormat = moment().startOf('isoWeek').add(1, 'week').format("YYYYMMDD");
         break;
       }
       case "custom": {
-        dates = moment(this.state.customDate).format("YYYYMMDD");
+        taskDateFormat = moment(this.state.customDate).format("YYYYMMDD");
         break;
       }
     }
-
     const { task } = this.state;
     if (_.isEmpty(task)) return this.setState({ errorMessage: 'Task is required' });
-    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps(), taskDate: dates });
+    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps(), taskDateFormat });
   }
 
   saveTask() {
     const { account } = this.props;
     const userId = account._id;
-    const { task, taskDate } = this.state;
-    const data = { userId, task, taskDate };
+    const { task, taskDateFormat } = this.state;
+    const data = { userId, task, taskDate: taskDateFormat };
 
     this.setState({ loading: true });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
