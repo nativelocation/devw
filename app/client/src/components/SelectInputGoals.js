@@ -17,16 +17,15 @@ export default class SelectInputGoals extends Component {
     }
 
     render() {
-        const { items, onChange, name, value, placeholder, classes } = this.props;
+        const { onChange, name, value, placeholder, classes } = this.props;
         const content = typeof (placeholder);
-        let defaultText = 'Select Item';
         if (content === 'string') {
             defaultText = placeholder;
         }
 
         return (
             <div className="input-group">
-                <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{backgroundColor: '#666667', height: 35}}>
+                <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{ backgroundColor: '#666667', height: 35 }}>
                     <option>Today</option>
                     <option>Tomorrow</option>
                     <option>Monday</option>

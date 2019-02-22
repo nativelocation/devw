@@ -7,6 +7,7 @@ import Loading from '../components/Loading';
 import Input from '../components/Input';
 import SelectInputGoals from '../components/SelectInputGoals';
 import Button from '../components/Button';
+import Error from '../components/Error';
 import UserGoals from '../components/UserGoals';
 import _ from "lodash";
 import SweetAlert from "sweetalert-react";
@@ -22,10 +23,10 @@ class DailyGoals extends Component {
     active: {},
     isGoing: false,
     process: 0,
-    loading: false,
+    loading: true,
     wrapperWidth: 'calc(100% - 16.7%)',
     task: '',
-    taskDate: '',
+    taskDate: 'today',
     alertProps: { title: "Alert" },
     alertShow: false,
     errorMessage: "",
@@ -40,29 +41,24 @@ class DailyGoals extends Component {
     this.setState({ wrapperWidth });
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     this.allData()
   }
 
   async allData() {
     const { account } = this.props;
-    this.setState({ loading: true })
-    const allTask = await Api.GetGoalsToday(account.tokenAuth);
-    const allUser = await Api.GetAllUser(account.tokenAuth);
-    this.setState({ tasks: allTask, users: allUser, loading: false });
+    const tasks = await Api.GetGoalsToday(account.tokenAuth);//TODO: change
+    const users = await Api.GetAllUser(account.tokenAuth);
+    this.setState({ tasks, users, loading: false });
   }
 
-  onLogout() {
-    localStorage.removeItem("tokenAuth");
-    window.location.reload();
-  }
-
-  onSubmit(e, value) {
+  onSubmit(e) {
     e.preventDefault();
     if (e) e.preventDefault();
-    let dates = []
+    const { taskDate } = this.state;
+    let dates = "";
 
-    switch (value.toLowerCase()) {
+    switch (taskDate.toLowerCase()) {
       case "today": {
         dates = moment().format("YYYYMMDD");
         break;
@@ -80,7 +76,8 @@ class DailyGoals extends Component {
         break;
       }
     }
-    const { task, taskDate } = this.state;
+
+    const { task } = this.state;
     if (_.isEmpty(task)) return this.setState({ errorMessage: 'Task is required' });
     this.setState({ alertShow: true, alertProps: this.getSaveAlertProps(), taskDate: dates });
   }
@@ -90,42 +87,34 @@ class DailyGoals extends Component {
     const userId = account._id;
     const { task, taskDate } = this.state;
     const data = { userId, task, taskDate };
-    console.log('Data ', data);
+
     this.setState({ loading: true });
-    Api.CreateGoal(account.tokenAuth, data)
-      .then(res => {
-        console.log('LOL',res.data);
-        if (res.status === 201) {
-          this.setState({ loading: false, alertShow: true });
-          const alertProps = this.getSuccessAlertProps(() => {
-            this.setState({ alertShow: false, });
-          });
-          this.setState({ alertProps, errorMessage: "" });
-          this.allData();
-        } else {
-          this.setState({
-            errorMessage: res.message,
-            alertShow: false,
-            loading: false,
-          });
-        }
-      })
-      .catch(err => {
-        this.setState({
-          errorMessage: err.message,
-          loading: false
+    Api.CreateGoal(account.tokenAuth, data).then(res => {
+      if (res.status === 201) {
+        const alertProps = this.getSuccessAlertProps(() => {
+          this.setState({ alertShow: false });
         });
+        this.setState({ alertProps, errorMessage: "", loading: false, alertShow: true, task: "" });
+        this.allData();
+      } else {
+        this.setState({
+          errorMessage: res.message,
+          alertShow: false,
+          loading: false,
+        });
+      }
+    }).catch(err => {
+      this.setState({
+        errorMessage: err.message,
+        loading: false
       });
+    });
   }
-
-
 
   onChange(e) {
     let showCustom = false;
     const { name, value } = e.target;
-    console.log(name, value)
     if (e.target.value.toLowerCase() === "custom") showCustom = true;
-
     this.setState({ [name]: value, errorMessage: "", showCustom });
   }
 
@@ -140,24 +129,19 @@ class DailyGoals extends Component {
 
   deleteUser(id) {
     const { account } = this.props;
-    const closeProcess = errorMessage =>
-      this.setState({ alertShow: false, errorMessage });
+    const closeProcess = errorMessage => this.setState({ alertShow: false, errorMessage });
     if (id) {
-      Api.DeleteGoal(account.tokenAuth, id)
-        .then(res => {
-          if (res.status === 201) {
-            this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
-            this.allData();
-          } else closeProcess(res.message);
-        })
-        .catch(err => {
-          if (err.message) closeProcess(err.message);
-        });
+      Api.DeleteGoal(account.tokenAuth, id).then(res => {
+        if (res.status === 201) {
+          this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
+          this.allData();
+        } else closeProcess(res.message);
+      }).catch(err => { if (err.message) closeProcess(err.message); });
     } else closeProcess("Error Id Required");
   }
 
-  onChecked(e, _id){
-    console.log('Daily ',e.target.checked, _id)
+  onChecked(e, _id) {
+    console.log('Daily ', e.target.checked, _id)
     const { account } = this.props;
     const checked = e.target.checked;
     const data = { checked, _id };
@@ -177,33 +161,38 @@ class DailyGoals extends Component {
 
   render() {
     const { account } = this.props;
-    const { loading, wrapperWidth, alertShow, alertProps, taskDate, showCustom, tasks, users, customDate } = this.state;
+    const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage } = this.state;
     let listUsers = [];
     if (Object.keys(users).length > 0) {
       listUsers = users.data.map((x, i) => {
         let userGoals = tasks.data.filter(t => t.userId === x._id)
-        if (userGoals.length > 0) return <UserGoals key={i} data={userGoals} user={x} onDelete={this.showDeleteUserAlert.bind(this)} onChecked={this.onChecked.bind(this)}/>
+        if (userGoals.length > 0) return <UserGoals key={i} data={userGoals} user={x} onDelete={this.showDeleteUserAlert.bind(this)} onChecked={this.onChecked.bind(this)} />
       })
     }
 
-    let custom = showCustom ? (<DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} />) : undefined
+    let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
     return (
 
       <Fragment>
         <Sidebar />
-        <Wrapper maxWidth={wrapperWidth} title="Daily Goals" onClick={this.onLogout} hideLink>
+        <Wrapper maxWidth={wrapperWidth} title="Daily Goals" hideLink>
           <div>
             <div className='goalsBox mb-3'>
               {listUsers}
             </div>
-            <form className='formTask' onSubmit={e => this.onSubmit(e, taskDate)} >
-              <Input name='task' placeholder='Type in Your Goals' onChange={this.onChange.bind(this)} />
+            <form className='formTask' onSubmit={e => this.onSubmit(e)} >
+              <Input value={task} name='task' placeholder='Type in Your Goals' onChange={this.onChange.bind(this)} />
               <div className='mt-2 d-md-flex flex-md-row justify-content-md-end'>
-                <div className='col-md-12 d-flex flex-row justify-content-end'>
-                  {custom}
-                  <div className='d-md-flex flex-md-row col-sm-12 col-md-4'>
-                    <SelectInputGoals onChange={this.onChange.bind(this)} name='taskDate' />
-                    <Button text='Add Goal' filter classes='ml-md-2' />
+                <div className='col-md-12 d-flex flex-row justify-content-end p-0'>
+                  <div className='d-md-flex flex-md-row col-md-12 p-0'>
+                    <div className="col-md-6 text-right">
+                      <Error text={errorMessage} />
+                    </div>
+                    <div className="d-md-flex flex-md-row col-md-6">
+                      {custom}
+                      <SelectInputGoals onChange={this.onChange.bind(this)} name='taskDate' />
+                      <Button text='Add Goal' filter />
+                    </div>
                   </div>
                 </div>
               </div>

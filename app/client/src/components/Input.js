@@ -56,7 +56,7 @@ export default class Input extends Component {
                     : null}
                 <input
                     disabled={disabled}
-                    value={value || input}
+                    value={typeof value === "string" ? value : input}
                     type={inputType}
                     name={name}
                     placeholder={ph}
