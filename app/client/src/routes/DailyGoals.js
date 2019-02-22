@@ -103,7 +103,7 @@ class DailyGoals extends Component {
     this.setState({ loading: true });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
       if (res.status === 201) {
-        this.setState({  errorMessage: "", loading: false, alertShow: false, task: "" });
+        this.setState({ errorMessage: "", loading: false, alertShow: false, task: "" });
         this.updateGoals();
       } else {
         this.setState({
