@@ -22,11 +22,12 @@ class ApiModel {
     CreateDeveloper = (token, data) => FetchRequest(c.CREATEDEVELOPER, 'POST', token, data);
     DeleteDeveloper = (token, data) => FetchRequest(c.DELETEDEVELOPER, 'POST', token, data);
     UpdateDeveloper = (token, data) => FetchRequest(c.UPDATEDEVELOPER, 'POST', token, data);
-    
+    //Goals
     GetGoals = token => FetchRequest(c.GETALLGOALS, 'GET', token);
-
-
-
+    GetGoalsToday = token => FetchRequest(c.GETGOALSTODAY, 'GET', token);
+    CreateGoal = (token, data) => FetchRequest(c.CREATEGOAL, 'POST', token, data);
+    UpdateGoal = (token, data) => FetchRequest(c.UPDATEGOAL, 'PUT', token, data);
+    DeleteGoal = (token, _id) => FetchRequest(c.DELETEGOAL, 'DELETE', token, { _id });
 }
 
 export default new ApiModel();

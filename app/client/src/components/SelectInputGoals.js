@@ -11,7 +11,7 @@ import { COLORS, FONTS } from '../config/constants.js';
  * @param  placeholder - Show the default text, "string" | true | false
  */
 
-export default class SelectInput extends Component {
+export default class SelectInputGoals extends Component {
     state = {
         items: {},
     }
@@ -26,15 +26,10 @@ export default class SelectInput extends Component {
 
         return (
             <div className="input-group">
-                <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{backgroundColor: '#666667'}}>
+                <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{backgroundColor: '#666667', height: 35}}>
                     <option>Today</option>
-                    <option>Yesterday</option>
-                    <option>This week</option>
-                    <option>Last week</option>
-                    <option>This month</option>
-                    <option>Last month</option>
-                    <option>This year</option>
-                    <option>Last year</option>
+                    <option>Tomorrow</option>
+                    <option>Monday</option>
                     <option>Custom</option>
                 </select>
             </div>

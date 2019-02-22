@@ -9,6 +9,9 @@ router.use(jwt.verifyHelper);
 router.get('/all', (req, res, next) => {
     model.getAll().then(r => generalSuccess(res, "Get task list", r)).catch(e => generalError(e, res));
 });
+router.get('/today', (req, res, next) => {
+    model.getToday().then(r => generalSuccess(res, "Get task list", r)).catch(e => generalError(e, res));
+});
 router.post("/create", (req, res) => {
     model
         .create(req.body)

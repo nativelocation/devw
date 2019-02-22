@@ -1,0 +1,35 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
+class UserGoals extends Component {
+    onDelete(id) {
+        const { onDelete } = this.props;
+        if (onDelete) onDelete(id);
+    }
+
+    render() {
+        const { data, user, account } = this.props;
+        return (
+            <div className={`d-flex flex-column pl-2 checkedBox ${account._id === user._id ? 'order-0' : ''}`}>
+                <p>{`${user.firstName} ${user.lastName}`}</p>
+                <div className=' pl-2'>
+                    {
+                        data.map((x, i) => {
+                            return (
+                                <div className={`d-flex flex-row`} key={i}>
+                                    {account._id === x.userId ? (<span className='mr-2'><a href='javascript:;' onClick={() => this.onDelete(x._id)} className='nounderline text-dark'><i className="fa fa-trash-alt" aria-hidden="true"></i></a></span>) : undefined}
+                                    <div className="form-check py-1">
+                                        <label className="form-check-label">
+                                            <input type="checkbox" className="form-check-input" name="" id="" value="checkedValue" />{x.task}
+                                        </label>
+                                    </div>
+                                </div>)
+                        })
+                    }
+                </div>
+            </div>
+
+        )
+    }
+};
+export default connect(s => ({ account: s.account }))(UserGoals);

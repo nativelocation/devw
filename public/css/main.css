@@ -176,3 +176,25 @@ hr {
   margin: 0;
 }
 
+.goalsBox{
+  /* min-height: 400px; */
+}
+
+.checkedBox{
+  font-size: 15px;
+  padding: 10px 20px
+}
+.checkedBox div:nth-child(1){
+  margin-top: -10px;
+}
+
+.checkedBox span {
+  margin-top: 4px;
+}
+
+.formTask {
+  position: absolute;
+  bottom: 5px;
+  width: 96%;
+}
+

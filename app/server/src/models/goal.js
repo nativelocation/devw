@@ -1,5 +1,5 @@
 const goal = require('../database/goal');
-const bcrypt = require('bcryptjs');
+const user = require('../database/user');
 const moment = require('moment');
 //{ userId, task, taskDate, checked, isDelete, created_at, updated_at }
 const model = {
@@ -26,6 +26,12 @@ const model = {
     },
     getAll: async () => {
         return await goal.getAll();
+    },
+    getToday: async () => {
+        const today = moment().format("YYYYMMDD");
+        const goals = await goal.getToday(today);
+        return goals;
+
     },
     getById: async data => {
         if (!data) throw { code: 400, msg: "Data is empty" };
