@@ -21,7 +21,7 @@ class Wrapper extends Component {
         </Link>
     ) : undefined
     return (
-      <div className="h-100 p-0 d-flex flex-column bg-warning" style={{ flex: 1, maxWidth }}>
+      <div className="h-100 p-0 d-flex flex-column" style={{ flex: 1, maxWidth }}>
         <div
           className="col-md-12 col-lg-12 d-flex flex-column"
           style={styles.flex}
