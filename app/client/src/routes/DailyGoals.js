@@ -50,9 +50,10 @@ class DailyGoals extends Component {
 
   async allData() {
     const { account } = this.props;
-    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: moment().subtract(1, "days").format("YYYYMMDD") });
+    const filterDateSidebar = moment().subtract(1, "days").format("YYYYMMDD");
+    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: filterDateSidebar });
     const users = await Api.GetAllUser(account.tokenAuth);
-    this.setState({ tasks, users, loading: false });
+    this.setState({ tasks, users, loading: false, filterDateSidebar });
   }
 
   async updateGoals(date) {
