@@ -6,9 +6,8 @@ module.exports = {
         const item = new db.Goals({ userId, task, taskDate, checked, isDelete, created_at, updated_at });
         return await item.save();
     },
-    update: async (id, data) => {
-        const { userId, task, checked, isDelete, created_at, updated_at } = data;
-        await db.Goals.findByIdAndUpdate(id, { userId, task, checked, isDelete, created_at, updated_at });
+    update: async (id, checked, updated_at) => {
+        await db.Goals.findByIdAndUpdate(id, { checked, updated_at });
         return await db.Goals.findById(id);
     },
     delete: async id => {
