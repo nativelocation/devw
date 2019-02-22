@@ -7,6 +7,11 @@ class UserGoals extends Component {
         if (onDelete) onDelete(id);
     }
 
+    onChecked(e, id){
+        const { onChecked } =  this.props;
+        if(onChecked) onChecked(e, id)
+    }
+
     render() {
         const { data, user, account } = this.props;
         return (
@@ -20,7 +25,7 @@ class UserGoals extends Component {
                                     {account._id === x.userId ? (<span className='mr-2'><a href='javascript:;' onClick={() => this.onDelete(x._id)} className='nounderline text-dark'><i className="fa fa-trash-alt" aria-hidden="true"></i></a></span>) : undefined}
                                     <div className="form-check py-1">
                                         <label className="form-check-label">
-                                            <input type="checkbox" className="form-check-input" name="" id="" value="checkedValue" />{x.task}
+                                            <input type="checkbox" className="form-check-input" name="" id="" value="checkedValue" onChange={e => this.onChecked(e, x._id)}/>{x.task}
                                         </label>
                                     </div>
                                 </div>)

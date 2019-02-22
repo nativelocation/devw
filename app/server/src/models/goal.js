@@ -16,8 +16,10 @@ const model = {
     },
     update: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
+        if (!data._id) throw { code: 400, msg: "Id is required" };
+        if (data.checked === undefined) throw { code: 400, msg: "Checked is required" };
         data.updated_at = moment.utc().format();
-        return await goal.update(data.id, data);
+        return await goal.update(data._id, data.checked, data.updated_at);
     },
     delete: async data => {
         if (!data) throw { code: 400, msg: "Params is empty" };

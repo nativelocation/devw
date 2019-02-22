@@ -31,6 +31,7 @@ class DailyGoals extends Component {
     errorMessage: "",
     showCustom: false,
     customDate: new Date(),
+    isChecked: false
   };
 
   handleCollapse(e) {
@@ -90,31 +91,31 @@ class DailyGoals extends Component {
     const { task, taskDate } = this.state;
     const data = { userId, task, taskDate };
     console.log('Data ', data);
-    // this.setState({ loading: true });
-    // Api.CreateGoal(account.tokenAuth, data)
-    //   .then(res => {
-    //     console.log(res);
-    //     if (res.status === 201) {
-    //       this.setState({ loading: false, alertShow: true });
-    //       const alertProps = this.getSuccessAlertProps(() => {
-    //         this.setState({ alertShow: false, });
-    //       });
-    //       this.setState({ alertProps, errorMessage: "" });
-    //       this.allData();
-    //     } else {
-    //       this.setState({
-    //         errorMessage: res.message,
-    //         alertShow: false,
-    //         loading: false,
-    //       });
-    //     }
-    //   })
-    //   .catch(err => {
-    //     this.setState({
-    //       errorMessage: err.message,
-    //       loading: false
-    //     });
-    //   });
+    this.setState({ loading: true });
+    Api.CreateGoal(account.tokenAuth, data)
+      .then(res => {
+        console.log('LOL',res.data);
+        if (res.status === 201) {
+          this.setState({ loading: false, alertShow: true });
+          const alertProps = this.getSuccessAlertProps(() => {
+            this.setState({ alertShow: false, });
+          });
+          this.setState({ alertProps, errorMessage: "" });
+          this.allData();
+        } else {
+          this.setState({
+            errorMessage: res.message,
+            alertShow: false,
+            loading: false,
+          });
+        }
+      })
+      .catch(err => {
+        this.setState({
+          errorMessage: err.message,
+          loading: false
+        });
+      });
   }
 
 
@@ -155,6 +156,25 @@ class DailyGoals extends Component {
     } else closeProcess("Error Id Required");
   }
 
+  onChecked(e, _id){
+    console.log('Daily ',e.target.checked, _id)
+    const { account } = this.props;
+    const checked = e.target.checked;
+    const data = { checked, _id };
+    console.log('Data ', data);
+    Api.UpdateGoal(account.tokenAuth, data)
+      .then(res => {
+        console.log(res);
+        if (res.status === 201) {
+          this.allData();
+        }
+      })
+      .catch(err => {
+        console.log(err.message)
+      });
+
+  }
+
   render() {
     const { account } = this.props;
     const { loading, wrapperWidth, alertShow, alertProps, taskDate, showCustom, tasks, users, customDate } = this.state;
@@ -162,7 +182,7 @@ class DailyGoals extends Component {
     if (Object.keys(users).length > 0) {
       listUsers = users.data.map((x, i) => {
         let userGoals = tasks.data.filter(t => t.userId === x._id)
-        if (userGoals.length > 0) return <UserGoals key={i} data={userGoals} user={x} onDelete={this.showDeleteUserAlert.bind(this)}/>
+        if (userGoals.length > 0) return <UserGoals key={i} data={userGoals} user={x} onDelete={this.showDeleteUserAlert.bind(this)} onChecked={this.onChecked.bind(this)}/>
       })
     }
 
