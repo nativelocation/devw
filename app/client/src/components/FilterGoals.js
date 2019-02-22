@@ -10,11 +10,15 @@ var moment = require("moment");
 
 class Collapse extends Component {
   state = {
-    value: "yesterday",
+    value: "today",
     custom: new Date(),
     dates: [],
     showCustom: false
   };
+
+  setValue(value) {
+    this.setState({ value });
+  }
 
   onSubmit(e, value) {
     if (e) e.preventDefault();
@@ -57,10 +61,10 @@ class Collapse extends Component {
   }
 
   clearTime = e => {
-    this.setState({ value: "yesterday", showCustom: false });
-    const yesterday = moment().subtract(1, "days").format("YYYYMMDD");
+    this.setState({ value: "today", showCustom: false });
+    const today = moment().format("YYYYMMDD");
     const { onSubmit } = this.props;
-    if (onSubmit) onSubmit(yesterday);
+    if (onSubmit) onSubmit(today);
   };
 
   onCustomChange(custom) {

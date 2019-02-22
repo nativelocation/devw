@@ -50,7 +50,7 @@ class DailyGoals extends Component {
 
   async allData() {
     const { account } = this.props;
-    const filterDateSidebar = moment().subtract(1, "days").format("YYYYMMDD");
+    const filterDateSidebar = moment().format("YYYYMMDD");
     const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: filterDateSidebar });
     const users = await Api.GetAllUser(account.tokenAuth);
     this.setState({ tasks, users, loading: false, filterDateSidebar });
@@ -103,10 +103,7 @@ class DailyGoals extends Component {
     this.setState({ loading: true });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
       if (res.status === 201) {
-        const alertProps = this.getSuccessAlertProps(() => {
-          this.setState({ alertShow: false });
-        });
-        this.setState({ alertProps, errorMessage: "", loading: false, alertShow: true, task: "" });
+        this.setState({  errorMessage: "", loading: false, alertShow: false, task: "" });
         this.updateGoals();
       } else {
         this.setState({
@@ -145,7 +142,7 @@ class DailyGoals extends Component {
     if (_id) {
       Api.LogicDeleteGoal(account.tokenAuth, { _id }).then(res => {
         if (res.status === 201) {
-          this.setState({ alertProps: this.getSuccessDeleteAlertProps() });
+          this.setState({ alertShow: false, loading: false })
           this.updateGoals();
         } else closeProcess(res.message);
       }).catch(err => { if (err.message) closeProcess(err.message); });
@@ -222,8 +219,8 @@ class DailyGoals extends Component {
 
   getSaveAlertProps() {
     return {
-      title: "Create Task",
-      text: "Are you sure to create the task?",
+      title: "Create Goal",
+      text: "Are you sure to create the goal?",
       showCancelButton: true,
       confirmButtonColor: COLORS.Success,
       onConfirm: this.saveTask.bind(this),
@@ -231,35 +228,15 @@ class DailyGoals extends Component {
     };
   }
 
-  getSuccessAlertProps(onClick) {
-    return {
-      title: "Task Created",
-      text: `The task has been created successfully`,
-      type: "success",
-      confirmButtonColor: COLORS.Success,
-      onConfirm: onClick.bind(this)
-    };
-  }
-
   getDeleteAlertProps(id) {
     return {
-      title: "Delete Task",
-      text: "Are you sure to delete the task?",
+      title: "Delete Goal",
+      text: "Are you sure to delete the goal?",
       showCancelButton: true,
       type: "info",
       confirmButtonColor: COLORS.Danger,
       onConfirm: this.deleteUser.bind(this, id),
       onCancel: () => this.setState({ alertShow: false })
-    };
-  }
-
-  getSuccessDeleteAlertProps() {
-    return {
-      title: "Task Deleted",
-      text: "The task has been deleted",
-      type: "success",
-      confirmButtonColor: COLORS.Success,
-      onConfirm: () => this.setState({ alertShow: false, loading: false })
     };
   }
 
