@@ -172,7 +172,7 @@ class DailyGoals extends Component {
         if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} />
       });
 
-      listUsers = [myComponent, ...usersGoals]
+      listUsers = [myComponent, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals, ...usersGoals]
     }
     let custom = showCustom ? <DatePicker style={styles.datepicker} selected={customDate} onChange={this.fromChange.bind(this)} /> : undefined;
 
