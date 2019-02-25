@@ -299,7 +299,7 @@ class List extends Component {
       <Fragment>
         <Sidebar admin="admin" />
         <Wrapper title={title} onClick={this.onLogout} hideLink>
-          <div className="d-flex flex-row">{buttonNew}</div>
+          <div className="d-flex flex-row" style={{ height: '80px' }}>{buttonNew}</div>
           {showForm}
           <SweetAlert show={alertShow} {...alertProps} />
           <Loading

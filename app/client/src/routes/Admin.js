@@ -25,6 +25,17 @@ class Admin extends Component {
     const { account } = this.props;
     this.setState({ loading: true })
     const resPeople = await Api.GetPeople(account.tokenAuth);
+    // resPeople.data.people.map(e => {
+    //   const data = {
+    //     firstName: e['first-name'],
+    //     lastName: e['last-name'],
+    //     email: e['email-address'],
+    //     role: 3,
+    //     password: '12345678'
+    //   }
+
+    //   Api.CreateUser(account.tokenAuth, data).then(console.log).catch(console.log);
+    // });
     const resDeveloper = await Api.GetAllDeveloper(account.tokenAuth);
     this.setState({ people: resPeople, developers: resDeveloper, loading: false });
   }
