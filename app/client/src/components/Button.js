@@ -31,7 +31,6 @@ const styles = {
         backgroundColor: '#666667'
     },
     filter:{
-        width: 100,
         height: 35,
         borderRadius: 1,
         backgroundColor: '#666667'

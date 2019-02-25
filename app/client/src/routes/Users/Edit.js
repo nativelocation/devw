@@ -112,7 +112,7 @@ class Edit extends Component {
     this.setState({ [name]: value, errorMessage: "" });
   }
 
-  confirmData() {}
+  confirmData() { }
 
   render() {
     const {
@@ -130,69 +130,67 @@ class Edit extends Component {
     let disabledRol = account._id === id ? "disabled" : undefined;
     let showEdit = (
       <div className="mt-3">
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <div className="form-row">
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">First Name</small>
-              <input
-                name="firstName"
-                type="text"
-                className="form-control"
-                value={firstName}
-                onChange={this.onChange.bind(this)}
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">Last Name</small>
-              <input
-                name="lastName"
-                type="text"
-                className="form-control"
-                value={lastName}
-                onChange={this.onChange.bind(this)}
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">Email</small>
-              <input
-                name="email"
-                type="email"
-                className="form-control"
-                value={email}
-                onChange={this.onChange.bind(this)}
-                disabled
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">Role</small>
-              <select
-                className="form-control"
-                name="rol"
-                onChange={this.onChange.bind(this)}
-                value={rol}
-                disabled={disabledRol}
-              >
-                <option value="1">Super Admin</option>
-                <option value="2">Admin</option>
-                <option value="3">User</option>
-              </select>
-            </div>
-            <Button text="Update" filter />
-            <button
-              type="button"
-              className="btn btn-link text-muted nounderline "
-              onClick={this.back.bind(this)}
-              style={{ fontSize: 14 }}
-            >
-              Cancel
-            </button>
+        <form onSubmit={this.onSubmit.bind(this)} className="col-md-6">
+          <div className="form-group">
+            <small className="form-text text-muted">First Name</small>
+            <input
+              name="firstName"
+              type="text"
+              className="form-control"
+              value={firstName}
+              onChange={this.onChange.bind(this)}
+            />
           </div>
+          <div className="form-group">
+            <small className="form-text text-muted">Last Name</small>
+            <input
+              name="lastName"
+              type="text"
+              className="form-control"
+              value={lastName}
+              onChange={this.onChange.bind(this)}
+            />
+          </div>
+          <div className="form-group">
+            <small className="form-text text-muted">Email</small>
+            <input
+              name="email"
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={this.onChange.bind(this)}
+              disabled
+            />
+          </div>
+          <div className="form-group">
+            <small className="form-text text-muted">Role</small>
+            <select
+              className="form-control"
+              name="rol"
+              onChange={this.onChange.bind(this)}
+              value={rol}
+              disabled={disabledRol}
+            >
+              <option value="1">Super Admin</option>
+              <option value="2">Admin</option>
+              <option value="3">User</option>
+            </select>
+          </div>
+          <div className="pt-3">
+            <Alert type="danger" hide={!errorMessage}>
+              {errorMessage}
+            </Alert>
+          </div>
+          <Button text="Save Changes" filter />
+          <button
+            type="button"
+            className="btn btn-link text-muted nounderline "
+            onClick={this.back.bind(this)}
+            style={{ fontSize: 14 }}
+          >
+            Cancel
+            </button>
         </form>
-        <div className="pt-3">
-          <Alert type="danger" hide={!errorMessage}>
-            {errorMessage}
-          </Alert>
-        </div>
       </div>
     );
     let editForm = !loading ? showEdit : undefined

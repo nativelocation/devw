@@ -2,7 +2,7 @@ const user = require('../database/user');
 const bcrypt = require('bcryptjs');
 
 const model = {
-    existEmail: async data =>{
+    existEmail: async data => {
         const existUser = await user.getByEmail(data.email);
         if (existUser) throw { code: 400, msg: "The email already exists" };
     },
@@ -22,10 +22,10 @@ const model = {
         if (!data.email) throw { code: 400, msg: "Email is required" };
         if (!data.role) throw { code: 400, msg: "Role is required" };
         if (!data.password) throw { code: 400, msg: "Password is required" };
-        
+
         const existUser = await user.getByEmail(data.email);
         if (existUser) throw { code: 400, msg: "The email already exists" };
-        
+
         data.password = await bcrypt.hash(data.password, 10);
 
         return await user.create(data);
@@ -33,12 +33,14 @@ const model = {
     update: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
         if (!data.id) throw { code: 400, msg: "Id is required" };
-        if (!data.firstName) throw { code: 400, msg: "First Name is required" };
-        if (!data.lastName) throw { code: 400, msg: "Last Name is required" };
-        if (!data.role) throw { code: 400, msg: "Role is required" };
-
         const existUser = await user.getById(data.id);
         if (!existUser) throw { code: 400, msg: "The user doesn't exists" };
+
+        data.email = existUser.email;
+
+        if (!data.firstName) data.firstName = existUser.firstName;
+        if (!data.lastName) data.lastName = existUser.lastName;
+        if (!data.role) data.role = existUser.role;
 
         if (data.password) data.password = await bcrypt.hash(data.password, 10);
         else data.password = existUser.password

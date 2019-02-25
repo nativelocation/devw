@@ -26,63 +26,41 @@ class Collapse extends Component {
 
   render() {
     const { account } = this.props;
-    let showAdmin =
-      account.role === 1 ? (
-        <Fragment>
-          <p className="text-white ml-2" style={styles.titleDate}>
-            <Link
-              to="/user"
-              className="text-white nounderline"
-              style={{ fontSize: 14 }}
-            >
-              Users
-            </Link>
-          </p>
-          <hr />
-          <p className="text-white ml-2" style={styles.titleDate}>
-            <Link
-              to="/admin"
-              className="text-white nounderline"
-              style={{ fontSize: 14 }}
-            >
-              Developers
-            </Link>
-          </p>
-          <hr />
-          <p className="text-white ml-2" style={styles.titleDate}>
-            <Link
-              to="/profile"
-              className="text-white nounderline"
-              style={{ fontSize: 14 }}
-            >
-              Profile
-            </Link>
-          </p>
-        </Fragment>
-      ) : (
-        <Fragment>
+    return (
+      <Fragment>
+        {account.role > 1 &&
+          <Fragment>
+            <p className="text-white ml-2" style={styles.titleDate}>
+              <Link to="/" className="text-white nounderline" style={{ fontSize: 14 }}>Dashboard</Link>
+            </p>
+            <hr />
+          </Fragment>
+        }
+        {account.role === 1 &&
+          <Fragment>
+            <p className="text-white ml-2" style={styles.titleDate}>
+              <Link to="/user" className="text-white nounderline" style={{ fontSize: 14 }}>Users</Link>
+            </p>
+            <hr />
+          </Fragment>
+        }
+        {account.role < 2 &&
+          <Fragment>
+            <p className="text-white ml-2" style={styles.titleDate}>
+              <Link to="/admin" className="text-white nounderline" style={{ fontSize: 14 }}>Developers</Link>
+            </p>
+            <hr />
+          </Fragment>
+        }
         <p className="text-white ml-2" style={styles.titleDate}>
-          <Link
-            to="/"
-            className="text-white nounderline"
-            style={{ fontSize: 14 }}
-          >
-            Dashboard
-          </Link>
+          <Link to="/dailygoals" className="text-white nounderline" style={{ fontSize: 14 }}>Daily Goals</Link>
         </p>
         <hr />
         <p className="text-white ml-2" style={styles.titleDate}>
-          <Link
-            to="/admin"
-            className="text-white nounderline"
-            style={{ fontSize: 14 }}
-          >
-            Developers
-          </Link>
+          <Link to="/profile" className="text-white nounderline" style={{ fontSize: 14 }}>Profile</Link>
         </p>
-        </Fragment>
-      );
-    return <Fragment>{showAdmin}</Fragment>;
+      </Fragment>
+    );
   }
 }
 

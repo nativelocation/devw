@@ -173,21 +173,19 @@ class List extends Component {
             <td>{role}</td>
             <td>
               <div className="d-flex flex-row justify-content-center">
-                <a
-                  className="text-muted nounderline p-1"
-                  style={{ fontSize: 14 }}
+                <button
+                  className="btn btn-sm btn-primary"
                   onClick={this.editUser.bind(this, r._id)}
                 >
                   Edit
-                </a>
+                </button>
                 {r._id !== account._id ? (
-                  <a
-                    className="text-muted nounderline p-1"
-                    style={{ fontSize: 14 }}
+                  <button
+                    className="btn btn-sm btn-danger ml-2"
                     onClick={this.showDeleteUserAlert.bind(this, r._id)}
                   >
                     Delete
-                  </a>
+                  </button>
                 ) : (
                     undefined
                   )}
@@ -201,11 +199,11 @@ class List extends Component {
     let buttonNew = showTable ? (
       <button
         type="button"
-        className="btn btn-light text-muted nounderline "
+        className="btn btn-success"
         onClick={() => this.setState({ showTable: false, errorMessage: "" })}
         style={{ fontSize: 14 }}
       >
-        New
+        Add New
       </button>
     ) : (
         undefined
@@ -228,69 +226,67 @@ class List extends Component {
 
     let formUser = (
       <div className="mt-3">
-        <form onSubmit={this.onSubmit.bind(this)}>
-          <div className="form-row">
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">First Name</small>
-              <input
-                name="firstName"
-                type="text"
-                className="form-control"
-                onChange={this.onChange.bind(this)}
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">Last Name</small>
-              <input
-                name="lastName"
-                type="text"
-                className="form-control"
-                onChange={this.onChange.bind(this)}
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">Email</small>
-              <input
-                name="email"
-                type="email"
-                className="form-control"
-                onChange={this.onChange.bind(this)}
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <small className="form-text text-muted">Role</small>
-              <select
-                className="form-control"
-                name="rol"
-                onChange={this.onChange.bind(this)}
-                value={rol}
-              >
-                <option value="1">Super Admin</option>
-                <option value="2">Admin</option>
-                <option value="3">User</option>
-              </select>
-            </div>
-            <div className="col-md-12 text-muted">
-              Default password will be "12345678"
-            </div>
-            <Button text="Create" filter disabled={disabledButton ? true : false} />
-            <button
-              type="button"
-              className="btn btn-link text-muted nounderline "
-              onClick={() =>
-                this.setState({ showTable: true, errorMessage: "" })
-              }
-              style={{ fontSize: 14 }}
-            >
-              Cancel
-            </button>
+        <form onSubmit={this.onSubmit.bind(this)} className="col-md-6">
+          <div className="form-group">
+            <small className="form-text text-muted">First Name</small>
+            <input
+              name="firstName"
+              type="text"
+              className="form-control"
+              onChange={this.onChange.bind(this)}
+            />
           </div>
+          <div className="form-group">
+            <small className="form-text text-muted">Last Name</small>
+            <input
+              name="lastName"
+              type="text"
+              className="form-control"
+              onChange={this.onChange.bind(this)}
+            />
+          </div>
+          <div className="form-group">
+            <small className="form-text text-muted">Email</small>
+            <input
+              name="email"
+              type="email"
+              className="form-control"
+              onChange={this.onChange.bind(this)}
+            />
+          </div>
+          <div className="form-group">
+            <small className="form-text text-muted">Role</small>
+            <select
+              className="form-control"
+              name="rol"
+              onChange={this.onChange.bind(this)}
+              value={rol}
+            >
+              <option value="1">Super Admin</option>
+              <option value="2">Admin</option>
+              <option value="3">User</option>
+            </select>
+          </div>
+          <div className="col-md-12 text-muted p-0">
+            Default password will be "12345678"
+            </div>
+          <div className="pt-3">
+            <Alert type="danger" hide={!errorMessage}>
+              {errorMessage}
+            </Alert>
+          </div>
+          <Button text="Create" filter disabled={disabledButton ? true : false} />
+          <button
+            type="button"
+            className="btn btn-link text-muted nounderline "
+            onClick={() =>
+              this.setState({ showTable: true, errorMessage: "" })
+            }
+            style={{ fontSize: 14 }}
+          >
+            Cancel
+            </button>
         </form>
-        <div className="pt-3">
-          <Alert type="danger" hide={!errorMessage}>
-            {errorMessage}
-          </Alert>
-        </div>
       </div>
     );
 

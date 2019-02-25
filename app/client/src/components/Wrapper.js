@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import Profile from '../routes/Users/Profile';
 
 class Wrapper extends Component {
   onLogout() {
@@ -39,6 +40,7 @@ class Wrapper extends Component {
               {`${account.firstName} ${account.lastName}`} <span className='jam jam-chevron-down'></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right logoutBox mr-4">
+              <Link to="/profile" className="dropdown-item pointer text-muted">Profile</Link>
               <a className="dropdown-item pointer text-muted" onClick={this.onLogout}>Logout</a>
             </div>
             <Link

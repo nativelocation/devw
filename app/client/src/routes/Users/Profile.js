@@ -27,8 +27,7 @@ class Profile extends Component {
     errorMessage: "",
     loading: false,
     alertProps: { title: "Alert" },
-    alertShow: false,
-    isPassword: false
+    alertShow: false
   };
 
   async componentWillMount() {
@@ -76,8 +75,13 @@ class Profile extends Component {
       return this.setState({ errorMessage: "First name is required" });
     if (_.isEmpty(lastName))
       return this.setState({ errorMessage: "Last name is required" });
+    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
+  }
+
+  onChangePassword(e) {
+    e.preventDefault();
+    const { password, re_password } = this.state;
     if (password !== "") {
-      this.setState({ isPassword: true });
       if (password.length < 6)
         return this.setState({
           errorMessage: "Password length must be higher or equal than 6"
@@ -85,7 +89,7 @@ class Profile extends Component {
       if (password !== re_password)
         return this.setState({ errorMessage: "Passwords do not match." });
     }
-    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
+    this.setState({ alertShow: true, alertProps: this.getChangePasswordAlertProps() });
   }
 
   editUser() {
@@ -95,23 +99,49 @@ class Profile extends Component {
       lastName,
       email,
       rol,
-      password,
-      isPassword
     } = this.state;
     let role = parseInt(rol);
     let id = account._id;
-    const data = { firstName, lastName, email, role, password, id };
+    const data = { firstName, lastName, email, role, id };
     this.setState({ loading: true });
     Api.UpdateUser(account.tokenAuth, data)
       .then(res => {
         if (res.status === 201) {
           this.setState({ loading: false, alertShow: true });
           const alertProps = this.getSuccessAlertProps(() => {
-            this.setState({ alertShow: false }, () =>
-              !isPassword
-                ? this.props.history.push("/profile")
-                : this.onLogout()
-            );
+            this.setState({ alertShow: false });
+          });
+          this.setState({ alertProps, errorMessage: "" });
+        } else {
+          this.setState({
+            loading: false,
+            errorMessage: res.message,
+            alertShow: false
+          });
+        }
+      })
+      .catch(err => {
+        this.setState({
+          errorMessage: err.message,
+          loading: false
+        });
+      });
+  }
+
+
+  changePassword() {
+    const { account } = this.props;
+    const { password } = this.state;
+    const id = account._id;
+    const data = { password, id };
+
+    this.setState({ loading: true });
+    Api.UpdateUser(account.tokenAuth, data)
+      .then(res => {
+        if (res.status === 201) {
+          this.setState({ loading: false, alertShow: true });
+          const alertProps = this.getSuccessAlertProps(() => {
+            this.setState({ alertShow: false }, () => this.onLogout());
           });
           this.setState({ alertProps, errorMessage: "" });
         } else {
@@ -135,7 +165,7 @@ class Profile extends Component {
     this.setState({ [name]: value, errorMessage: "" });
   }
 
-  confirmData() {}
+  confirmData() { }
 
   render() {
     const {
@@ -154,89 +184,91 @@ class Profile extends Component {
       <Fragment>
         <Sidebar admin="admin" profile="profile" />
         <Wrapper title="Profile" onClick={this.onLogout}>
-          <div className="mt-3">
-            <form onSubmit={this.onSubmit.bind(this)}>
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <small className="form-text text-muted">First Name</small>
-                  <input
-                    name="firstName"
-                    type="text"
-                    className="form-control"
-                    value={firstName}
-                    onChange={this.onChange.bind(this)}
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <small className="form-text text-muted">Last Name</small>
-                  <input
-                    name="lastName"
-                    type="text"
-                    className="form-control"
-                    value={lastName}
-                    onChange={this.onChange.bind(this)}
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <small className="form-text text-muted">Email</small>
-                  <input
-                    name="email"
-                    type="email"
-                    className="form-control"
-                    value={email}
-                    onChange={this.onChange.bind(this)}
-                    disabled
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <small className="form-text text-muted">Role</small>
-                  <select
-                    className="form-control"
-                    name="rol"
-                    onChange={this.onChange.bind(this)}
-                    value={rol}
-                    disabled
-                  >
-                    <option value="1">Super Admin</option>
-                    <option value="2">Admin</option>
-                    <option value="3">User</option>
-                  </select>
-                </div>
-                <div className="form-group col-md-6">
-                  <small className="form-text text-muted">
-                    Password <span>(Optional)</span>
-                  </small>
-                  <input
-                    name="password"
-                    type="password"
-                    className="form-control"
-                    value={password}
-                    onChange={this.onChange.bind(this)}
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <small className="form-text text-muted">
-                    Repeat Password <span>(Optional)</span>
-                  </small>
-                  <input
-                    name="re_password"
-                    type="password"
-                    className="form-control"
-                    value={re_password}
-                    onChange={this.onChange.bind(this)}
-                  />
-                </div>
-                <Button text="Update" filter />
-                <button
-                  type="button"
-                  className="btn btn-link text-muted nounderline "
-                  onClick={this.back.bind(this)}
-                  style={{ fontSize: 14 }}
-                >
-                  Cancel
-                </button>
+          <div className="mt-3 row">
+            <form onSubmit={this.onSubmit.bind(this)} className="col-md-6">
+              <div className="form-group">
+                <small className="form-text text-muted">First Name</small>
+                <input
+                  name="firstName"
+                  type="text"
+                  className="form-control"
+                  value={firstName}
+                  onChange={this.onChange.bind(this)}
+                />
               </div>
+              <div className="form-group">
+                <small className="form-text text-muted">Last Name</small>
+                <input
+                  name="lastName"
+                  type="text"
+                  className="form-control"
+                  value={lastName}
+                  onChange={this.onChange.bind(this)}
+                />
+              </div>
+              <div className="form-group">
+                <small className="form-text text-muted">Email</small>
+                <input
+                  name="email"
+                  type="email"
+                  className="form-control"
+                  value={email}
+                  onChange={this.onChange.bind(this)}
+                  disabled
+                />
+              </div>
+              <div className="form-group">
+                <small className="form-text text-muted">Role</small>
+                <select
+                  className="form-control"
+                  name="rol"
+                  onChange={this.onChange.bind(this)}
+                  value={rol}
+                  disabled
+                >
+                  <option value="1">Super Admin</option>
+                  <option value="2">Admin</option>
+                  <option value="3">User</option>
+                </select>
+              </div>
+              <Button text="Save Changes" filter />
+              <button
+                type="button"
+                className="btn btn-link text-muted nounderline "
+                onClick={this.back.bind(this)}
+                style={{ fontSize: 14 }}
+              >
+                Cancel
+                </button>
             </form>
+            <form onSubmit={this.onChangePassword.bind(this)} className="col-md-6">
+              <div className="form-group">
+                <small className="form-text text-muted">
+                  Password <span>(Optional)</span>
+                </small>
+                <input
+                  name="password"
+                  type="password"
+                  className="form-control"
+                  value={password}
+                  onChange={this.onChange.bind(this)}
+                />
+              </div>
+              <div className="form-group">
+                <small className="form-text text-muted">
+                  Repeat Password <span>(Optional)</span>
+                </small>
+                <input
+                  name="re_password"
+                  type="password"
+                  className="form-control"
+                  value={re_password}
+                  onChange={this.onChange.bind(this)}
+                />
+              </div>
+              <Button text="Change Password" filter />
+            </form>
+
             <div className="pt-3">
               <Alert type="danger" hide={!errorMessage}>
                 {errorMessage}
@@ -263,6 +295,16 @@ class Profile extends Component {
       showCancelButton: true,
       confirmButtonColor: COLORS.Success,
       onConfirm: this.editUser.bind(this),
+      onCancel: () => this.setState({ alertShow: false, loading: false })
+    };
+  }
+  getChangePasswordAlertProps() {
+    return {
+      title: "Change Password",
+      text: "Are you sure to change your password?",
+      showCancelButton: true,
+      confirmButtonColor: COLORS.Success,
+      onConfirm: this.changePassword.bind(this),
       onCancel: () => this.setState({ alertShow: false, loading: false })
     };
   }
