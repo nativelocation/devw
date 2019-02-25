@@ -171,6 +171,7 @@ class List extends Component {
           <tr key={i}>
             <td>{fullName}</td>
             <td>{role}</td>
+            <td>{r.email}</td>
             <td>
               <div className="d-flex flex-row justify-content-center">
                 <button
@@ -215,7 +216,8 @@ class List extends Component {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Active</th>
+              <th>Role</th>
+              <th>Email</th>
               <th />
             </tr>
           </thead>
