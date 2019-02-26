@@ -190,7 +190,7 @@ class DailyGoals extends Component {
               {listUsers}
             </div>
             <form className='formTask' onSubmit={e => this.onSubmit(e)} >
-              <Input value={task} name='task' placeholder='Type in Your Goals' onChange={this.onChange.bind(this)} />
+              <Input value={task} name='task' placeholder='Type in Your Goals' max={500} onChange={this.onChange.bind(this)} />
               <div className='mt-2 d-md-flex flex-md-row justify-content-md-end'>
                 <div className='col-md-12 d-flex flex-row justify-content-end p-0'>
                   <div className='d-md-flex flex-md-row col-md-12 p-0'>

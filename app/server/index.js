@@ -53,5 +53,5 @@ app.use((err, req, res, next) => {
 });
 
 helpers.initApp();
-helpers.keepsAwakeHeroku();
+// helpers.keepsAwakeHeroku();
 app.listen(port, _ => console.log(`The server is listening on port ${port}`));
