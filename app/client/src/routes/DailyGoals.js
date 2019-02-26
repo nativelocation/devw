@@ -70,7 +70,8 @@ class DailyGoals extends Component {
   onSubmit(e) {
     e.preventDefault();
     if (e) e.preventDefault();
-    const { taskDate, customDate } = this.state;
+    const { account } = this.props;
+    const { taskDate, customDate, task } = this.state;
     let taskDateFormat = "";
 
     switch (taskDate.toLowerCase()) {
@@ -91,18 +92,11 @@ class DailyGoals extends Component {
         break;
       }
     }
-    const { task } = this.state;
+
     if (_.isEmpty(task)) return this.setState({ errorMessage: 'Task is required' });
-    this.setState({ alertShow: true, alertProps: this.getSaveAlertProps(), taskDateFormat });
-  }
-
-  saveTask() {
-    const { account } = this.props;
-    const userId = account._id;
-    const { task, taskDateFormat, customDate } = this.state;
-    const data = { userId, task, taskDate: taskDateFormat };
-
-    this.setState({ loading: true });
+    
+    const data = { userId: account._id, task, taskDate: taskDateFormat };
+    this.setState({ loading: true, taskDateFormat });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
       if (res.status === 201) {
         this.setState({ errorMessage: "", loading: false, alertShow: false, task: "", selectValue: this.state.taskDate, customDateValue: customDate });
