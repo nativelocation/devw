@@ -23,6 +23,7 @@ class List extends Component {
     fullName: "",
     lastName: "",
     email: "",
+    mail: "",
     rol: 1,
     password: "12345678",
     errorMessage: "",
@@ -50,7 +51,6 @@ class List extends Component {
 
   adminUser = id => {
     const { idUser } = this.state;
-    console.log();
     this.setState({ showTable: false, isEdit: true });
   };
 
@@ -61,17 +61,18 @@ class List extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { firstName, lastName, email } = this.state;
+    const { firstName, lastName, mail } = this.state;
     if (_.isEmpty(firstName)) return this.setState({ errorMessage: 'First name is required' });
     if (_.isEmpty(lastName)) return this.setState({ errorMessage: 'Last name is required' });
-    if (_.isEmpty(email)) return this.setState({ errorMessage: 'Email is required' });
+    if (_.isEmpty(mail)) return this.setState({ errorMessage: 'Email is required' });
     this.setState({ alertShow: true, alertProps: this.getSaveAlertProps() });
   }
 
   saveUser() {
     const { account } = this.props;
-    const { firstName, lastName, email, rol, password } = this.state;
+    const { firstName, lastName, mail, rol, password } = this.state;
     let role = parseInt(rol);
+    let email = mail.toLowerCase();
     const data = { firstName, lastName, email, role, password };
     this.setState({ loading: true });
     Api.CreateUser(account.tokenAuth, data)
@@ -107,7 +108,7 @@ class List extends Component {
   }
 
   existsEmail(e) {
-    let email = e.target.value;
+    let email = e.target.value.toLowerCase();
     const data = { email };
     const { account } = this.props;
     this.setState({ disabledButton: false, errorMessage: "" })
@@ -250,7 +251,7 @@ class List extends Component {
           <div className="form-group">
             <small className="form-text text-muted">Email</small>
             <input
-              name="email"
+              name="mail"
               type="email"
               className="form-control"
               onChange={this.onChange.bind(this)}

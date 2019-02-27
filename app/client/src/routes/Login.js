@@ -19,8 +19,7 @@ export default class Login extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     this.setState({ loading: true });
-
-    Api.Login({ email, password })
+    Api.Login({ email:email.toLowerCase(), password })
       .then(res => {
         const { status, data } = res;
         let errorMessage = "";
