@@ -14,7 +14,9 @@ import SweetAlert from "sweetalert-react";
 import { COLORS, FONTS } from "../config/constants";
 import DatePicker from "react-datepicker";
 import FilterGoals from "../components/FilterGoals";
+import openSocket from 'socket.io-client';
 import "react-datepicker/dist/react-datepicker.css";
+import account from '../redux/reducers/account';
 
 var moment = require("moment");
 class DailyGoals extends Component {
@@ -39,6 +41,9 @@ class DailyGoals extends Component {
     selectValue: "Today",
     isChecked: false
   };
+  NEW_GOAL_CHANGE = "NEWGOALCHANGE";
+  GOAL_CHANGE = "GOALCHANGE";
+  JOIN_GOAL_ROOM = "JOINGOALROOM";
 
   handleCollapse(e) {
     let wrapperWidth = 'calc(100% - 16.7%)';
@@ -47,7 +52,23 @@ class DailyGoals extends Component {
   }
 
   componentWillMount() {
+    this.socket = openSocket('/goal_socket');
+    this.socket.emit(this.JOIN_GOAL_ROOM);
     this.allData()
+  }
+
+  componentDidMount() {
+    this.socket.on(this.NEW_GOAL_CHANGE, this.loadGoalsBySocket.bind(this));
+  }
+
+  loadGoalsBySocket(data) {
+    const { account } = this.props;
+    if (data._id !== account._id) this.updateGoals();
+  }
+
+  subscribeToTimer(cb) {
+    socket.on('timer', timestamp => cb(null, timestamp));
+    socket.emit('subscribeToTimer', 1000);
   }
 
   async allData() {
@@ -94,13 +115,14 @@ class DailyGoals extends Component {
     }
 
     if (_.isEmpty(task)) return this.setState({ errorMessage: 'Task is required' });
-    
+
     const data = { userId: account._id, task, taskDate: taskDateFormat };
     this.setState({ loading: true, taskDateFormat });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
       if (res.status === 201) {
         this.setState({ errorMessage: "", loading: false, alertShow: false, task: "", selectValue: this.state.taskDate, customDateValue: customDate });
         this.updateGoals(taskDateFormat);
+        this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
       } else {
         this.setState({
           errorMessage: res.message,
@@ -140,6 +162,7 @@ class DailyGoals extends Component {
         if (res.status === 201) {
           this.setState({ alertShow: false, loading: false })
           this.updateGoals();
+          this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
         } else closeProcess(res.message);
       }).catch(err => { if (err.message) closeProcess(err.message); });
     } else closeProcess("Error Id Required");
@@ -151,7 +174,10 @@ class DailyGoals extends Component {
     const data = { checked, _id };
 
     Api.UpdateGoal(account.tokenAuth, data).then(res => {
-      if (res.status === 201) this.updateGoals();
+      if (res.status === 201) {
+        this.updateGoals();
+        this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
+      }
     }).catch(err => {
       console.log(err.message)
     });
