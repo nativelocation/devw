@@ -3,10 +3,12 @@ const createError = require("http-errors");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
+const cookieParser = require('cookie-parser');
 const busboy = require("connect-busboy");
 const busboyBodyParser = require("busboy-body-parser");
-const app = express();
 const helpers = require('./src/config/helpers');
+const socket_io = require("socket.io");
+const http = require('http');
 const routes = require('./src/routes');
 
 //Route Name
@@ -16,6 +18,12 @@ const adminRouter = routes.admin;
 const devRouter = routes.developer;
 const goalRouter = routes.goal;
 const alexaCVRouter = routes.clearview;
+const goalSocket = routes.goalSocket;
+
+const app = express();
+const server = http.createServer(app);
+app.io = socket_io(server);
+goalSocket.socket(app.io);
 
 const port = process.env.PORT || 8000;
 const publicPath = path.join(__dirname, "../../public");
@@ -26,9 +34,9 @@ app.use(express.json());
 app.use(express.static(publicPath));
 app.use(express.urlencoded({ extended: false }));
 app.use(busboyBodyParser());
-app.set("view engine", "ejs");
+app.use(cookieParser());
 
-//Routes
+//Routes for panel
 app.use('/api/project', projectRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRouter);
@@ -40,7 +48,6 @@ app.get("*", (req, res, next) => {
   if (req.url.includes("api")) return next();
   res.sendFile(path.resolve(publicPath, "index.html"));
 });
-
 app.use((req, res, next) => {
   next(createError(404));
 });
@@ -53,5 +60,6 @@ app.use((err, req, res, next) => {
 });
 
 helpers.initApp();
-// helpers.keepsAwakeHeroku();
-app.listen(port, _ => console.log(`The server is listening on port ${port}`));
+server.listen(port);
+server.on('listening', () => console.log("Listening on Port: " + port));
+server.on('error', e => console.log("Error runing server = ", e));

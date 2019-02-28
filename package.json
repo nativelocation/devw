@@ -26,6 +26,7 @@
     "busboy": "^0.2.14",
     "busboy-body-parser": "^0.3.2",
     "connect-busboy": "0.0.2",
+    "cookie-parser": "^1.4.4",
     "dotenv": "^6.1.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
@@ -45,6 +46,7 @@
     "react-toasts": "^2.0.14",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "socket.io": "^2.2.0",
     "ssml-builder": "^0.4.3",
     "sweetalert-react": "^0.4.11",
     "teamwork-api": "^1.0.1"
