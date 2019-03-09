@@ -29,7 +29,7 @@ class DailyGoals extends Component {
     loading: true,
     wrapperWidth: 'calc(100% - 16.7%)',
     task: '',
-    taskDate: 'today',
+    taskDate: 'Today',
     taskDateFormat: '',
     alertProps: { title: "Alert" },
     alertShow: false,
@@ -185,7 +185,7 @@ class DailyGoals extends Component {
 
   render() {
     const { account } = this.props;
-    const { loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
+    const { taskDate, loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
     let listUsers = [];
 
     if (Object.keys(users).length > 0) {
@@ -219,7 +219,7 @@ class DailyGoals extends Component {
                     </div>
                     <div className="d-md-flex flex-md-row col-md-6">
                       {custom}
-                      <SelectInputGoals onChange={this.onChange.bind(this)} name='taskDate' />
+                      <SelectInputGoals value={taskDate} onChange={this.onChange.bind(this)} name='taskDate' />
                       <Button text='Add Goal' filter />
                     </div>
                   </div>
