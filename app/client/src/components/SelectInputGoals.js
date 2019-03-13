@@ -26,8 +26,8 @@ export default class SelectInputGoals extends Component {
         return (
             <div className="input-group">
                 <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{ backgroundColor: '#666667', height: 35 }}>
-                    <option>Today</option>
                     {isForSideBar ? <option>Yesterday</option> : undefined}
+                    <option>Today</option>
                     <option>Tomorrow</option>
                     <option>Monday</option>
                     <option>Custom</option>
