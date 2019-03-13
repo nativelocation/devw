@@ -16,7 +16,6 @@ import DatePicker from "react-datepicker";
 import FilterGoals from "../components/FilterGoals";
 import openSocket from 'socket.io-client';
 import "react-datepicker/dist/react-datepicker.css";
-import account from '../redux/reducers/account';
 
 var moment = require("moment");
 class DailyGoals extends Component {
@@ -38,7 +37,7 @@ class DailyGoals extends Component {
     customDate: new Date(),
     customDateValue: new Date(),
     filterDateSidebar: '',
-    selectValue: "Today",
+    selectValue: "Yesterday",
     isChecked: false
   };
   NEW_GOAL_CHANGE = "NEWGOALCHANGE";
@@ -73,7 +72,7 @@ class DailyGoals extends Component {
 
   async allData() {
     const { account } = this.props;
-    const filterDateSidebar = moment().format("YYYYMMDD");
+    const filterDateSidebar = moment().subtract(1, "days").format("YYYYMMDD");
     const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: filterDateSidebar });
     const users = await Api.GetAllUser(account.tokenAuth);
     this.setState({ tasks, users, loading: false, filterDateSidebar });
@@ -98,6 +97,10 @@ class DailyGoals extends Component {
     switch (taskDate.toLowerCase()) {
       case "today": {
         taskDateFormat = moment().format("YYYYMMDD");
+        break;
+      }
+      case "yesterday": {
+        taskDateFormat = moment().subtract(1, "days").format("YYYYMMDD");
         break;
       }
       case "tomorrow": {
