@@ -2,23 +2,23 @@ const alexa = require("../config/alexa");
 const model = require('./models/clearview');
 const applicationId = 'amzn1.ask.skill.341f13f9-ba93-461c-a9c9-8f261ef6749c';
 const texts = {
-    welcome: "Welcome to ClearView for SerpicoDev, ",
-    welcome2: "you can ask for a status update or your total hours, ",
-    welcome3: "please say your PIN to log into your account.",
-    welcomeBack: "Welcome back ",
-    welcomeBack2: "what do you want to do today?",
+    welcome: "Welcome to ClearView for SerpicoDev ",
+    welcome2: "You can ask for a status update or your total hours. ",
+    welcome3: "Please say your PIN to log into your account.",
+    welcomeBack: "Welcome back! ",
+    welcomeBack2: "What do you want to do today?",
     totalHoursResult: "Your total hours for {project} is",
     statusUpdateResult: 'Your status update for {project} is',
     noStatusUpdateResult: "There is no status update for {project}. Please request a status update from SerpicoDEV support.",
-    noIntentFound: "CleaView Can't process that request right now, you can ask for your status update or total hours right now",
-    genericError: "Ooh-uh, there's an error, please contact to SerpicoDev's Support",
-    idenfitySuccess: "You are now logged in. You can ask for your total hours or status update.",
+    noIntentFound: "CleaView can't process your request right now. You can ask for your status update or total hours right now.",
+    genericError: "Ooh-uh! There's an error. Please contact SerpicoDev support.",
+    idenfitySuccess: "You are now logged in. You can ask for your total hours or your status update.",
     idenfityErrorRequired: "A 4-Digit PIN is required to log in.",
-    idenfityErrorNotFound: "The 4-Digit pin you provided doesn't exist, please, contact SerpicoDev or provide your pin access again.",
-    idenfityErrorNotConfirmed: "A 4-Digit pin is required to identify you, please, contact SerpicoDev or provide your pin access again.",
+    idenfityErrorNotFound: "The 4-Digit PIN you provided doesn't exist. Please contact SerpicoDev or provide your PIN access again.",
+    idenfityErrorNotConfirmed: "A 4-Digit PIN is required. Please contact SerpicoDev or provide your PIN access again.",
     youAreNotLogged: "You are not logged into ClearView. Please provide a 4-Digit PIN.",
-    youAreAlreadyLogged: "You are already logged as",
-    youAreAlreadyLogged2: ", you can ask for your total hours or a status update.",
+    youAreAlreadyLogged: "You are already logged in as",
+    youAreAlreadyLogged2: "You can ask for your total hours or a status update.",
     ok: 'Okay!'
 }
 
