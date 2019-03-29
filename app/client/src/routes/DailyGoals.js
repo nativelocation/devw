@@ -37,7 +37,7 @@ class DailyGoals extends Component {
     customDate: new Date(),
     customDateValue: new Date(),
     filterDateSidebar: '',
-    selectValue: "Yesterday",
+    selectValue: "Today",
     isChecked: false
   };
   NEW_GOAL_CHANGE = "NEWGOALCHANGE";
