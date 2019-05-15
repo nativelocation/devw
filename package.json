@@ -10,6 +10,8 @@
     "server": "nodemon ./app/server/index.js",
     "heroku:logs": "heroku logs --tail",
     "dev": "npm-run-all --parallel dev:*",
+    "dailyGoals":"node ./app/server/src/jobs/dailyGoals.js",
+    "dailyHours":"node ./app/server/src/jobs/dailyHours.js",
     "dev:server": "npm run server",
     "dev:client": "npm run client",
     "dev2": "npm-run-all --parallel dev2:*",
