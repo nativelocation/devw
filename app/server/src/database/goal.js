@@ -2,12 +2,12 @@ const db = require('../config/mongoose');
 
 module.exports = {
     create: async data => {
-        const { userId, task, taskDate, checked, isDelete, created_at, updated_at } = data;
-        const item = new db.Goals({ userId, task, taskDate, checked, isDelete, created_at, updated_at });
+        const { userId, task, taskDate, checked, isDelete, created_at, updated_at, priority } = data;
+        const item = new db.Goals({ userId, task, taskDate, checked, isDelete, created_at, updated_at, priority });
         return await item.save();
     },
-    update: async (id, checked, updated_at) => {
-        await db.Goals.findByIdAndUpdate(id, { checked, updated_at });
+    update: async (id, data) => {
+        await db.Goals.findByIdAndUpdate(id, _.omitBy(data, _.isNil));
         return await db.Goals.findById(id);
     },
     loginDelete: async (id, isDelete, updated_at) => {
