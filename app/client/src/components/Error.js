@@ -7,11 +7,7 @@ import React, { Fragment } from "react";
  */
 
 const Error = ({ text }) => {
-    return (
-        <Fragment>
-            {text ? <span className='invalid-feedback d-block'>{text}</span> : null}
-        </Fragment>
-    )
-}
+	return <Fragment>{text ? <span className='invalid-feedback d-block'>{text}</span> : null}</Fragment>;
+};
 
 export default Error;

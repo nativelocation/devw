@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { COLORS, FONTS } from '../config/constants.js';
+import { COLORS, FONTS } from "../config/constants.js";
 /**
  * The Select Input Component.
  *
@@ -12,28 +12,34 @@ import { COLORS, FONTS } from '../config/constants.js';
  */
 
 export default class SelectInputGoals extends Component {
-    state = {
-        items: {},
-    }
+	state = {
+		items: {}
+	};
 
-    render() {
-        const { onChange, name, value, placeholder, classes, isForSideBar } = this.props;
-        const content = typeof (placeholder);
-        if (content === 'string') {
-            defaultText = placeholder;
-        }
+	render() {
+		const { onChange, name, value, placeholder, classes, isForSideBar } = this.props;
+		const content = typeof placeholder;
+		if (content === "string") {
+			defaultText = placeholder;
+		}
 
-        return (
-            <div className="input-group">
-                <select id={name} name={name} className={`custom-select text-white ${classes ? classes : ''}`} onChange={onChange} value={value} style={{ backgroundColor: '#666667', height: 35 }}>
-                    {isForSideBar ? <option>Yesterday</option> : undefined}
-                    <option>Today</option>
-                    <option>Tomorrow</option>
-                    <option>Monday</option>
-                    <option>Custom</option>
-                </select>
-            </div>
-        )
-    }
-};
-
+		return (
+			<div className='input-group'>
+				<select
+					id={name}
+					name={name}
+					className={`custom-select text-white ${classes ? classes : ""}`}
+					onChange={onChange}
+					value={value}
+					style={{ backgroundColor: "#666667", height: 35, fontSize: 14 }}
+				>
+					{isForSideBar ? <option>Yesterday</option> : undefined}
+					<option>Today</option>
+					<option>Tomorrow</option>
+					<option>Monday</option>
+					<option>Custom</option>
+				</select>
+			</div>
+		);
+	}
+}

@@ -43,15 +43,6 @@ const methods = {
             callback(merge);
         });
         req.pipe(midleware);
-    },
-    keepsAwakeHeroku: (interval = 300000) => {
-        require('dotenv').config();
-        const { HEROKU_APP_NAME } = process.env;
-        if (HEROKU_APP_NAME) {
-            const url = `http://${HEROKU_APP_NAME}.herokuapp.com/`;
-            console.log('Starting url and interval: ', url, interval);
-            setInterval(() => http.get(url, null, e => console.log('called: ', url)), interval)
-        } else console.log('Heroku APPNAME not found: ', HEROKU_APP_NAME);
     }
 }
 
