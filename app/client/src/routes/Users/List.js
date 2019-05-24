@@ -205,7 +205,7 @@ class List extends Component {
         onClick={() => this.setState({ showTable: false, errorMessage: "" })}
         style={{ fontSize: 14 }}
       >
-        Add New
+        + New user
       </button>
     ) : (
         undefined
@@ -300,7 +300,7 @@ class List extends Component {
       <Fragment>
         <Sidebar admin="admin" />
         <Wrapper title={title} onClick={this.onLogout} hideLink>
-          <div className="d-flex flex-row" style={{ height: '80px' }}>{buttonNew}</div>
+          <div className="addUserBtn" style={{ height: '80px' }}>{buttonNew}</div>
           {showForm}
           <SweetAlert show={alertShow} {...alertProps} />
           <Loading

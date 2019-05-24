@@ -265,3 +265,9 @@ hr {
   color: #212529;
   height: 90vh !important;
 }
+.addUserBtn {
+  display: flex;
+  align-items: flex-end;
+  height: 80px;
+  flex-direction: column-reverse;
+}
