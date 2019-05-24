@@ -10,6 +10,7 @@ const model = {
         if (!data.taskDate) throw { code: 400, msg: "Date is required" };
         data.checked = false;
         data.isDelete = false;
+        data.priority = 'low';
         data.created_at = moment.utc().format();
         data.updated_at = moment.utc().format();
         return await goal.create(data);
@@ -19,7 +20,7 @@ const model = {
         if (!data._id) throw { code: 400, msg: "Id is required" };
         if (data.checked === undefined) throw { code: 400, msg: "Checked is required" };
         data.updated_at = moment.utc().format();
-        return await goal.update(data._id, data.checked, data.updated_at);
+        return await goal.update(data._id, data);
     },
     logicDelete: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
