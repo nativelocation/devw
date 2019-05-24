@@ -21,6 +21,7 @@
   "author": "Author of Devview",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.0.0",
     "alexa-app": "^4.2.3",
     "bcryptjs": "^2.4.3",
     "busboy": "^0.2.14",

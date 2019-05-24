@@ -44,6 +44,12 @@ class Admin extends Component {
     localStorage.removeItem("tokenAuth");
     window.location.reload();
   }
+  
+  handleScroll(e) {
+    const { scrollLeft, scrollWidth, offsetWidth } = this.refs.table;
+    const scrollRight = scrollWidth - offsetWidth - scrollLeft;
+    this.setState({ scrollLeft, scrollRight });
+  }
 
   async onChangeActive(e, id, prev) {
     const { account } = this.props;
@@ -157,7 +163,7 @@ class Admin extends Component {
     const process = this.state.process;
     const table = (
       <div className="d-flex flex-row table-responsive tableProjects">
-        <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }}>
+        <table ref="table" className="table table-striped table-hover table-borderless d-flex flex-column" style={{ overflowX: "scroll" }} onScroll={this.handleScroll.bind(this)}>
           <thead>
             <tr>
               <th>Name</th>

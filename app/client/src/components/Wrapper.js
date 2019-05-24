@@ -11,7 +11,7 @@ class Wrapper extends Component {
 
   render() {
     const { children, title, account, maxWidth } = this.props;
-    let showTitle = title ? <h5 className="float-left">{title}</h5> : undefined;
+    let showTitle = title ? <h5 className="float-left nameView">{title}</h5> : undefined;
     let showDash = account.role === 1 ? (
       <Link
         to="/"

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 
 class UserGoals extends Component {
@@ -44,21 +45,20 @@ class UserGoals extends Component {
                                     {account._id === x.userId ? (
                                         <React.Fragment>
                                             <span className='mt-1 mr-2'>
-                                                <a href='javascript:;' onClick={() => this.onDelete(x._id)} className='nounderline text-dark'><i className="fa fa-trash-alt" aria-hidden="true"></i></a>
+                                                <a href='javascript:;' onClick={() => this.onDelete(x._id)} className='nounderline text-dark'><Tooltip title="Delete Task"><i className="fa fa-trash-alt" aria-hidden="true"></i></Tooltip></a>
                                             </span>
                                             <div className="mt-1 mr-2">
                                                 <DatePicker
                                                     customInput={
                                                         <span>
-                                                            <a href='javascript:;' className='nounderline text-dark'><i className="fa fa-calendar-alt" aria-hidden="true"></i></a>
+                                                            <a href='javascript:;' className='nounderline text-dark'><Tooltip title="Move Task"><i className="fa fa-calendar-alt" aria-hidden="true"></i></Tooltip></a>
                                                         </span>
                                                     }
                                                     onChange={(date) => this.changeGoalData(x._id, { checked: x.checked, taskDate: moment(date).format('YYYYMMDD') })} />
                                             </div>
                                             <div className="mt-1 mr-2">
                                                 <span>
-                                                    <a href='javascript:;' onClick={() => this.onShowPriorityBox(i, true)} className='nounderline text-dark'>
-                                                    <i className="fa fa-fire-extinguisher"></i></a>
+                                                    <a href='javascript:;' onClick={() => this.onShowPriorityBox(i, true)} className='nounderline text-dark'><Tooltip title="Choose Priority"><i className="fa fa-fire-extinguisher"></i></Tooltip></a>
                                                 </span>
                                                 {showPriorityBox[i] &&
                                                     <React.Fragment>
@@ -74,18 +74,18 @@ class UserGoals extends Component {
                                             </div>
                                         </React.Fragment>
                                     ) : undefined}
-                                    <div className="form-check py-1">
-                                        <label className="form-check-label">
-                                            {account._id !== user._id ?
-                                                <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
-                                                <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
-                                            {x.task}
-                                        </label>
-                                        {x.priority &&
+                                    <div className="">
+                                    {x.priority &&
                                             <span className={`priority ${x.priority}`}>
                                                 {x.priority}
                                             </span>
                                         }
+                                        <label className="form-check-label">
+                                            {account._id !== user._id  && x.priority ?
+                                                <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
+                                                <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
+                                            {x.task}
+                                        </label>
                                     </div>
                                 </div>)
                         })}

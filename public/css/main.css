@@ -70,7 +70,7 @@ html {
 }
 
 body {
-  overflow: auto;
+ 
 }
 
 #root {
@@ -212,7 +212,8 @@ hr {
 }
 
 .priority {
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 2rem;
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 0.7em;
@@ -247,4 +248,20 @@ hr {
   z-index: 100;
   margin-left: 10px;
   margin-right: 20px;
+}
+
+.nameView {
+  font-size: 2.5rem;
+}
+
+.collapseBtn {
+  top: 27px;
+  padding-right: 28px;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  height: 90vh !important;
 }

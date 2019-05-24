@@ -202,33 +202,13 @@ class DailyGoals extends Component {
 
   render() {
     const { account } = this.props;
-    const { 
-      taskDate, 
-      loading, 
-      wrapperWidth, 
-      alertShow, 
-      alertProps, 
-      showCustom, 
-      task, 
-      tasks, 
-      users, 
-      customDate, 
-      errorMessage, 
-      selectValue, 
-      customDateValue } = this.state;
+    const { taskDate, loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
     let listUsers = [];
 
     if (Object.keys(users).length > 0) {
       const myUser = users.data.find(u => u._id === account._id);
       const myGoals = tasks.data.filter(t => t.userId === account._id);
-      const myComponent = (
-        <UserGoals 
-          key={-1} 
-          data={myGoals} 
-          user={myUser} 
-          onDelete={this.showDeleteUserAlert.bind(this)} 
-          changeGoalData={this.changeGoalData.bind(this)} 
-          onChecked={this.onChecked.bind(this)} />)
+      const myComponent = <UserGoals key={-1} data={myGoals} user={myUser} onDelete={this.showDeleteUserAlert.bind(this)} changeGoalData={this.changeGoalData.bind(this)} onChecked={this.onChecked.bind(this)} />;
       const usersGoals = users.data.map((x, i) => {
         let userGoals = tasks.data.filter(t => t.userId === x._id)
         if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} />
