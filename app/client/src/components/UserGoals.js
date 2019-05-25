@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import EdiText from 'react-editext';
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,7 +20,7 @@ class UserGoals extends Component {
         const { changeGoalData } = this.props;
         if (changeGoalData) changeGoalData(id, data);
     }
-
+    
     onChecked(e, id) {
         const { onChecked } = this.props;
         if (onChecked) onChecked(e, id)
@@ -30,7 +31,11 @@ class UserGoals extends Component {
         newV[index] = status;
         this.setState({ showPriorityBox: newV });
     }
-
+    
+    onSave = val => {
+        console.log('Edited Value -> ', val);
+        return val;
+      }
     render() {
         const { data, user, account } = this.props;
         const { showPriorityBox } = this.state;
@@ -41,7 +46,7 @@ class UserGoals extends Component {
                     <div className='pl-2'>
                         {data.map((x, i) => {
                             return (
-                                <div className={`d-flex flex-row`} key={i}>
+                                <div className="d-flex flex-row" key={i}>
                                     {account._id === x.userId ? (
                                         <React.Fragment>
                                             <span className='mt-1 mr-2'>
@@ -74,18 +79,16 @@ class UserGoals extends Component {
                                             </div>
                                         </React.Fragment>
                                     ) : undefined}
-                                    <div className="">
+                                    <div className="newTask">
                                     {x.priority &&
                                             <span className={`priority ${x.priority}`}>
                                                 {x.priority}
                                             </span>
                                         }
-                                        <label className="form-check-label">
-                                            {account._id !== user._id  && x.priority ?
-                                                <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
-                                                <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
-                                            {x.task}
-                                        </label>
+                                        {account._id !== user._id  && x.priority ?
+                                            <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
+                                            <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
+                                            <EdiText type='text' value={x.task} onSave={this.onSave}/>
                                     </div>
                                 </div>)
                         })}

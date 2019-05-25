@@ -220,6 +220,8 @@ hr {
   text-transform: uppercase;
   color: white;
   user-select: none;
+  width: 55px;
+  text-align: center;
 }
 
 .priority.low {
@@ -270,4 +272,25 @@ hr {
   align-items: flex-end;
   height: 80px;
   flex-direction: column-reverse;
+}
+
+.newTask {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: space-between;
+    margin-top: -5px;
+}
+
+.form-check-input {
+  position: inherit;
+  margin-top: .3rem;
+  margin-left: -1.25rem;
+  margin-right: .50rem;
+}
+
+.styles_Editext__edit_button__hthOZ {
+  border: none !important;
+  color: #000;
 }
