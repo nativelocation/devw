@@ -32,9 +32,10 @@ class UserGoals extends Component {
         this.setState({ showPriorityBox: newV });
     }
     
-    onSave = val => {
-        console.log('Edited Value -> ', val);
-        return val;
+    onSave = (id, newVal) => {
+        console.log('Edited Value -> ', newVal);
+        const { onEdit } = this.props;
+        if (onEdit) onEdit(id,newVal);
       }
     render() {
         const { data, user, account } = this.props;
@@ -88,7 +89,9 @@ class UserGoals extends Component {
                                         {account._id !== user._id  && x.priority ?
                                             <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
                                             <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
-                                            <EdiText type='text' value={x.task} onSave={this.onSave}/>
+                                            {account._id === x.userId ?
+                                            <EdiText type='text' value={x.task} onSave={val=>this.onSave(x._id,val)}/>:
+                                            <p>{x.task}</p>}
                                     </div>
                                 </div>)
                         })}
