@@ -34,24 +34,14 @@ class UserGoals extends Component {
         this.setState({ showPriorityBox: newV });
     }
     
-    onSave = (val) => {
-        const culo = this.state;
-        console.log('Edited Value -> ', val);
-        console.log("data", this.props);
-        console.log("jaja",EdiText.props)
-        // if (_id) {
-        //     Api.UpdateGoal(account.tokenAuth, { _id, ...data }).then(res => {
-        //       if (res.status === 201) {
-        //         this.setState({ alertShow: false, loading: false });
-        //         this.updateGoals();
-        //         this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
-        //       } else closeProcess(res.message);
-        //     }).catch(err => { if (err.message) closeProcess(err.message); });
-        //   } else closeProcess("Error Id Required");
-        return val;
+    onSave = (id, newVal, cheked) => {
+        console.log('Edited Value -> ', newVal);
+        console.log('Value id -> ', id);
+        console.log('Value checked -> ', cheked);
+        const { onEdit } = this.props;
+        if (onEdit) onEdit(id, newVal, cheked);
       }
 
-    updateTaskText = ()()
     render() {
         const { data, user, account } = this.props;
         const { showPriorityBox } = this.state;
@@ -62,7 +52,7 @@ class UserGoals extends Component {
                     <div className='pl-2'>
                         {data.map((x, i) => {
                             return (
-                                <div className="d-flex flex-row" key={i}>
+                                <div className="d-flex flex-row task-row" key={i}>
                                     {account._id === x.userId ? (
                                         <React.Fragment>
                                             <span className='mt-1 mr-2'>
@@ -104,7 +94,10 @@ class UserGoals extends Component {
                                         {account._id !== user._id  && x.priority ?
                                             <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
                                             <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
-                                            <EdiText type='text' value={x.task} onSave={this.onSave} onChange={(e) => this.changeGoalData(x._id, { checked: x.checked, task: onSave })}/>
+                                            {account._id === x.userId ?
+                                            <EdiText type='text' value={x.task} editButtonContent="Edit" hideIcons={true} saveButtonContent="Apply"
+                                            cancelButtonContent={<strong>Cancel</strong>}onSave={val=>this.onSave(x._id, val, x.checked)}/>:
+                                            <label className="labelTask">{x.task}</label>}
                                     </div>
                                 </div>)
                         })}
