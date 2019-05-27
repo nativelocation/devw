@@ -18,8 +18,6 @@ class UserGoals extends Component {
 
     changeGoalData(id, data) {
         const { changeGoalData } = this.props;
-        console.log("changeGoalData Id: ", id);
-        console.log("changeGoalData Data: ", data);
         if (changeGoalData) changeGoalData(id, data);
     }
     
@@ -35,9 +33,6 @@ class UserGoals extends Component {
     }
     
     onSave = (id, newVal, cheked) => {
-        console.log('Edited Value -> ', newVal);
-        console.log('Value id -> ', id);
-        console.log('Value checked -> ', cheked);
         const { onEdit } = this.props;
         if (onEdit) onEdit(id, newVal, cheked);
       }
