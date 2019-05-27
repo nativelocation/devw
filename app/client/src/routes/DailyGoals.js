@@ -143,7 +143,9 @@ class DailyGoals extends Component {
 
   onChange(e) {
     let { showCustom } = this.state;
+    console.log("daily - showCustom -> ", showCustom);
     const { name, value } = e.target;
+    console.log("daily - e.target -> ", e.target);
     if (name === "taskDate") showCustom = e.target.value.toLowerCase() === "custom";
     this.setState({ [name]: value, errorMessage: "", showCustom });
   }

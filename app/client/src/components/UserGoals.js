@@ -8,7 +8,7 @@ import moment from 'moment';
 
 class UserGoals extends Component {
     state = {
-        showPriorityBox: [],
+        showPriorityBox: []
     }
 
     onDelete(id) {
@@ -18,6 +18,8 @@ class UserGoals extends Component {
 
     changeGoalData(id, data) {
         const { changeGoalData } = this.props;
+        console.log("changeGoalData Id: ", id);
+        console.log("changeGoalData Data: ", data);
         if (changeGoalData) changeGoalData(id, data);
     }
     
@@ -32,10 +34,24 @@ class UserGoals extends Component {
         this.setState({ showPriorityBox: newV });
     }
     
-    onSave = val => {
+    onSave = (val) => {
+        const culo = this.state;
         console.log('Edited Value -> ', val);
+        console.log("data", this.props);
+        console.log("jaja",EdiText.props)
+        // if (_id) {
+        //     Api.UpdateGoal(account.tokenAuth, { _id, ...data }).then(res => {
+        //       if (res.status === 201) {
+        //         this.setState({ alertShow: false, loading: false });
+        //         this.updateGoals();
+        //         this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
+        //       } else closeProcess(res.message);
+        //     }).catch(err => { if (err.message) closeProcess(err.message); });
+        //   } else closeProcess("Error Id Required");
         return val;
       }
+
+    updateTaskText = ()()
     render() {
         const { data, user, account } = this.props;
         const { showPriorityBox } = this.state;
@@ -88,14 +104,13 @@ class UserGoals extends Component {
                                         {account._id !== user._id  && x.priority ?
                                             <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
                                             <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
-                                            <EdiText type='text' value={x.task} onSave={this.onSave}/>
+                                            <EdiText type='text' value={x.task} onSave={this.onSave} onChange={(e) => this.changeGoalData(x._id, { checked: x.checked, task: onSave })}/>
                                     </div>
                                 </div>)
                         })}
                     </div>
                 }
             </div>
-
         )
     }
 };
