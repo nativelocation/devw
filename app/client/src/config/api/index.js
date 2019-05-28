@@ -25,8 +25,10 @@ class ApiModel {
     //Goals
     GetGoals = token => FetchRequest(c.GETALLGOALS, 'GET', token);
     GetGoalsByDate = (token, data) => FetchRequest(c.GETGOALSBYDATE, 'POST', token, data);
+    GetGoalsByPriority = (token, data) => FetchRequest(c.GETGOALSBYPRIORITY, "POST", token, data);
     CreateGoal = (token, data) => FetchRequest(c.CREATEGOAL, 'POST', token, data);
     UpdateGoal = (token, data) => FetchRequest(c.UPDATEGOAL, 'PUT', token, data);
+    UpdateGoalsPriority = (token, data) => FetchRequest(c.UPDATEGOALSPRIORITY, "PUT", token, data);
     DeleteGoal = (token, _id) => FetchRequest(c.DELETEGOAL, 'DELETE', token, { _id });
     LogicDeleteGoal = (token, data) => FetchRequest(c.LOGICDELETEGOAL, 'PUT', token, data);
 }
