@@ -90,8 +90,7 @@ class UserGoals extends Component {
                                             <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
                                             <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
                                             {account._id === x.userId ?
-                                            <EdiText type='text' value={x.task} editButtonContent="Edit" hideIcons={true} saveButtonContent="Apply"
-                                            cancelButtonContent={<strong>Cancel</strong>}onSave={val=>this.onSave(x._id, val, x.checked)}/>:
+                                            <EdiText type='text' value={x.task} editButtonContent="Edit" onSave={val=>this.onSave(x._id, val, x.checked)}/>:
                                             <label className="labelTask">{x.task}</label>}
                                     </div>
                                 </div>)
