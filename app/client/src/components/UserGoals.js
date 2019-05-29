@@ -176,13 +176,16 @@ class UserGoals extends Component {
                                         {account._id === x.userId ? (
                                             <React.Fragment>
                                                 <span className='mt-1 mr-2'>
+                                                    <a href='javascript:;' className='nounderline text-dark'><Tooltip title="Move Task"><i className="fa fa-arrows-alt-v" aria-hidden="true"></i></Tooltip></a>
+                                                </span>
+                                                <span className='mt-1 mr-2'>
                                                     <a href='javascript:;' onClick={() => this.onDelete(x._id)} className='nounderline text-dark'><Tooltip title="Delete Task"><i className="fa fa-trash-alt" aria-hidden="true"></i></Tooltip></a>
                                                 </span>
                                                 <div className="mt-1 mr-2">
                                                     <DatePicker
                                                         customInput={
                                                             <span>
-                                                                <a href='javascript:;' className='nounderline text-dark'><Tooltip title="Move Task"><i className="fa fa-calendar-alt" aria-hidden="true"></i></Tooltip></a>
+                                                                <a href='javascript:;' className='nounderline text-dark'><Tooltip title="Change Date"><i className="fa fa-calendar-alt" aria-hidden="true"></i></Tooltip></a>
                                                             </span>
                                                         }
                                                         onChange={(date) => this.changeGoalData(x._id, { checked: x.checked, taskDate: moment(date).format('YYYYMMDD') })} />
