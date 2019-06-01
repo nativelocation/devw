@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import EdiText from 'react-editext';
+//import EditableLabel from 'react-editable-label';
+import EasyEdit from 'react-easy-edit';
 import { connect } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -134,14 +135,10 @@ class UserGoals extends Component {
 		items.splice(index, 0, this.draggedItem);
 
         this.setState({ items, endDragIdx: index });
-        this.forceUpdate()
     }
 
     onDragEnd = () => {
         const { startDragIdx, endDragIdx, items } = this.state;
-        console.log("ondrag items -> ", items);
-		console.log("ondrag start -> ", startDragIdx);
-		console.log("ondrag end -> ", endDragIdx);
 		let subArray = [];
 		let data = [];
 		if (startDragIdx > endDragIdx) {
@@ -157,10 +154,12 @@ class UserGoals extends Component {
 		} else {
 			return;
 		}
-		const { account } = this.props;
-		this.props.onChangePriority(data, account._id);
+        const { account } = this.props;
+        this.props.onChangePriority(data, account._id);
         this.draggedIdx = null;
-        this.setState(this.forceUpdate())
+        this.forceUpdate();
+        // this.props.onChange
+        
 	}
 
     render() {
@@ -219,8 +218,8 @@ class UserGoals extends Component {
                                             {account._id !== user._id  && x.priority ?
                                                 <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
                                                 <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
-                                                {account._id === x.userId ?
-                                                <EdiText key={i} type='text' value={x.task} editButtonContent="Edit" onSave={val=>this.onSave(x._id, val, x.checked)} />:
+                                                { account._id === x.userId ?
+                                                <Tooltip title="Click me to modify"><div><EasyEdit type="text" placeholder={x.task} onSave={val=>this.onSave(x._id, val, x.checked)} onValidate={() => true}/></div></Tooltip> :
                                                 <label className="labelTask">{x.task}</label>}
                                         </div>
                                     </div>

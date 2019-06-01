@@ -237,23 +237,28 @@ class DailyGoals extends Component {
         .catch(err => {
             console.log(err.message);
         });
-        this.forceUpdate()
+        console.log("onChangePriority - PROPS: ", this.props);
+        console.log("onChangePriority - STATE: ", this.state);
+        this.updateGoals();
 }
 
-  forceUpdateHandler = () => {
-  this.forceUpdate();
+  onChangeOrder = (tasks) => {
+  this.setState({tasks, ...this.state});
   }
+
   render() {
     const { account } = this.props;
     const { taskDate, loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
     let listUsers = [];
 
+    const myGoals = tasks.data ? tasks.data.filter(t => t.userId === account._id).sort((a, b) => a.orderList - b.orderList) : []
+
     if (Object.keys(users).length > 0) {
       const myUser = users.data.find(u => u._id === account._id);
       console.log("TASKS  -> ", tasks);
-      const myGoals = tasks.data.filter(t => t.userId === account._id).sort((a, b) => a.orderList - b.orderList);
-      console.log("MyGoals -> ", myGoals);
-      const myComponent = <UserGoals key={-1} data={myGoals} user={myUser} onDelete={this.showDeleteUserAlert.bind(this)} onEdit={this.onEditGoal.bind(this)} changeGoalData={this.changeGoalData.bind(this)} onChecked={this.onChecked.bind(this)} onChangePriority={this.onChangePriority.bind(this)} onUpdateGoals={this.updateGoals.bind(this)}/>;
+      
+      console.log("MyGoals despues del sorting -> ", myGoals);
+      const myComponent = <UserGoals key={-1} data={myGoals} user={myUser} onDelete={this.showDeleteUserAlert.bind(this)} onEdit={this.onEditGoal.bind(this)} changeGoalData={this.changeGoalData.bind(this)} onChecked={this.onChecked.bind(this)} onChangePriority={this.onChangePriority.bind(this)} onUpdateGoals={this.updateGoals.bind(this)} onChangeOrder={this.onChangeOrder.bind(this)}/>;
       const usersGoals = users.data.map((x, i) => {
         let userGoals = tasks.data.filter(t => t.userId === x._id)
         if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} changeGoalData={this.changeGoalData.bind(this)}/>
