@@ -133,7 +133,8 @@ class UserGoals extends Component {
 		// add the dragged item after the dragged over item
 		items.splice(index, 0, this.draggedItem);
 
-		this.setState({ items, endDragIdx: index });
+        this.setState({ items, endDragIdx: index });
+        this.forceUpdate()
     }
 
     onDragEnd = () => {
@@ -158,7 +159,8 @@ class UserGoals extends Component {
 		}
 		const { account } = this.props;
 		this.props.onChangePriority(data, account._id);
-		this.draggedIdx = null;
+        this.draggedIdx = null;
+        this.setState(this.forceUpdate())
 	}
 
     render() {
@@ -176,7 +178,7 @@ class UserGoals extends Component {
                                         {account._id === x.userId ? (
                                             <React.Fragment>
                                                 <span className='mt-1 mr-2'>
-                                                    <a href='javascript:;' className='nounderline text-dark'><Tooltip title="Move Task"><i className="fa fa-arrows-alt-v" aria-hidden="true"></i></Tooltip></a>
+                                                    <a href='javascript:;' className='nounderline text-dark'><Tooltip title="Move Task"><i className="fa fa-grip-horizontal" aria-hidden="true"></i></Tooltip></a>
                                                 </span>
                                                 <span className='mt-1 mr-2'>
                                                     <a href='javascript:;' onClick={() => this.onDelete(x._id)} className='nounderline text-dark'><Tooltip title="Delete Task"><i className="fa fa-trash-alt" aria-hidden="true"></i></Tooltip></a>
@@ -218,7 +220,7 @@ class UserGoals extends Component {
                                                 <input type="checkbox" className="form-check-input" checked={x.checked} readOnly /> :
                                                 <input type="checkbox" className="form-check-input" checked={x.checked} onChange={e => this.onChecked(e, x._id)} />}
                                                 {account._id === x.userId ?
-                                                <EdiText type='text' value={x.task} editButtonContent="Edit" onSave={val=>this.onSave(x._id, val, x.checked)}/>:
+                                                <EdiText key={i} type='text' value={x.task} editButtonContent="Edit" onSave={val=>this.onSave(x._id, val, x.checked)} />:
                                                 <label className="labelTask">{x.task}</label>}
                                         </div>
                                     </div>

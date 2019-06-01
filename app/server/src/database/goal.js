@@ -3,8 +3,8 @@ const _ = require("lodash");
 
 module.exports = {
     create: async data => {
-        const { userId, task, taskDate, checked, isDelete, created_at, updated_at, priority } = data;
-        const item = new db.Goals({ userId, task, taskDate, checked, isDelete, created_at, updated_at, priority });
+        const { userId, task, taskDate, checked, isDelete, created_at, updated_at, priority, orderList } = data;
+        const item = new db.Goals({ userId, task, taskDate, checked, isDelete, created_at, updated_at, priority, orderList });
         return await item.save();
     },
     update: async (id, data) => {
@@ -32,7 +32,7 @@ module.exports = {
         return await db.Goals.find();
     },
     getByPriority: async taskDate => {
-		return await db.Goals.find({ taskDate, isDelete: false }).sort({ priority: "asc" });
+		return await db.Goals.find({ taskDate, isDelete: false }).sort({ orderList: "asc" });
 	},
     getByDate: async taskDate => {
         return await db.Goals.find({ taskDate, isDelete: false });

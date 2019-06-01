@@ -237,8 +237,12 @@ class DailyGoals extends Component {
         .catch(err => {
             console.log(err.message);
         });
+        this.forceUpdate()
 }
 
+  forceUpdateHandler = () => {
+  this.forceUpdate();
+  }
   render() {
     const { account } = this.props;
     const { taskDate, loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
