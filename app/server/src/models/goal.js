@@ -10,6 +10,7 @@ const model = {
         if (!data.taskDate) throw { code: 400, msg: "Date is required" };
         data.checked = false;
         data.isDelete = false;
+        data.priority = 'low';
         data.created_at = moment.utc().format();
         data.updated_at = moment.utc().format();
         return await goal.create(data);
@@ -19,8 +20,16 @@ const model = {
         if (!data._id) throw { code: 400, msg: "Id is required" };
         if (data.checked === undefined) throw { code: 400, msg: "Checked is required" };
         data.updated_at = moment.utc().format();
-        return await goal.update(data._id, data.checked, data.updated_at);
+        return await goal.update(data._id, data);
     },
+    updatePriority: async data => {
+		console.log("UPDATE PRIORITY - DATA: ", data);
+		if (!data) throw { code: 400, msg: "Data is required" };
+		if (!data._id) throw { code: 400, msg: "Id is required" };
+		if (data.data === undefined) throw { code: 400, msg: "Data is required" };
+		data.updated_at = moment.utc().format();
+		return await goal.updatePriority(data._id, data.data, data.updated_at);
+	},
     logicDelete: async data => {
         if (!data) throw { code: 400, msg: "Data is required" };
         if (!data._id) throw { code: 400, msg: "Id is required" };
@@ -41,6 +50,12 @@ const model = {
         const goals = await goal.getByDate(data.date);
         return goals;
     },
+    getByPriority: async data => {
+		console.log("GET PRI - DATA: ", data);
+		if (!data.date) throw { code: 400, msg: "Date is required" };
+		const goals = await goal.getByPriority(data.date);
+		return goals;
+	},
     getById: async data => {
         if (!data) throw { code: 400, msg: "Data is empty" };
         if (!data._id) throw { code: 400, msg: "ID is required" };

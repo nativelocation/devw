@@ -7,5 +7,7 @@ module.exports = (Schema) => {
         isDelete: Boolean,
         created_at: String,
         updated_at: String,
+        priority: String,
+        orderList: Number
     });
 };
