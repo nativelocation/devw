@@ -12,6 +12,14 @@ router.get('/all', (req, res, next) => {
 router.post('/date', (req, res, next) => {
     model.getByDate(req.body).then(r => generalSuccess(res, "Get task list", r)).catch(e => generalError(e, res));
 });
+
+router.post("/priority", (req, res, next) => {
+	model
+		.getByPriority(req.body)
+		.then(r => generalSuccess(res, "Get task list", r))
+		.catch(e => generalError(e, res));
+});
+
 router.post("/create", (req, res) => {
     model
         .create(req.body)
@@ -23,6 +31,13 @@ router.put("/update", (req, res) => {
         .update(req.body)
         .then(goal => generalSuccess(res, "Update Task Ok", { goal }))
         .catch(e => generalError(e, res));
+});
+
+router.put("/updatepriority", (req, res) => {
+	model
+		.updatePriority(req.body)
+		.then(goal => generalSuccess(res, "Update Task Date Ok", { goal }))
+		.catch(e => generalError(e, res));
 });
 router.put("/logicdelete", (req, res, next) => {
     model

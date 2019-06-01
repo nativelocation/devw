@@ -70,7 +70,7 @@ html {
 }
 
 body {
-  overflow: auto;
+ 
 }
 
 #root {
@@ -117,6 +117,7 @@ hr {
 .tableProjects table td {
   width: 0px;
 }
+
 .tableProjects .peopleName {
   font-size: 14px;
 }
@@ -184,6 +185,7 @@ hr {
   font-size: 15px;
   padding: 10px 20px
 }
+
 .checkedBox div:nth-child(1){
   margin-top: -10px;
 }
@@ -207,18 +209,22 @@ hr {
 .react-datepicker__triangle {
   left: 16px !important;
 }
+
 .goalsBox .checkedBox div:nth-child(1) {
   margin-top: 0;
 }
 
 .priority {
-  margin-left: 10px;
+  margin-left: 5px;
+  margin-right: 2rem;
   padding: 2px 8px;
   border-radius: 6px;
   font-size: 0.7em;
   text-transform: uppercase;
   color: white;
   user-select: none;
+  width: 55px;
+  text-align: center;
 }
 
 .priority.low {
@@ -247,4 +253,54 @@ hr {
   z-index: 100;
   margin-left: 10px;
   margin-right: 20px;
+}
+
+.nameView {
+  font-size: 2.5rem;
+}
+
+.collapseBtn {
+  top: 27px;
+  padding-right: 28px;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  height: 90vh !important;
+}
+
+.addUserBtn {
+  display: flex;
+  align-items: flex-end;
+  height: 80px;
+  flex-direction: column-reverse;
+}
+
+.newTask {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: space-between;
+    margin-top: -5px;
+}
+.task-row {
+  margin: 12px 0px 12px 0px;
+}
+.form-check-input {
+  position: inherit;
+  margin-top: .3rem;
+  margin-left: -1.25rem;
+  margin-right: .50rem;
+}
+
+.styles_Editext__edit_button__hthOZ {
+  font-size: xx-small;
+  border: none !important;
+}
+
+.labelTask {
+  margin: auto !important;
 }

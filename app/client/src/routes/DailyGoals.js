@@ -73,19 +73,23 @@ class DailyGoals extends Component {
   async allData() {
     const { account } = this.props;
     const filterDateSidebar = moment().format("YYYYMMDD");
-    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date: filterDateSidebar });
+    const tasks = await Api.GetGoalsByPriority(account.tokenAuth, { date: filterDateSidebar });
     const users = await Api.GetAllUser(account.tokenAuth);
     this.setState({ tasks, users, loading: false, filterDateSidebar });
   }
 
-  async updateGoals(date) {
+  async updateGoals(date, selectValue, customDateValue) {
     const { account } = this.props;
     this.setState({ loading: true });
     if (!date) date = this.state.filterDateSidebar;
 
-    const tasks = await Api.GetGoalsByDate(account.tokenAuth, { date });
+    const tasks = await Api.GetGoalsByPriority(account.tokenAuth, { date });
     this.setState({ tasks, loading: false, filterDateSidebar: date });
-  }
+    if (selectValue && customDateValue) {
+        this.setState({ selectValue: selectValue, customDateValue: customDateValue });
+        this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
+    }
+}
 
   onSubmit(e) {
     e.preventDefault();
@@ -118,7 +122,7 @@ class DailyGoals extends Component {
     }
 
     if (_.isEmpty(task)) return this.setState({ errorMessage: 'Task is required' });
-
+    const myGoals = this.state.tasks.data.filter(t => t.userId === account._id);
     const data = { userId: account._id, task, taskDate: taskDateFormat };
     this.setState({ loading: true, taskDateFormat });
     Api.CreateGoal(account.tokenAuth, data).then(res => {
@@ -143,7 +147,9 @@ class DailyGoals extends Component {
 
   onChange(e) {
     let { showCustom } = this.state;
+    console.log("daily - showCustom -> ", showCustom);
     const { name, value } = e.target;
+    console.log("daily - e.target -> ", e.target);
     if (name === "taskDate") showCustom = e.target.value.toLowerCase() === "custom";
     this.setState({ [name]: value, errorMessage: "", showCustom });
   }
@@ -200,38 +206,62 @@ class DailyGoals extends Component {
     });
   }
 
+  onEditGoal(_id, task, checked){
+    const { account } = this.props;
+    const data = { task, _id, checked };
+    console.log("onEditGoal - Data: ",data)
+    Api.UpdateGoal(account.tokenAuth, data).then(res => {
+      if (res.status === 201) {
+        this.updateGoals();
+        this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
+      }
+    }).catch(err => {
+      console.log(err.message)
+    });
+  }
+
+  onChangePriority(data, _id) {
+    console.log("onChangePriority - DATA: ", data);
+    const { account } = this.props;
+    const dataForm = { data, _id };
+    this.setState({ loading: true });
+
+    Api.UpdateGoalsPriority(account.tokenAuth, dataForm)
+        .then(res => {
+            this.setState({ loading: false });
+            if (res.status === 201) {
+                this.updateGoals();
+                this.socket.emit(this.GOAL_CHANGE, { _id: account._id });
+            }
+        })
+        .catch(err => {
+            console.log(err.message);
+        });
+        console.log("onChangePriority - PROPS: ", this.props);
+        console.log("onChangePriority - STATE: ", this.state);
+        this.updateGoals();
+}
+
+  onChangeOrder = (tasks) => {
+  this.setState({tasks, ...this.state});
+  }
+
   render() {
     const { account } = this.props;
-    const { 
-      taskDate, 
-      loading, 
-      wrapperWidth, 
-      alertShow, 
-      alertProps, 
-      showCustom, 
-      task, 
-      tasks, 
-      users, 
-      customDate, 
-      errorMessage, 
-      selectValue, 
-      customDateValue } = this.state;
+    const { taskDate, loading, wrapperWidth, alertShow, alertProps, showCustom, task, tasks, users, customDate, errorMessage, selectValue, customDateValue } = this.state;
     let listUsers = [];
+
+    const myGoals = tasks.data ? tasks.data.filter(t => t.userId === account._id).sort((a, b) => a.orderList - b.orderList) : []
 
     if (Object.keys(users).length > 0) {
       const myUser = users.data.find(u => u._id === account._id);
-      const myGoals = tasks.data.filter(t => t.userId === account._id);
-      const myComponent = (
-        <UserGoals 
-          key={-1} 
-          data={myGoals} 
-          user={myUser} 
-          onDelete={this.showDeleteUserAlert.bind(this)} 
-          changeGoalData={this.changeGoalData.bind(this)} 
-          onChecked={this.onChecked.bind(this)} />)
+      console.log("TASKS  -> ", tasks);
+      
+      console.log("MyGoals despues del sorting -> ", myGoals);
+      const myComponent = <UserGoals key={-1} data={myGoals} user={myUser} onDelete={this.showDeleteUserAlert.bind(this)} onEdit={this.onEditGoal.bind(this)} changeGoalData={this.changeGoalData.bind(this)} onChecked={this.onChecked.bind(this)} onChangePriority={this.onChangePriority.bind(this)} onUpdateGoals={this.updateGoals.bind(this)} onChangeOrder={this.onChangeOrder.bind(this)}/>;
       const usersGoals = users.data.map((x, i) => {
         let userGoals = tasks.data.filter(t => t.userId === x._id)
-        if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} />
+        if (userGoals.length > 0 && x._id !== account._id) return <UserGoals key={i} data={userGoals} user={x} changeGoalData={this.changeGoalData.bind(this)}/>
       });
 
       listUsers = [myComponent, ...usersGoals]
@@ -241,7 +271,7 @@ class DailyGoals extends Component {
     return (
       <Fragment>
         <Sidebar contentItems={selectDateSidebar} onCollapse={this.handleCollapse.bind(this)} />
-        <Wrapper maxWidth={wrapperWidth} title="Daily Goals" hideLink>
+        <Wrapper maxWidth={wrapperWidth} title="Daily Goals" hideLink >
           <div>
             <div className='goalsBox mb-3'>
               {listUsers}
