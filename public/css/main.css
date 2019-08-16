@@ -2,14 +2,10 @@
   font-family: jam-icons;
   src: url("../assets/fonts/font-icons/jam-icons.eot");
   /* IE9 Compat Modes */
-  src: url("../assets/fonts/font-icons/jam-icons.eot?#iefix")
-      format("embedded-opentype"),
-    /* IE6-IE8 */ url("../assets/fonts/font-icons/jam-icons.woff")
-      format("woff"),
-    /* Pretty Modern Browsers */ url("../assets/fonts/font-icons/jam-icons.ttf")
-      format("truetype"),
-    /* Safari, Android, iOS */
-      url("../assets/fonts/font-icons/jam-icons.svg#svgFontName") format("svg");
+  src: url("../assets/fonts/font-icons/jam-icons.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("../assets/fonts/font-icons/jam-icons.woff") format("woff"), /* Pretty Modern Browsers */
+  url("../assets/fonts/font-icons/jam-icons.ttf") format("truetype"), /* Safari, Android, iOS */
+  url("../assets/fonts/font-icons/jam-icons.svg#svgFontName") format("svg");
   /* Legacy iOS */
 }
 
@@ -59,18 +55,13 @@
   font-family: Roboto;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   background-color: #fff;
 }
 
 html {
   overflow: hidden;
-}
-
-body {
- 
 }
 
 #root {
@@ -91,18 +82,19 @@ hr {
   margin-right: 10px;
 }
 
+.easy-edit-component-wrapper {
+  width: 500px;
+}
+
 .custom-select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
 
-.noBorder:focus,
-.form-control:focus,
-.form-control:active,
-.dropdown-item {
+.noBorder:focus, .form-control:focus, .form-control:active, .dropdown-item {
   outline: none !important;
-  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 #scrollWrapper {
@@ -128,11 +120,11 @@ hr {
   margin-right: -30px;
 }
 
-.btnLogout span{
+.btnLogout span {
   margin-top: 3px;
 }
 
-.logoutBox{
+.logoutBox {
   margin-top: -20px;
   text-align: right;
   padding: 0;
@@ -140,7 +132,7 @@ hr {
   min-width: 100px;
 }
 
-.logoutBox a{
+.logoutBox a {
   padding-right: 10px;
 }
 
@@ -155,7 +147,7 @@ hr {
   font-size: 13px;
   padding: 7px;
   outline: none !important;
-  -webkit-box-shadow: none;
+  box-shadow: none;
   border-width: inherit;
   border: .5px solid;
   border-radius: 0;
@@ -171,22 +163,23 @@ hr {
 }
 
 #filter ul {
-  list-style: none; /* Remove list bullets */
+  list-style: none;
+  /* Remove list bullets */
   padding: 0;
   margin: 0;
 }
 
-.goalsBox{
+.goalsBox {
   height: calc(100vh - 160px);
   overflow: auto;
 }
 
-.checkedBox{
+.checkedBox {
   font-size: 15px;
   padding: 10px 20px
 }
 
-.checkedBox div:nth-child(1){
+.checkedBox div:nth-child(1) {
   margin-top: -10px;
 }
 
@@ -204,7 +197,6 @@ hr {
   top: -8px !important;
   left: -8px !important;
 }
-
 
 .react-datepicker__triangle {
   left: 16px !important;
@@ -279,16 +271,18 @@ hr {
 }
 
 .newTask {
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: space-between;
-    margin-top: -5px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: space-between;
+  margin-top: -5px;
 }
+
 .task-row {
   margin: 12px 0px 12px 0px;
 }
+
 .form-check-input {
   position: inherit;
   margin-top: .3rem;
