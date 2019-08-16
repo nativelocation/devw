@@ -2,6 +2,17 @@ Install dependences
 
 npm install
 
+Pre-Execution preparations
+copy and rename the file .env.example to .env
+* Do NOT delete * 
+
+Please ensure that you have installed:
+npm i -g webpack
+npm i -g gulp
+
+Dev Execution
+npm run dev
+
 Run Project
 
 npm run server 
