@@ -6,6 +6,7 @@ class NewDashboard extends Component {
             <div id="page-top" style={{ overflowY: "auto" }}>
                 <link rel="stylesheet" href="/css/freelancer.css" /> 
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> 
+                <link rel="stylesheet" href="/css/global.css" />
 
                 <div className="masthead text-white text-center"
                     style={{ backgroundImage: 'url("../assets/img/hero-background.jpg")', backgroundRepeat: "round", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
