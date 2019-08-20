@@ -4,6 +4,9 @@ class NewDashboard extends Component {
     render() {
         return (
             <div id="page-top" style={{ overflowY: "auto" }}>
+                <link rel="stylesheet" href="/css/freelancer.css" /> 
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> 
+
                 <div className="masthead text-white text-center"
                     style={{ backgroundImage: 'url("../assets/img/hero-background.jpg")', backgroundRepeat: "round", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
                     <div className="container d-flex align-items-center flex-column">
