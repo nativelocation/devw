@@ -4,6 +4,9 @@ class NewDashboard extends Component {
     render() {
         return (
             <div id="page-top" style={{ overflowY: "auto" }}>
+                <link rel="stylesheet" href="/css/freelancer.css" /> 
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> 
+
                 <div className="masthead text-white text-center"
                     style={{ backgroundImage: 'url("../assets/img/hero-background.jpg")', backgroundRepeat: "round", backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
                     <div className="container d-flex align-items-center flex-column">
@@ -105,7 +108,7 @@ class NewDashboard extends Component {
                             </div>
                             <div className="card-body">
                                 <div>
-                                    <a href="https://www.wrike.com/workspace.htm?acc=2851865#path=request-forms&accountid=2851865&formid=240462" className="btn btn-lg btn-block grad"
+                                    <a  target="_blank" href="https://www.wrike.com/workspace.htm?acc=2851865#path=request-forms&accountid=2851865&formid=240462" className="btn btn-lg btn-block grad"
                                         style={{ fontSize: "20px", color: "#fff", padding: "2rem", marginBottom: "1rem", textAlign: "left" }}>
                                         <h2 style={{ fontFamily: "Raleway" }}>REQUEST RESOURCES
                                                 <span className="pull-right" >
@@ -115,7 +118,7 @@ class NewDashboard extends Component {
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="https://www.wrike.com/form/eyJhY2NvdW50SWQiOjI4NTE4NjUsInRhc2tGb3JtSWQiOjI0Njg3OX0JNDcxOTg2NDIyNTY4MQkwY2I2NTQ2ZjgyNTMyNjU2OTk3MzBlYTVlYzgxNDM0OWNjNWMyN2VjZThlNDY3NGU2Mjk3Njk1MDJhMmI0N2Ix" className="btn btn-lg btn-block grad" style={{ fontSize: "20px", color: "#fff", padding: "2rem", marginBottom: "1rem", textAlign: "left" }}>
+                                    <a  target="_blank" href="https://www.wrike.com/form/eyJhY2NvdW50SWQiOjI4NTE4NjUsInRhc2tGb3JtSWQiOjI0Njg3OX0JNDcxOTg2NDIyNTY4MQkwY2I2NTQ2ZjgyNTMyNjU2OTk3MzBlYTVlYzgxNDM0OWNjNWMyN2VjZThlNDY3NGU2Mjk3Njk1MDJhMmI0N2Ix" className="btn btn-lg btn-block grad" style={{ fontSize: "20px", color: "#fff", padding: "2rem", marginBottom: "1rem", textAlign: "left" }}>
                                         <h2 style={{ fontFamily: "Raleway" }}>
                                             REQUEST FOR <br />MORE WORK
                                                 <span className="pull-right">
@@ -135,10 +138,10 @@ class NewDashboard extends Component {
                     <div className="row">
 
                         <div className="col-lg-12 mb-5 mb-lg-0">
-                            <a className="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/company/serpico-dev">
+                            <a className="btn btn-outline-light btn-social mx-1" target="_blank" href="https://www.linkedin.com/company/serpico-dev">
                                 <i className="fa fa-lg fa-linkedin"></i>
                             </a>
-                            <a className="btn btn-outline-light btn-social mx-1" href="https://twitter.com/SerpicoDEV">
+                            <a className="btn btn-outline-light btn-social mx-1" target="_blank" href="https://twitter.com/SerpicoDEV">
                                 <i className="fa fa-lg fa-twitter"></i>
                             </a>
                             <a className="btn btn-outline-light btn-social mx-1" href="mailto:Contact@SerpicoDEV.com">
