@@ -21,12 +21,13 @@ const auth = {
         }).catch(sendToLogin);
     },
 
-    authorize: (Composed, props, store, level) => {
+    authorize: (Composed, props, store, level, noLayout) => {
         const { pathname } = props.history.location;
         const { account } = store.getState();
         if (!localStorage.tokenAuth) props.history.push('/login');
         if (account._id) {
-            if (account.role <= level) return <Layout account={account} ><Composed {...props} /></Layout>;
+            if (noLayout && account.role <= level) return <ErrorCatch><Composed {...props} /></ErrorCatch>;
+            else if (account.role <= level) return <Layout account={account} ><Composed {...props} /></Layout>;
             else return <NotAllowed />;
         }
         else auth.storeUser(props.history, store, pathname);
