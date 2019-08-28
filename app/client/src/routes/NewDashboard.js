@@ -72,7 +72,7 @@ class NewDashboard extends Component {
                             </div>
                             <div className="card-body">
                                 <div>
-                                    <a href="https://serpicodev.sharepoint.com/:b:/s/SerpicoDEV_all/EYrQtSnjUjpAu6Dfhe7xckYBpVUI3AFByc1lg8MziPp-Kg?e=MTkpMN" target="_blank"
+                                    <a href="https://serpicodev.sharepoint.com/:b:/s/SerpicoDEV_all/ESzf_ee-IZdGgLX3nQhpwAQBDzVtmyt0PrCQQCtFS1Nz2A?e=hJv4yA" target="_blank"
                                         className="btn btn-lg btn-block grad" style={{ color: "#fff", padding: "2rem", marginBottom: "1rem", textAlign: "left" }}>
                                         <h2 style={{ fontFamily: "Raleway" }}>TEAM MEMBER <br />HANDBOOK
                                                 <span className="pull-right" >
